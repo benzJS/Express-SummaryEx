@@ -11,3 +11,23 @@
     /* ---------------------------------------
     ##### - PLACE YOUR CUSTOM CSS HERE - #####
     --------------------------------------- */
+.capitalize {
+    text-transform: capitalize;
+}
+
+.unset {
+    all: inherit !important;
+    padding: 5px 10px !important;
+    cursor: pointer !important;
+}
+
+.user-login-info {
+}
+
+.user-login-info-dropdown {
+    display: none;
+}
+
+.user-login-info:hover > .user-login-info-dropdown {
+    display: block;
+}
