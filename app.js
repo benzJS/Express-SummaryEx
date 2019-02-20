@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 
 const productRoute = require('./routes/product.route');
 const authRoute = require('./routes/auth.route');
+const cartRoute = require('./routes/cart.route');
 
 const Product = require('./models/product.model');
 
@@ -20,6 +21,7 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use('/underwear', productRoute);
 app.use('/auth', authRoute);
+app.use('/cart', cartRoute);
 
 app.get('/', async (req, res) => {
     let products = await Product.find();

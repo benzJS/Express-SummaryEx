@@ -7,6 +7,6 @@ const userSchema = mongoose.Schema({
     cart: Array
 })
 
-const User = mongoose.model('User', productSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;
