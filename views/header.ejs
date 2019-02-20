@@ -134,9 +134,9 @@
         </div>
     </header>
     <!-- ##### Header Area End ##### -->
-
-    <!-- ##### Right Side Cart Area ##### -->
+    
     <% if(locals.user) { %> 
+    <!-- ##### Right Side Cart Area ##### -->
     <div class="cart-bg-overlay"></div>
 
     <div class="right-side-cart-area">
@@ -187,8 +187,8 @@
         </div>
         
     </div>
-    <% } %>
     <!-- ##### Right Side Cart End ##### -->
+    <% } %>
 
     <% if(!locals.user) { %>
     <!-- Modal -->
@@ -201,8 +201,11 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                 </div>
-                <form action="auth/signin" method="POST">
+                <form name="signinForm">
                     <div class="modal-body">
+                        <div class="alert alert-danger" role="alert" style="display: none">
+                          Email hoặc mật khẩu không hợp lệ
+                        </div>
                         <div class="form-group">
                           <label for="email" class="col-form-label">Email</label>
                           <input type="email" class="form-control" name="email" required>
@@ -233,6 +236,9 @@
                 </div>
                 <form name="signupForm">
                     <div class="modal-body">
+                        <div class="alert alert-danger" role="alert" style="display: none">
+                          Tài khoản đã tồn tại
+                        </div>
                         <div class="form-group">
                           <label for="fullname" class="col-form-label">Full name</label>
                           <input type="text" class="form-control" name="fullname" required>
@@ -243,7 +249,7 @@
                         </div>
                         <div class="form-group">
                           <label for="password" class="col-form-label">Mật khẩu</label>
-                          <input type="password" class="form-control" name="passwd" required>
+                          <input type="password" class="form-control" name="password" required>
                         </div>
                     </div>
                     <div class="modal-footer">

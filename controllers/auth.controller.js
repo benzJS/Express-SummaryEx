@@ -4,9 +4,9 @@ module.exports.signin = async function(req, res, next) {
     let user = await User.findOne({email: req.body.email});
     if(user) {
         res.cookie('userId', user.id, { signed: true });
-        return res.redirect('/underwear');
+        res.send(true);
     }
-    res.send('Invalid info');
+    res.send(false);
 }
 
 module.exports.signout = function(req, res, next) {
@@ -18,9 +18,10 @@ module.exports.signup = async function(req, res, next) {
     let user = await User.findOne({email: req.body.email});
     if(user) {
     	debugger;
-    	res.send(JSON.stringify('Email already exist'));
+    	res.send(false);
     	return;
     }
     user = await User.create(req.body);
-    res.send(JSON.stringify('Successful'));
+    res.cookie('userId', user.id, {signed: true});
+    res.send(true);
 }
