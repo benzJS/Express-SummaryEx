@@ -28,4 +28,9 @@ app.get('/', async (req, res) => {
     res.render('index', { products: products });
 })
 
+app.get('/dashboard', async (req, res) => {
+    let products = await Product.find();
+    res.render('table', { products: products });
+})
+
 app.listen(3000, () => console.log('Listening...'))

@@ -17,7 +17,6 @@ module.exports.signout = function(req, res, next) {
 module.exports.signup = async function(req, res, next) {
     let user = await User.findOne({email: req.body.email});
     if(user) {
-    	debugger;
     	res.send(false);
     	return;
     }
