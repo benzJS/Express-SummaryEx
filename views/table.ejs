@@ -638,7 +638,7 @@
                                                 <td>
                                                     <span class="block-email"><%= product.categories %></span>
                                                 </td>
-                                                <td class="desc"><%= product.badge%></td>
+                                                <td class="desc"><%= product.badge %></td>
                                                 <td><%= product.price %></td>
                                                 <td>
                                                     <div class="table-data-feature">
@@ -675,33 +675,47 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Tài khoản</h5>
+                        <h5 class="modal-title">Thêm sản phẩm</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                     </div>
-                    <form name="signupForm">
+                    <form name="insertForm" action="store/product" method="POST" enctype="multipart/form-data">
                         <div class="modal-body">
                             <div class="alert alert-danger" role="alert" style="display: none">
                               Tài khoản đã tồn tại
                             </div>
                             <div class="form-group">
-                              <label for="fullname" class="col-form-label">Full name</label>
-                              <input type="text" class="form-control" name="fullname" required>
+                              <label for="name" class="col-form-label">Tên sản phẩm</label>
+                              <input type="text" class="form-control" name="name" required>
                             </div>
                             <div class="form-group">
-                              <label for="email" class="col-form-label">Email</label>
-                              <input type="email" class="form-control" name="email" required>
+                              <label for="price" class="col-form-label">Giá</label>
+                              <input type="number" class="form-control" name="price" required>
                             </div>
                             <div class="form-group">
-                              <label for="password" class="col-form-label">Mật khẩu</label>
-                              <input type="password" class="form-control" name="password" required>
+                              <label for="categories" class="col-form-label">Danh mục</label>
+                              <select name="categories">
+                                <% locals.products.reduce((a, product) => {
+                                    if(a.indexOf(product.categories) === -1) { a = [...a, product.categories] };
+                                    return a;
+                                }, []).forEach(categorie => { %>
+                                <option><%= categorie %></option>
+                                <% }) %>
+                              </select>
                             </div>
-                            <input type="file" name="img" multiple>
+                            <div class="form-group">
+                              <input type="checkbox" name="badge" value="new-badge">Mới<br>
+                              <input type="checkbox" name="badge" value="offer-badge">Khuyến mãi
+                            </div>
+                            <div class="form-group">
+                              <label for="password" class="col-form-label">Ảnh sản phẩm</label>
+                              <input class="dropzone" type="file" name="image" multiple>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                            <button type="submit" class="btn btn-primary">Đăng ký</button>
+                            <button type="submit" class="btn btn-primary">Thêm</button>
                         </div>
                     </form> 
                 </div>

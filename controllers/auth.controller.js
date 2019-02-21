@@ -5,6 +5,7 @@ module.exports.signin = async function(req, res, next) {
     if(user) {
         res.cookie('userId', user.id, { signed: true });
         res.send(true);
+        return;
     }
     res.send(false);
 }

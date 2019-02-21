@@ -163,7 +163,7 @@
                                 <h6><%= item.name %></h6>
                                 <p class="size">Size: S</p>
                                 <p class="color">Color: Red</p>
-                                <p class="price"><%= locals.priceAnal(item.price) %> VND</p>
+                                <p class="price"><%= locals.priceAnal(item.price) %></p>
                             </div>
                         </a>
                     </div>
@@ -174,7 +174,11 @@
 
                 <h2>Summary</h2>
                 <ul class="summary-table">
-                    <li><span>subtotal:</span> <span><%= cart.reduce((a, b) => a.price + b.price, 0) %></span></li>
+                    <li><span>subtotal:</span> <span><%= priceAnal(cart.reduce((a, b) => {
+                        if(typeof a !== 'object') return a + b.price;
+                        return a.price + b.price;
+                    }, 0))%>
+                    </span></li>
                     <li><span>delivery:</span> <span>Free</span></li>
                     <li><span>discount:</span> <span>-15%</span></li>
                     <li><span>total:</span> <span>$232.00</span></li>

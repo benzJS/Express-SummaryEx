@@ -1668,10 +1668,28 @@
   }
 
 })(jQuery);
-document.signupForm.addEventListener('submit', event => {
-  event.preventDefault();
-  const data = [...Array(event.target.length - 2)].reduce((a, _, index) => {
-    a[event.target[index].name] = event.target[index].value;
-    return a;
-  }, {});
+// document.insertForm.addEventListener('submit', event => {
+//   event.preventDefault();
+//   const data = [...Array(event.target.length - 2)].reduce((a, _, index) => {
+//     const input = event.target[index];
+//     // if(input.type !== 'file'){
+//     //   debugger;
+//     //   a[input.name] = input.value;
+//     // }
+//     input.type !== 'file' ? a[input.name] = input.value : a[input.name] = [...Array(input.files.length)]
+//       .map((file, index) => {return {...input.files[index]}});
+//     return a;
+//   }, {});
+//   console.log(data);
+//   fetch('store/product', {
+//     method: 'POST',
+//     headers: {
+//       "Content-Type": "application/json"
+//     },
+//     body: JSON.stringify(data)
+//   }).then(res => res.json())
+//     .then(data => console.log(data));
+// })
+document.insertForm['image'].addEventListener('change', ev => {
+  console.log(ev.target.files);
 })
