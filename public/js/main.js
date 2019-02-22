@@ -1668,28 +1668,52 @@
   }
 
 })(jQuery);
-// document.insertForm.addEventListener('submit', event => {
-//   event.preventDefault();
-//   const data = [...Array(event.target.length - 2)].reduce((a, _, index) => {
-//     const input = event.target[index];
-//     // if(input.type !== 'file'){
-//     //   debugger;
-//     //   a[input.name] = input.value;
-//     // }
-//     input.type !== 'file' ? a[input.name] = input.value : a[input.name] = [...Array(input.files.length)]
-//       .map((file, index) => {return {...input.files[index]}});
-//     return a;
-//   }, {});
-//   console.log(data);
-//   fetch('store/product', {
-//     method: 'POST',
-//     headers: {
-//       "Content-Type": "application/json"
-//     },
-//     body: JSON.stringify(data)
-//   }).then(res => res.json())
-//     .then(data => console.log(data));
-// })
+function removeOne(id) {
+  return confirm('Bạn chắc chắn muốn xóa sản phẩm này') &&
+  fetch(`store/product/${id}`, {
+    method: 'DELETE'
+  })
+    .then(res => res.json())
+    .then(products => {
+      document.getElementById('data-table').innerHTML = '';
+      for(product of products) {
+        document.getElementById('data-table').innerHTML += `
+          <tr class="tr-shadow">
+            <td>
+                <label class="au-checkbox">
+                    <input type="checkbox">
+                    <span class="au-checkmark"></span>
+                </label>
+            </td>
+            <td>${product.name}</td>
+            <td>
+                <span class="block-email">${product.categories}</span>
+            </td>
+            <td class="desc">${product.badge}</td>
+            <td>${product.price}</td>
+            <td>
+                <div class="table-data-feature">
+                    <button class="item" data-toggle="tooltip" data-placement="top" title="Send">
+                        <i class="zmdi zmdi-mail-send"></i>
+                    </button>
+                    <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
+                        <i class="zmdi zmdi-edit"></i>
+                    </button>
+                    <button class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="removeOne(${product.id})">
+                        <i class="zmdi zmdi-delete"></i>
+                    </button>
+                    <button class="item" data-toggle="tooltip" data-placement="top" title="More">
+                        <i class="zmdi zmdi-more"></i>
+                    </button>
+                </div>
+            </td>
+          </tr>
+          <tr class="spacer"></tr>
+        `
+      }
+    })
+}
+
 document.insertForm['image'].addEventListener('change', ev => {
   console.log(ev.target.files);
 })

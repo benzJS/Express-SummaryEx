@@ -5,6 +5,6 @@ const controller = require('../controllers/cart.controller');
 
 router.get('/add/:id', controller.add);
 
-router.get('/remove/:id', controller.remove);
+router.delete('/remove/:id', controller.remove);
 
 module.exports = router;

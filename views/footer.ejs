@@ -77,12 +77,21 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     </div>
 </footer>
 <!-- ##### Footer Area End ##### -->
+<% if(!locals.user) { %>
 <script src="js/behavior.js"></script>
+<% } %>
+<% if(locals.cart) { %>
 <script>
     function removeOne(id) {
-        fetch(`cart/remove/${id}`)
+        fetch(`cart/remove/${id}`, { method: 'DELETE' })
             .then((res) => res.json())
-            .then(cart => {
+            .then(({cart, total}) => {
+                // const total = cart.reduce((a, b) => {
+                //     if(typeof a !== 'object') return a + b.price;
+                //     return a.price + b.price;
+                // }, 0);
+                document.getElementById('subtotal').innerHTML = total;
+                document.getElementById('total').innerHTML = total;
                 document.getElementById('cart-list').innerHTML = '';
                 document.getElementById('rightSideCart').children[1].innerHTML = cart.length;
                 document.getElementById('essenceCartBtn').children[1].innerHTML = cart.length;
@@ -105,6 +114,8 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                         </div>
                     `;
                 }
+                
             });
     }
 </script>
+<% } %>

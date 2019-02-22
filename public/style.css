@@ -22,6 +22,9 @@
 }
 
 .user-login-info {
+    word-wrap: normal;
+    /*width: 100%;
+    overflow-y: */
 }
 
 .user-login-info-dropdown {
