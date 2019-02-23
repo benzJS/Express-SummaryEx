@@ -1676,6 +1676,7 @@ function removeOne(id) {
     .then(res => res.json())
     .then(products => {
       document.getElementById('data-table').innerHTML = '';
+      document.getElementById('product-modals').innerHTML = '';
       for(product of products) {
         document.getElementById('data-table').innerHTML += `
           <tr class="tr-shadow">
@@ -1692,6 +1693,9 @@ function removeOne(id) {
             <td class="desc">${product.badge}</td>
             <td>${product.price}</td>
             <td>
+                <button class="btn btn-primary" data-toggle="modal" data-target="#product-image-${product._id}">Click để xem tất cả ảnh</button>
+            </td>
+            <td>
                 <div class="table-data-feature">
                     <button class="item" data-toggle="tooltip" data-placement="top" title="Send">
                         <i class="zmdi zmdi-mail-send"></i>
@@ -1699,7 +1703,7 @@ function removeOne(id) {
                     <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
                         <i class="zmdi zmdi-edit"></i>
                     </button>
-                    <button class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="removeOne(${product.id})">
+                    <button class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="removeOne('${product._id}')">
                         <i class="zmdi zmdi-delete"></i>
                     </button>
                     <button class="item" data-toggle="tooltip" data-placement="top" title="More">
@@ -1709,6 +1713,36 @@ function removeOne(id) {
             </td>
           </tr>
           <tr class="spacer"></tr>
+        `
+        document.getElementById('product-modals').innerHTML += `
+          <div class="modal fade" id="product-image-${product._id}" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Ảnh sản phẩm</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                        ${
+                          product.image.map(image =>
+                            `<div class="col-xl-4">
+                                <div class="card">
+                                    <img src="${image}" class="card-img-top" alt="image">          
+                                </div>
+                            </div>`
+                         )}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-primary">Thêm</button>
+                    </div>
+                </div>
+            </div>
+          </div>
         `
       }
     })

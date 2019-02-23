@@ -2,6 +2,13 @@ const User = require('../models/user.model');
 const Product = require('../models/product.model')
 
 module.exports.add = async function(req, res, next) {
+    if(res.locals.session) {
+        let { session } = res.locals;
+        session.cart = [...session.cart, req.params.id];
+        session.save();
+        res.redirect('/underwear');
+        return;
+    }
     let { user } = res.locals;
     user.cart = [...user.cart, req.params.id];
     user.save();

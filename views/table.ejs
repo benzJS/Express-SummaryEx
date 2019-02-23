@@ -35,8 +35,36 @@
     <link rel="stylesheet" type="text/css" href="css/dropzone.css">
 
 </head>
-
 <body class="animsition">
+    <% if(!locals.adminUser) { %>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tài khoản</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <form action="dashboard" method="POST">
+                <div class="modal-body">
+                    <div class="alert alert-danger" role="alert" style="display: none">
+                      Email hoặc mật khẩu không hợp lệ
+                    </div>
+                    <div class="form-group">
+                      <label for="email" class="col-form-label">Email</label>
+                      <input type="email" class="form-control" name="email" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="password" class="col-form-label">Mật khẩu</label>
+                      <input type="password" class="form-control" name="passwd" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                </div>
+            </form>
+        </div>
+    <% } else { %>
     <div class="page-wrapper">
         <!-- HEADER MOBILE-->
         <header class="header-mobile d-block d-lg-none">
@@ -642,7 +670,6 @@
                                                 <td class="desc"><%= product.badge %></td>
                                                 <td><%= product.price %></td>
                                                 <td>
-                                                    <!-- <span class="block-email" data-toggle="modal" data-target="#product-image-<%= product.id %>">Click để xem tất cả ảnh</span> -->
                                                     <button class="btn btn-primary" data-toggle="modal" data-target="#product-image-<%= product.id %>">Click để xem tất cả ảnh</button>
                                                 </td>
                                                 <td>
@@ -728,37 +755,39 @@
             </div>
         </div>
 
-        <% for(product of products) { %>
-        <div class="modal fade" id="product-image-<%= product.id %>" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Ảnh sản phẩm</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                        <% for(image of product.image) { %>
-                            <div class="col-xl-4">
-                                <div class="card">
-                                    <img src="<%= image %>" class="card-img-top" alt="image">          
-                                </div>
-                            </div>
-                        <% } %>
+        <div id="product-modals">
+            <% for(product of products) { %>
+            <div class="modal fade" id="product-image-<%= product.id %>" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Ảnh sản phẩm</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                        <button type="submit" class="btn btn-primary">Thêm</button>
+                        <div class="modal-body">
+                            <div class="row">
+                            <% for(image of product.image) { %>
+                                <div class="col-xl-4">
+                                    <div class="card">
+                                        <img src="<%= image %>" class="card-img-top" alt="image">          
+                                    </div>
+                                </div>
+                            <% } %>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                            <button type="submit" class="btn btn-primary">Thêm</button>
+                        </div>
                     </div>
                 </div>
             </div>
+            <% } %>
         </div>
-        <% } %>
     </div>
-
+    <% } %>
     <!-- Jquery JS-->
     <script src="vendor/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap JS-->

@@ -140,7 +140,9 @@
                     </div>
                 <!-- Cart Area -->
                 <div class="cart-area">
-                    <a href="#" id="essenceCartBtn"><img src="img/core-img/bag.svg" alt=""> <span><% if(locals.user) { %><%= locals.cart.length %><% } %></span></a>
+                    <a href="#" id="essenceCartBtn"><img src="img/core-img/bag.svg" alt=""> <span>
+                        <%= locals.cart.length %>
+                    </span></a>
                 </div>
             </div>
 
@@ -148,7 +150,6 @@
     </header>
     <!-- ##### Header Area End ##### -->
     
-    <% if(locals.user) { %> 
     <!-- ##### Right Side Cart Area ##### -->
     <div class="cart-bg-overlay"></div>
 
@@ -156,7 +157,9 @@
 
         <!-- Cart Button -->
         <div class="cart-button">
-            <a href="#" id="rightSideCart"><img src="img/core-img/bag.svg" alt=""> <span><% if(locals.user) { %><%= locals.cart.length %><% } %></span></a>
+            <a href="#" id="rightSideCart"><img src="img/core-img/bag.svg" alt=""> <span>
+                <%= locals.cart.length %>
+            </span></a>
         </div>
 
         
@@ -210,7 +213,6 @@
         
     </div>
     <!-- ##### Right Side Cart End ##### -->
-    <% } %>
 
     <% if(!locals.user) { %>
     <!-- Modal -->

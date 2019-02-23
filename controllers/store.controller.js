@@ -1,9 +1,9 @@
 const Product = require('../models/product.model');
 
-module.exports.postCreate = function(req, res, next) {
+module.exports.postCreate = async function(req, res, next) {
 	req.body.image = req.files.map(file => file.path.split('/').slice(1).join('/'));
-	Product.create(req.body);
-	res.redirect('/dashboard');
+	await Product.create(req.body);
+	return;
 }
 
 module.exports.deleteProduct = async function(req, res, next) {
