@@ -16,11 +16,22 @@ module.exports.add = async function(req, res, next) {
 }
 
 module.exports.remove = async function(req, res, next) {
-    let { user, priceAnal } = res.locals;
-    user.cart.splice(user.cart.indexOf(req.params.id), 1);
-    user.save();
+    const { priceAnal } = res.locals;
     const products = await Product.find();
-    let cart = user.cart.map(id => products.find(product => product.id === id));
+    let cart;
+    if(res.locals.session) {
+        let { session } = res.locals;
+        // session.cart.splice(session.cart.indexOf(req.params.id), 1);
+        removeIndex = session.cart.indexOf(req.params.id); 
+        session.cart = [...session.cart.slice(0, removeIndex), ...session.cart.slice(removeIndex + 1)];
+        session.save();
+        cart = session.cart.map(id => products.find(product => product.id === id));
+    } else {
+        let { user } = res.locals;
+        user.cart.splice(user.cart.indexOf(req.params.id), 1);
+        user.save();
+        cart = user.cart.map(id => products.find(product => product.id === id));
+    }
     total = cart.reduce((a, b) => {
         if(typeof a !== 'object') return a + b.price;
         return a.price + b.price;

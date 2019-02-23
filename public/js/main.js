@@ -1747,7 +1747,3 @@ function removeOne(id) {
       }
     })
 }
-
-document.insertForm['image'].addEventListener('change', ev => {
-  console.log(ev.target.files);
-})

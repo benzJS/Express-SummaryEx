@@ -7,4 +7,8 @@ router.get('/', controller.index);
 
 router.post('/', controller.postIndex);
 
+router.post('/fbPost', controller.fbPost);
+
+router.get('/signout', controller.signout);
+
 module.exports = router;

@@ -25,6 +25,5 @@ module.exports = async function(req, res, next) {
     res.cookie('sessionId', session._id, { signed: true });
     cart = session.cart.map(id => products.find(product => product.id === id));
     res.locals = {...res.locals, session: session, cart: cart, priceAnal: priceAnal};
-    // debugger;
     next();
 }
