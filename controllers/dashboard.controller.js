@@ -3,8 +3,9 @@ const Product = require('../models/product.model');
 
 module.exports.index = async function(req, res, next) {
 	if(req.signedCookies.adminId) {
-		const user = await User.findOne({userId: req.signedCookies.adminId});
+		const user = await User.findById(req.signedCookies.adminId);
 		const products = await Product.find();
+		console.log(user);
 		res.locals = {
 			...res.locals,
 			adminUser: user,
@@ -16,19 +17,19 @@ module.exports.index = async function(req, res, next) {
 
 module.exports.postIndex = async function(req, res, next) {
 	const user = await User.findOne({email: req.body.email});
-	debugger;
 	if(!user || user.role !== 'admin') {
 		return res.send(false);
 	}
+	console.log(user);
 	res.cookie('adminId', user._id, { signed: true });
 	res.redirect('/dashboard');
 }
 
 module.exports.fbPost = async function(req, res, next) {
-	console.log(req.body.userId);
-	let user = await User.findOne({userId: req.body.userId});
+	console.log(req.body.userID);
+	let user = await User.findOne({userID: req.body.userID});
 	if(!user) {
-		user = await User.create({userId: req.body.userId, cart: [], fullname: 'Facebook User', role: 'mem'})
+		user = await User.create({userID: req.body.userID, cart: [], fullname: 'Facebook User', role: 'mem'})
 	}
 	res.cookie('adminId', user._id, { signed: true });
 	res.send(true);

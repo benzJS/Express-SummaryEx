@@ -73,7 +73,7 @@
                                 "Content-Type": "application/json",
                                 // "Content-Type": "application/x-www-form-urlencoded",
                             },
-                            body: {userId: res.authResponse.userID}
+                            body: JSON.stringify({userID: res.authResponse.userID})
                         }).then(location.reload())
                     }
                 }, {scope: 'public_profile,email'})
@@ -83,7 +83,7 @@
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({userId: response.authResponse.userID})
+                    body: JSON.stringify({userID: response.authResponse.userID})
                 }).then((res) => location.reload())
             }
         })
