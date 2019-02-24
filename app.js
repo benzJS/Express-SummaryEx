@@ -1,6 +1,6 @@
 const express = require('express');
-const app = require('https-localhost');;
-// const app = express();
+// const app = require('https-localhost');;
+const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -21,15 +21,18 @@ app.use(cookieParser('jKghReo'));
 
 mongoose.connect('mongodb://localhost/hhshop', { useNewUrlParser: true });
 
-app.set('view engine', 'ejs');
-
 app.use(express.static('public'));
+// app.use('/underwear/*', express.static('public'));
+// app.use('/underwear', express.static('public'));
 app.use(authMiddleware);
-app.use('/underwear', productRoute);
+app.use('/underwear', express.static('public'), productRoute);
 app.use('/auth', authRoute);
 app.use('/cart', cartRoute);
 app.use('/store', storeRoute);
 app.use('/dashboard', dashboardRoute);
+
+app.set('view engine', 'ejs');
+
 
 app.get('/', async (req, res) => {
     let products = await Product.find();
