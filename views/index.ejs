@@ -76,6 +76,12 @@
                                 <img src="<%= product.image[0] %>" alt="">
                                 <!-- Hover Thumb -->
                                 <img class="hover-img" src="<%= product.image[1] %>" alt="">
+                                <!-- Product Badge -->
+                                <% for(badge of product.badge) { %>
+                                <div class="product-badge <%= badge %>">
+                                    <span>New</span>
+                                </div>
+                                <% } %>
                                 <!-- Favourite -->
                                 <div class="product-favourite">
                                     <a href="#" class="favme fa fa-heart"></a>
@@ -93,7 +99,7 @@
                                 <div class="hover-content">
                                     <!-- Add to Cart -->
                                     <div class="add-to-cart-btn">
-                                        <a href="<%= product.categories + '/' + product.id %>" class="btn essence-btn">Add to Cart</a>
+                                        <a href="<%= product.categories.concat('/', product.name.toLowerCase(), '.', product.id) %>" class="btn essence-btn">Chi tiết</a>
                                     </div>
                                 </div>
                             </div>

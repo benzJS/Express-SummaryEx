@@ -153,9 +153,11 @@
                                         <img class="hover-img" src="<%= product.image[1] %>" alt="">
 
                                         <!-- Product Badge -->
-                                        <div class="product-badge <%= product.badge[0] %>">
+                                        <% for(badge of product.badge) { %>
+                                        <div class="product-badge <%= badge %>">
                                             <span>New</span>
                                         </div>
+                                        <% } %>
 
                                         <!-- Favourite -->
                                         <div class="product-favourite">

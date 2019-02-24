@@ -5,7 +5,6 @@ module.exports.index = async function(req, res, next) {
 	if(req.signedCookies.adminId) {
 		const user = await User.findById(req.signedCookies.adminId);
 		const products = await Product.find();
-		console.log(user);
 		res.locals = {
 			...res.locals,
 			adminUser: user,

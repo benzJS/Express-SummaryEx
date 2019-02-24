@@ -10,6 +10,6 @@ module.exports.index = async function (req, res, next) {
 }
 
 module.exports.single = async function(req, res, next) {
-	const single = await Product.findById(req.params.id);
-	res.render('single', { single: single }); 
+	const products = await Product.find();
+	res.render('single', { products: products, id: req.params.id }); 
 }

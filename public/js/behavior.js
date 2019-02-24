@@ -32,3 +32,9 @@ document.forms['signinForm'].addEventListener('submit', event => {
 		.then(res => res.json())
 		.then(successful => successful ? location.reload() : document.getElementsByClassName('alert-danger')[0].style.display = 'block');
 });
+
+document.addtocartForm.addEventListener('submit', ev => {
+	ev.preventDefault();
+	let data = new FormData(document.forms.namedItem('addtocartForm'));
+	console.log(ev.target.productColor.value);
+})
