@@ -27,6 +27,7 @@ module.exports.signup = async function(req, res, next) {
     user = await User.create(req.body);
     user.cart = [...user.cart, ...res.locals.session.cart];
     user.save();
+    res.clearCookie('sessionId');
     res.cookie('userId', user.id, {signed: true});
     res.send(true);
 }

@@ -129,7 +129,7 @@
                         </a>
                         <ul style="line-height: 200%; background: #fff" class="user-login-info-dropdown">
                             <li><a href="" class="unset">Thông tin tài khoản</a></li>
-                            <li><a href="auth/signout" class="unset">Đăng xuất</a></li>
+                            <li><a href="/auth/signout" class="unset">Đăng xuất</a></li>
                         </ul>
                         <% } else { %>
                         <ul style="line-height: 200%; background: #fff" class="user-login-info-dropdown">
@@ -177,8 +177,8 @@
                               <span class="product-remove" onclick="removeOne('<%= item._id %>')"><i class="fa fa-close" aria-hidden="true"></i></span>
                                 <span class="badge"><%= item.categories %></span>
                                 <h6><%= item.name %></h6>
-                                <p class="size">Size: S</p>
-                                <p class="color">Color: Red</p>
+                                <p class="size">Size: <%= item.size %></p>
+                                <p class="color">Color: <%= item.color %></p>
                                 <p class="price"><%= locals.priceAnal(item.price) %></p>
                             </div>
                         </a>

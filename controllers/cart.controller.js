@@ -2,18 +2,18 @@ const User = require('../models/user.model');
 const Product = require('../models/product.model');
 
 module.exports.add = async function(req, res, next) {
-    res.send(req.body); return;
+    // res.send(req.body);
     if(res.locals.session) {
         let { session } = res.locals;
-        session.cart = [...session.cart, req.params.id];
+        session.cart = [...session.cart, req.body];
         session.save();
-        res.redirect('/underwear');
-        return;
+        // res.redirect('/underwear');
+        return res.send(true);
     }
     let { user } = res.locals;
-    user.cart = [...user.cart, req.params.id];
+    user.cart = [...user.cart, req.body];
     user.save();
-    res.redirect('/underwear');
+    return res.send(true);
 }
 
 module.exports.remove = async function(req, res, next) {

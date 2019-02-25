@@ -4,7 +4,7 @@ document.forms['signupForm'].addEventListener('submit', event => {
 		a[event.target[index].name] = event.target[index].value;
 		return a;
 	}, {});
-	fetch('auth/signup', {
+	fetch('/auth/signup', {
 		method: 'POST', 
 		headers: {
 	        "Content-Type": "application/json",
@@ -21,7 +21,7 @@ document.forms['signinForm'].addEventListener('submit', event => {
 		a[event.target[index].name] = event.target[index].value;
 		return a;
 	}, {});
-	fetch('auth/signin', {
+	fetch('/auth/signin', {
 		method: 'POST', 
 		headers: {
 	        "Content-Type": "application/json",
@@ -34,15 +34,16 @@ document.forms['signinForm'].addEventListener('submit', event => {
 });
 
 document.addtocartForm.addEventListener('submit', function(ev) {
-	// debugger;
 	ev.preventDefault();
 	const form = ev.target;
-	const data = [...Array(form.length - 1)].reduce((a, _, index) => {
+	let data = [...Array(form.length - 1)].reduce((a, _, index) => {
 		let input = form[index];
 		a[input.name] = input.value;
 		return a;
 	}, {});
-	console.log('submit', data);
+	const href = location.href.split('.');
+	// console.log('submit', href[href.length - 1]);
+	data = {...data, id: href[href.length -1]}
 	fetch('/cart/add/5c6f584a47813214978a9a63', {
 		method: 'POST',
 		headers: {
@@ -50,5 +51,8 @@ document.addtocartForm.addEventListener('submit', function(ev) {
 		},
 		body: JSON.stringify(data)
 	}).then(res => res.json())
-	  .then(data => console.log(data));
+	  .then(data => location.reload());
 }, false);
+document.dropzoneForm.addEventListener('submit', ev => {
+	ev.preventDefault();
+}, false)

@@ -615,7 +615,7 @@
                                                     <span class="block-email"><%= product.categories %></span>
                                                 </td>
                                                 <td class="desc"><%= product.badge %></td>
-                                                <td><%= product.price %></td>
+                                                <td><%= priceAnal(product.price) %></td>
                                                 <td>
                                                     <button class="btn btn-primary" data-toggle="modal" data-target="#product-image-<%= product.id %>">Click để xem tất cả ảnh</button>
                                                 </td>
@@ -660,8 +660,11 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                     </div>
+                    <div class="modal-body">
+                        <form action="/file-upload"
+                          class="dropzone" name="dropzoneForm"
+                          id="my-awesome-dropzone"></form>
                     <form name="insertForm" action="store/product" method="POST" enctype="multipart/form-data">
-                        <div class="modal-body">
                             <div class="alert alert-danger" role="alert" style="display: none">
                               Sản phẩm đã tồn tại
                             </div>
@@ -688,10 +691,10 @@
                               <input type="checkbox" name="badge" value="new-badge">Mới<br>
                               <input type="checkbox" name="badge" value="offer-badge">Khuyến mãi
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                               <label for="password" class="col-form-label">Ảnh sản phẩm</label>
                               <input class="dropzone" type="file" name="image" multiple>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>

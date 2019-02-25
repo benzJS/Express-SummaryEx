@@ -17,7 +17,7 @@
             <div class="single_product_desc clearfix">
                 <span><%= single.categories %></span>
                 <a href="cart.html">
-                    <h2><%= single.name %></h2>
+                    <h2><%= single.name.toUpperCase() %></h2>
                 </a>
                 <p class="product-price"><span class="old-price">$65.00</span> <%= priceAnal(single.price) %></p>
                 <p class="product-desc">Mauris viverra cursus ante laoreet eleifend. Donec vel fringilla ante. Aenean finibus velit id urna vehicula, nec maximus est sollicitudin.</p>
@@ -25,19 +25,16 @@
                 <!-- Form -->
                 <form class="cart-form clearfix" method="post" name="addtocartForm">
                     <!-- Select Box -->
-                    <input type="text" name="hidden" value="hidden">
                     <div class="select-box d-flex mt-50 mb-30">
-                        <select name="productSize" class="mr-5">
-                            <option value="XL">Size: XL</option>
-                            <option value="X">Size: X</option>
-                            <option value="M">Size: M</option>
-                            <option value="S">Size: S</option>
+                        <select name="size" class="mr-5">
+                            <% for(size of single.size) { %>
+                                <option value="<%= size %>">Size: <%= size %></option>
+                            <% } %>
                         </select>
-                        <select name="productColor">
-                            <option value="Black">Color: Black</option>
-                            <option value="White">Color: White</option>
-                            <option value="Red">Color: Red</option>
-                            <option value="Blue">Color: Purple</option>
+                        <select name="color">
+                            <% for(color of single.color) { %>
+                                <option value="<%= color %>">Color: <%= color %></option>
+                            <% } %>
                         </select>
                     </div>
                     <!-- Cart & Favourite Box -->
@@ -100,7 +97,11 @@
                                 <div class="hover-content">
                                     <!-- Add to Cart -->
                                     <div class="add-to-cart-btn">
-                                        <a href="/<%= product.categories.concat('/', product.name.toLowerCase(), '.', product.id) %>" class="btn essence-btn">chi tiết</a>
+                                        <a href="/<%= product.categories.concat('/', product.name.split(' ').join('-').toLowerCase(), '.', product.id) %>"
+                                            class="btn essence-btn"
+                                        >
+                                        chi tiết
+                                        </a>
                                     </div>
                                 </div>
                             </div>
