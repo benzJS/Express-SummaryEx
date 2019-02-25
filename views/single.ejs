@@ -6,9 +6,6 @@
             <!-- Single Product Thumb -->
             <div class="single_product_thumb clearfix">
                 <div class="product_thumbnail_slides owl-carousel">
-                    <!-- <img src="img/product-img/product-big-1.jpg" alt="">
-                    <img src="img/product-img/product-big-2.jpg" alt="">
-                    <img src="img/product-img/product-big-3.jpg" alt=""> -->
                     <% let single = products.find(product => product.id === locals.id); 
                         for(image of single.image) { %>
                             <img src="<%= image %>" alt="">
@@ -28,18 +25,19 @@
                 <!-- Form -->
                 <form class="cart-form clearfix" method="post" name="addtocartForm">
                     <!-- Select Box -->
+                    <input type="text" name="hidden" value="hidden">
                     <div class="select-box d-flex mt-50 mb-30">
                         <select name="productSize" class="mr-5">
-                            <option value="value">Size: XL</option>
-                            <option value="value">Size: X</option>
-                            <option value="value">Size: M</option>
-                            <option value="value">Size: S</option>
+                            <option value="XL">Size: XL</option>
+                            <option value="X">Size: X</option>
+                            <option value="M">Size: M</option>
+                            <option value="S">Size: S</option>
                         </select>
                         <select name="productColor">
-                            <option value="value">Color: Black</option>
-                            <option value="value">Color: White</option>
-                            <option value="value">Color: Red</option>
-                            <option value="value">Color: Purple</option>
+                            <option value="Black">Color: Black</option>
+                            <option value="White">Color: White</option>
+                            <option value="Red">Color: Red</option>
+                            <option value="Blue">Color: Purple</option>
                         </select>
                     </div>
                     <!-- Cart & Favourite Box -->
@@ -102,7 +100,7 @@
                                 <div class="hover-content">
                                     <!-- Add to Cart -->
                                     <div class="add-to-cart-btn">
-                                        <a href="<%= product.categories + '/' + product.id %>" class="btn essence-btn">chi tiết</a>
+                                        <a href="/<%= product.categories.concat('/', product.name.toLowerCase(), '.', product.id) %>" class="btn essence-btn">chi tiết</a>
                                     </div>
                                 </div>
                             </div>

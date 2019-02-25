@@ -19,10 +19,13 @@ module.exports = async function(req, res, next) {
         res.locals = {...res.locals, user: user, cart: cart, priceAnal: priceAnal};
         return next();
     }
-
-    const session = req.signedCookies.sessionId ? await Session.findById(req.signedCookies.sessionId)
-    : await Session.create({cart: []});
-    res.cookie('sessionId', session._id, { signed: true });
+    let session;
+    if(!req.signedCookies.sessionId) {
+        session = await Session.create({cart: []});        
+        res.cookie('sessionId', session._id, { signed: true });
+    } else {
+        session = await Session.findById(req.signedCookies.sessionId)
+    }
     cart = session.cart.map(id => products.find(product => product.id === id));
     res.locals = {...res.locals, session: session, cart: cart, priceAnal: priceAnal};
     next();

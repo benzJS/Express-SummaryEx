@@ -4,8 +4,8 @@ const productSchema = mongoose.Schema({
     name: String,
     price: Number,
     categories: String,
-    image: Array,
-    badge: Array
+    size: String,
+    color: String
 })
 
 const Product = mongoose.model('Product', productSchema);

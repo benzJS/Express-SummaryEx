@@ -33,8 +33,22 @@ document.forms['signinForm'].addEventListener('submit', event => {
 		.then(successful => successful ? location.reload() : document.getElementsByClassName('alert-danger')[0].style.display = 'block');
 });
 
-document.addtocartForm.addEventListener('submit', ev => {
+document.addtocartForm.addEventListener('submit', function(ev) {
+	// debugger;
 	ev.preventDefault();
-	let data = new FormData(document.forms.namedItem('addtocartForm'));
-	console.log(ev.target.productColor.value);
-})
+	const form = ev.target;
+	const data = [...Array(form.length - 1)].reduce((a, _, index) => {
+		let input = form[index];
+		a[input.name] = input.value;
+		return a;
+	}, {});
+	console.log('submit', data);
+	fetch('/cart/add/5c6f584a47813214978a9a63', {
+		method: 'POST',
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify(data)
+	}).then(res => res.json())
+	  .then(data => console.log(data));
+}, false);

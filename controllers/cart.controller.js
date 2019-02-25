@@ -1,7 +1,8 @@
 const User = require('../models/user.model');
-const Product = require('../models/product.model')
+const Product = require('../models/product.model');
 
 module.exports.add = async function(req, res, next) {
+    res.send(req.body); return;
     if(res.locals.session) {
         let { session } = res.locals;
         session.cart = [...session.cart, req.params.id];

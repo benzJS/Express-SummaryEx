@@ -84,7 +84,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 <% if(locals.cart) { %>
 <script>
     function removeOne(id) {
-        fetch(`cart/remove/${id}`, { method: 'DELETE' })
+        fetch(`/cart/remove/${id}`, { method: 'DELETE' })
             .then((res) => res.json())
             .then(({cart, total}) => {
                 // const total = cart.reduce((a, b) => {
