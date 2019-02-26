@@ -1747,9 +1747,12 @@ function removeOne(id) {
       }
     })
 }
-console.log(document.dropzoneForm.file);
-document.dropzoneForm.addEventListener('submit', function(ev) {
-  ev.preventDefault();
-  console.log('submit....');
-  console.log(ev.target.file.files);
-}, false)
+const myDropzone = new Dropzone('input#dropzoneInput', {
+  url: 'file-upload',
+  paramName: "file", // The name that will be used to transfer the file
+  maxFilesize: 2, // MB
+  autoProcessQueue: false,
+  init: function() {
+    this.on("addedfile", function(file) { console.log("Added file.", myDropzone.getQueuedFiles()); });
+  }
+})
