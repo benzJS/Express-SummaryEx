@@ -1747,3 +1747,9 @@ function removeOne(id) {
       }
     })
 }
+console.log(document.dropzoneForm.file);
+document.dropzoneForm.addEventListener('submit', function(ev) {
+  ev.preventDefault();
+  console.log('submit....');
+  console.log(ev.target.file.files);
+}, false)

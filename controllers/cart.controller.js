@@ -17,21 +17,40 @@ module.exports.add = async function(req, res, next) {
 }
 
 module.exports.remove = async function(req, res, next) {
+    console.log(req.body);
     const { priceAnal } = res.locals;
     const products = await Product.find();
     let cart;
     if(res.locals.session) {
         let { session } = res.locals;
-        // session.cart.splice(session.cart.indexOf(req.params.id), 1);
-        removeIndex = session.cart.indexOf(req.params.id); 
+        removeIndex = session.cart.findIndex(({size, color, id}) => {
+            return req.body.size === size 
+            && req.body.color === color
+            && req.body._id === id
+        }); 
+        debugger;
         session.cart = [...session.cart.slice(0, removeIndex), ...session.cart.slice(removeIndex + 1)];
+        // session.cart.splice(0, 1);
         session.save();
-        cart = session.cart.map(id => products.find(product => product.id === id));
+        cart = session.cart.map(cartItem => Object.assign({}, {...products.find(product => product.id === cartItem.id)._doc,
+            size: cartItem.size,
+            color: cartItem.color
+        }));
     } else {
         let { user } = res.locals;
-        user.cart.splice(user.cart.indexOf(req.params.id), 1);
+        removeIndex = user.cart.findIndex(({size, color, id}) => {
+            return req.body.size === size 
+            && req.body.color === color
+            && req.body._id === id
+        }); 
+        debugger;
+        user.cart = [...user.cart.slice(0, removeIndex), ...user.cart.slice(removeIndex + 1)];
+        // user.cart.splice(0, 1);
         user.save();
-        cart = user.cart.map(id => products.find(product => product.id === id));
+        cart = user.cart.map(cartItem => Object.assign({}, {...products.find(product => product.id === cartItem.id)._doc,
+            size: cartItem.size,
+            color: cartItem.color
+        }));
     }
     total = cart.reduce((a, b) => {
         if(typeof a !== 'object') return a + b.price;

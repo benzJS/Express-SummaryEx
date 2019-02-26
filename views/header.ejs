@@ -170,11 +170,11 @@
                 <% for(item of locals.cart) { %>
                     <!-- Single Cart Item -->
                     <div class="single-cart-item">
-                        <a href="#" class="product-image">
+                        <a href="#" class="product-image" onclick="ev => ev.preventDefault()">
                             <img src="<%= item.image[0] %>" class="cart-thumb" alt="">
                             <!-- Cart Item Desc -->
                             <div class="cart-item-desc">
-                              <span class="product-remove" onclick="removeOne('<%= item._id %>')"><i class="fa fa-close" aria-hidden="true"></i></span>
+                              <span class="product-remove" onclick="removeOne('<%= JSON.stringify(item) %>')"><i class="fa fa-close" aria-hidden="true"></i></span>
                                 <span class="badge"><%= item.categories %></span>
                                 <h6><%= item.name %></h6>
                                 <p class="size">Size: <%= item.size %></p>
