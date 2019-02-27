@@ -1747,21 +1747,27 @@ function removeOne(id) {
       }
     })
 }
-// const myDropzone = new Dropzone('form#dropzoneEl', {
-//   url: 'file-upload',
-//   paramName: "file", // The name that will be used to transfer the file
-//   maxFilesize: 2, // MB
-//   autoProcessQueue: false,
-//   init: function() {
-//     this.on("addedfile", function(file) { console.log("Added file.", myDropzone.getQueuedFiles()); });
-//   }
-// })
 Dropzone.options.dropzoneEl = {
   url: 'file-upload',
   paramName: "file", // The name that will be used to transfer the file
   maxFilesize: 2, // MB
   autoProcessQueue: false,
+  addRemoveLinks: true,
   init: function() {
-    this.on("addedfile", file => { console.log("Added file.", this.getQueuedFiles()); });
+    this.on("addedfile", file => { console.log("Added file.", this.getAcceptedFiles(), file); });
   }
 }
+document.insertForm.addEventListener('submit', function(ev) {
+  ev.preventDefault();
+  console.log('submit...')
+  let form = new FormData(ev.target);
+  const files = Dropzone.forElement("#dropzoneEl").getAcceptedFiles();
+  fetch('store/product', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(files)
+  }).then(res => res.json())
+    .then(data => console.log(data));
+})
