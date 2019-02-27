@@ -533,6 +533,9 @@
                             </button>
                     </div>
                     <div class="modal-body">
+                        <form action="/file-upload"
+                          class="dropzone"
+                          id="dropzoneEl"></form>
                     <form name="insertForm" action="store/product" method="POST" enctype="multipart/form-data">
                             <div class="alert alert-danger" role="alert" style="display: none">
                               Sản phẩm đã tồn tại
@@ -560,7 +563,8 @@
                               <input type="checkbox" name="badge" value="new-badge">Mới<br>
                               <input type="checkbox" name="badge" value="offer-badge">Khuyến mãi
                             </div>
-                            <input type="file" name="file" id="dropzoneInput"/>
+                            <!-- <input type="file" name="file" id="dropzoneInput"/> -->
+                            <!-- <div name="file" class="dropzone id="dropzoneInput></div> -->
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
