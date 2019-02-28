@@ -1697,17 +1697,8 @@ function removeOne(id) {
             </td>
             <td>
                 <div class="table-data-feature">
-                    <button class="item" data-toggle="tooltip" data-placement="top" title="Send">
-                        <i class="zmdi zmdi-mail-send"></i>
-                    </button>
-                    <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
-                        <i class="zmdi zmdi-edit"></i>
-                    </button>
                     <button class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="removeOne('${product._id}')">
                         <i class="zmdi zmdi-delete"></i>
-                    </button>
-                    <button class="item" data-toggle="tooltip" data-placement="top" title="More">
-                        <i class="zmdi zmdi-more"></i>
                     </button>
                 </div>
             </td>
@@ -1738,7 +1729,6 @@ function removeOne(id) {
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                        <button type="submit" class="btn btn-primary">Thêm</button>
                     </div>
                 </div>
             </div>
@@ -1748,7 +1738,6 @@ function removeOne(id) {
     })
 }
 Dropzone.options.dropzoneEl = {
-  url: 'file-upload',
   paramName: "file", // The name that will be used to transfer the file
   maxFilesize: 2, // MB
   autoProcessQueue: false,
@@ -1759,15 +1748,13 @@ Dropzone.options.dropzoneEl = {
 }
 document.insertForm.addEventListener('submit', function(ev) {
   ev.preventDefault();
-  console.log('submit...')
+  const request = new XMLHttpRequest();
+  request.open('POST', '/store/product', false);
   let form = new FormData(ev.target);
-  const files = Dropzone.forElement("#dropzoneEl").getAcceptedFiles();
-  fetch('store/product', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(files)
-  }).then(res => res.json())
-    .then(data => console.log(data));
+  dropzoneFiles = Dropzone.forElement("#dropzoneEl").getAcceptedFiles();
+  dropzoneFiles.forEach((file, index) => {
+    form.append(`file_${index}`, file);
+  })
+  request.send(form);
+  location.reload();
 })

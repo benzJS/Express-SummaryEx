@@ -4,6 +4,7 @@ const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const fs =require('fs');
 
 const productRoute = require('./routes/product.route');
 const authRoute = require('./routes/auth.route');
@@ -37,6 +38,11 @@ app.set('view engine', 'ejs');
 app.get('/', async (req, res) => {
     let products = await Product.find();
     res.render('index', { products: products });
+})
+
+app.get('/mock', async(req, res) => {
+	const image = await fs.readFile('./public/img/hh/logo.ico');
+	debugger;
 })
 
 

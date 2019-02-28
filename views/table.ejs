@@ -423,7 +423,7 @@
                                 <!-- DATA TABLE -->
                                 <h3 class="title-5 m-b-35">data table</h3>
                                 <div class="table-data__tool">
-                                    <div class="table-data__tool-left">
+                                    <!-- <div class="table-data__tool-left">
                                         <div class="rs-select2--light rs-select2--md">
                                             <select class="js-select2" name="property">
                                                 <option selected="selected">All Properties</option>
@@ -442,18 +442,18 @@
                                         </div>
                                         <button class="au-btn-filter">
                                             <i class="zmdi zmdi-filter-list"></i>filters</button>
-                                    </div>
+                                    </div> -->
                                     <div class="table-data__tool-right">
                                         <button class="au-btn au-btn-icon au-btn--green au-btn--small" data-toggle="modal" data-target="#insert-item">
-                                            <i class="zmdi zmdi-plus"></i>add item</button>
-                                        <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
+                                            <i class="zmdi zmdi-plus"></i>Thêm sản phẩm</button>
+                                        <!-- <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
                                             <select class="js-select2" name="type">
                                                 <option selected="selected">Export</option>
                                                 <option value="">Option 1</option>
                                                 <option value="">Option 2</option>
                                             </select>
                                             <div class="dropDownSelect2"></div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                                 <div class="table-responsive table-responsive-data2">
@@ -493,17 +493,11 @@
                                                 </td>
                                                 <td>
                                                     <div class="table-data-feature">
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Send">
-                                                            <i class="zmdi zmdi-mail-send"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                        <!-- <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
                                                             <i class="zmdi zmdi-edit"></i>
-                                                        </button>
+                                                        </button> -->
                                                         <button class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="removeOne('<%= product.id %>')">
                                                             <i class="zmdi zmdi-delete"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="More">
-                                                            <i class="zmdi zmdi-more"></i>
                                                         </button>
                                                     </div>
                                                 </td>
@@ -533,9 +527,12 @@
                             </button>
                     </div>
                     <div class="modal-body">
-                        <form action="/file-upload"
-                          class="dropzone"
-                          id="dropzoneEl"></form>
+                        <div class="form-group">
+                            <label class="col-form-label">Ảnh sản phẩm</label>
+                            <form action="/store/product"
+                              class="dropzone"
+                              id="dropzoneEl"></form>
+                        </div>
                     <form name="insertForm" enctype="multipart/form-data">
                             <div class="alert alert-danger" role="alert" style="display: none">
                               Sản phẩm đã tồn tại
@@ -546,7 +543,7 @@
                             </div>
                             <div class="form-group">
                               <label for="price" class="col-form-label">Giá</label>
-                              <input type="number" class="form-control" name="price" value="70000" step="5000" required>
+                              <input type="number" class="form-control" name="price" value="70000" step="1000" required>
                             </div>
                             <div class="form-group">
                               <label for="categories" class="col-form-label">Danh mục</label>
@@ -563,8 +560,7 @@
                               <input type="checkbox" name="badge" value="new-badge">Mới<br>
                               <input type="checkbox" name="badge" value="offer-badge">Khuyến mãi
                             </div>
-                            <!-- <input type="file" name="file" id="dropzoneInput"/> -->
-                            <!-- <div name="file" class="dropzone id="dropzoneInput></div> -->
+                            <!-- <input type="file" name="image" multiple /> -->
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
@@ -576,37 +572,12 @@
         </div>
 
         <div id="product-modals">
-            <% for(product of products) { %>
-            <div class="modal fade" id="product-image-<%= product.id %>" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Ảnh sản phẩm</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                            <% for(image of product.image) { %>
-                                <div class="col-xl-4">
-                                    <div class="card">
-                                        <img src="<%= image %>" class="card-img-top" alt="image">          
-                                    </div>
-                                </div>
-                            <% } %>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                            <button type="submit" class="btn btn-primary">Thêm</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <% } %>
+            
         </div>
     </div>
+    
+
+    
     <% } %>
     <!-- Jquery JS-->
     <script src="vendor/jquery-3.2.1.min.js"></script>
@@ -632,6 +603,7 @@
     <script src="js/dropzone.js"></script>
     <!-- Main JS-->
     <script src="js/main.js"></script>
+
 
 </body>
 
