@@ -1693,9 +1693,6 @@ function removeOne(id) {
             <td class="desc">${product.badge}</td>
             <td>${product.price}</td>
             <td>
-                <button class="btn btn-primary" data-toggle="modal" data-target="#product-image-${product._id}">Click để xem tất cả ảnh</button>
-            </td>
-            <td>
                 <div class="table-data-feature">
                     <button class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="removeOne('${product._id}')">
                         <i class="zmdi zmdi-delete"></i>

@@ -470,7 +470,7 @@
                                                 <th>categories</th>
                                                 <th>badge</th>
                                                 <th>price</th>
-                                                <th>image</th>
+                                                <!-- <th>image</th> -->
                                             </tr>
                                         </thead>
                                         <tbody id="data-table">
@@ -488,9 +488,9 @@
                                                 </td>
                                                 <td class="desc"><%= product.badge %></td>
                                                 <td><%= priceAnal(product.price) %></td>
-                                                <td>
+                                                <!-- <td>
                                                     <button class="btn btn-primary" data-toggle="modal" data-target="#product-image-<%= product.id %>">Click để xem tất cả ảnh</button>
-                                                </td>
+                                                </td> -->
                                                 <td>
                                                     <div class="table-data-feature">
                                                         <!-- <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
@@ -572,38 +572,11 @@
         </div>
 
         <div id="product-modals">
-            <% for(product of products) { %>
-                <div class="modal fade" id="product-image-<%= product.id %>" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Ảnh sản phẩm</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="/store/product"
-                                  class="dropzone"
-                                  id="dropzoneEl-<%= product.id %>"></form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                <button type="submit" class="btn btn-primary">Thêm</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <% } %>
+            
         </div>
     </div>
     
-    <script type="text/javascript">
-        const productModals = document.getElementById('product-modals');
-        <%# for(product of products) { %>
-            // Dropzone.forElement("#dropzoneEl-<%= product.id %>").emit('addedfile', )
-        <%# } %>
-    </script>
+
     
     <% } %>
     <!-- Jquery JS-->
