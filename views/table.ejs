@@ -489,7 +489,7 @@
                                                 <td class="desc"><%= product.badge %></td>
                                                 <td><%= priceAnal(product.price) %></td>
                                                 <td>
-                                                    <button class="btn btn-primary" data-toggle="modal" data-target="#product-image-<%= product.id %>">Click để xem tất cả ảnh</button>
+                                                    <button class="btn btn-primary" id="<%= product.id %>-btn">Click để xem tất cả ảnh</button>
                                                 </td>
                                                 <td>
                                                     <div class="table-data-feature">
@@ -597,16 +597,6 @@
             <% } %>
         </div>
     </div>
-    
-    <script type="text/javascript">
-        const productModals = document.getElementById('product-modals');
-        <%# for(product of products) { %>
-            // Dropzone.forElement("#dropzoneEl-<%= product.id %>").emit('addedfile', )
-        <%# } %>
-    </script>
-    
-    <% } %>
-    <!-- Jquery JS-->
     <script src="vendor/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap JS-->
     <script src="vendor/bootstrap-4.1/popper.min.js"></script>
@@ -626,10 +616,53 @@
     <script src="vendor/chartjs/Chart.bundle.min.js"></script>
     <script src="vendor/select2/select2.min.js">
     </script>
-
     <script src="js/dropzone.js"></script>
     <!-- Main JS-->
+    
+    <script>
+        Dropzone.autoDiscover = false;
+        <% products.forEach((product) => { %>
+            Dropzone.options['dropzoneEl-<%= product.id %>'] = {
+              paramName: "file<%= product.id %>", // The name that will be used to transfer the file
+              maxFilesize: 2, // MB
+              autoProcessQueue: false,
+              addRemoveLinks: true,
+              init: function() {
+                this.on("addedfile", file => { console.log("Added file.", this.getAcceptedFiles(), file); });
+              }
+            };
+            document.getElementById('<%= product.id %>-btn').addEventListener('click', async function(ev) {
+                const fileName = '<%= product.image[0].split('/')[2] %>';
+                let mockFile = { name: fileName, size: 12345 };
+                mockFile.status = Dropzone.ADDED;
+                mockFile.accepted = true;
+                // let dz = !Dropzone.forElement('form#dropzoneEl-<%= product.id %>') ? 
+                //     new Dropzone('form#dropzoneEl-<%= product.id %>', {
+                //         autoProcessQueue: false,
+                //         addRemoveLinks: true
+                //     })
+                //     : Dropzone.forElement('form#dropzoneEl-<%= product.id %>');
+                let dz = new Dropzone('form#dropzoneEl-<%= product.id %>', {
+                        autoProcessQueue: false,
+                        addRemoveLinks: true
+                    })
+                dz.files = [...dz.files, mockFile];
+                dz.emit('addedfile', mockFile);
+                // dz.emit('thumbnail', mockFile, '<%# product.image[0] %>');
+                const file = await (await fetch('/mock')).json();
+                debugger;
+                dz.createThumbnailFromUrl(file.bs, '/<%= product.image[0] %>');
+                // dz.emit('complete', mockFile);
+                $('#product-image-<%= product.id %>').modal('toggle');
+            })
+        <% }) %>
+    </script>
     <script src="js/main.js"></script>
+    
+    <% } %>
+    <!-- Jquery JS-->
+    
+
 
 
 </body>

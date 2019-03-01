@@ -40,9 +40,9 @@ app.get('/', async (req, res) => {
     res.render('index', { products: products });
 })
 
-app.get('/mock', async(req, res) => {
-	const image = await fs.readFile('./public/img/hh/logo.ico');
-	debugger;
+app.get('/mock', (req, res) => {
+	const image = fs.readFileSync('./public/img/hh/logo.ico');
+	res.send({bs: Buffer.from(image).toString('base64')});
 })
 
 
