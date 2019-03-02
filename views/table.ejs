@@ -48,7 +48,7 @@
     <!-- Main CSS-->
     <link href="css/theme.css" rel="stylesheet" media="all">
     <link rel="stylesheet" type="text/css" href="css/dropzone.css">
-
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/dropzone.css">   -->
 </head>
 <body class="animsition">
     <% if(!locals.adminUser) { %>
@@ -617,26 +617,18 @@
     <script src="vendor/select2/select2.min.js">
     </script>
     <script src="js/dropzone.js"></script>
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/dropzone.js"></script> -->
     <!-- Main JS-->
     
     <script>
         Dropzone.autoDiscover = false;
         <% products.forEach((product) => { %>
-            Dropzone.options['dropzoneEl-<%= product.id %>'] = {
-              paramName: "file<%= product.id %>", // The name that will be used to transfer the file
-              maxFilesize: 2, // MB
-              autoProcessQueue: false,
-              addRemoveLinks: true,
-              init: function() {
-                this.on("addedfile", file => { console.log("Added file.", this.getAcceptedFiles(), file); });
-              }
-            };
             document.getElementById('<%= product.id %>-btn').addEventListener('click', async function(ev) {
                 const fileName = '<%= product.image[0].split('/')[2] %>';
                 let mockFile = { name: fileName, size: 12345 };
                 mockFile.status = Dropzone.ADDED;
                 mockFile.accepted = true;
-                // let dz = !Dropzone.forElement('form#dropzoneEl-<%= product.id %>') ? 
+                // let dz = !$('form#dropzoneEl-<%= product.id %>').dropzone ? 
                 //     new Dropzone('form#dropzoneEl-<%= product.id %>', {
                 //         autoProcessQueue: false,
                 //         addRemoveLinks: true
@@ -648,11 +640,9 @@
                     })
                 dz.files = [...dz.files, mockFile];
                 dz.emit('addedfile', mockFile);
-                // dz.emit('thumbnail', mockFile, '<%# product.image[0] %>');
-                const file = await (await fetch('/mock')).json();
-                debugger;
-                dz.createThumbnailFromUrl(file.bs, '/<%= product.image[0] %>');
-                // dz.emit('complete', mockFile);
+                dz.emit('thumbnail', mockFile, '<%= product.image[0] %>');
+                // const file = await (await fetch('/mock')).json();
+                dz.emit('complete', mockFile);
                 $('#product-image-<%= product.id %>').modal('toggle');
             })
         <% }) %>
