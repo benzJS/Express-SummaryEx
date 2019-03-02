@@ -1693,6 +1693,9 @@ function removeOne(id) {
             <td class="desc">${product.badge}</td>
             <td>${product.price}</td>
             <td>
+                <button class="btn btn-primary" id="${ product.id }-btn">Click để xem tất cả ảnh</button>
+            </td>
+            <td>
                 <div class="table-data-feature">
                     <button class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="removeOne('${product._id}')">
                         <i class="zmdi zmdi-delete"></i>
@@ -1703,46 +1706,49 @@ function removeOne(id) {
           <tr class="spacer"></tr>
         `
         document.getElementById('product-modals').innerHTML += `
-          <div class="modal fade" id="product-image-${product._id}" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Ảnh sản phẩm</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                        ${
-                          product.image.map(image =>
-                            `<div class="col-xl-4">
-                                <div class="card">
-                                    <img src="${image}" class="card-img-top" alt="image">          
-                                </div>
-                            </div>`
-                         )}
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                    </div>
-                </div>
-            </div>
+          <div class="modal fade" id="product-image-${ product.id }" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title">Ảnh sản phẩm</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                              </button>
+                      </div>
+                      <div class="modal-body">
+                          <form action="/store/product"
+                            class="dropzone"
+                            id="dropzoneEl-${ product.id }"></form>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                          <button type="submit" class="btn btn-primary">Thêm</button>
+                      </div>
+                  </div>
+              </div>
           </div>
         `
       }
     })
 }
-Dropzone.options.dropzoneEl = {
+// Dropzone.options.dropzoneEl = {
+//   paramName: "file", // The name that will be used to transfer the file
+//   maxFilesize: 2, // MB
+//   autoProcessQueue: false,
+//   addRemoveLinks: true,
+//   init: function() {
+//     this.on("addedfile", file => { console.log("Added file.", this.getAcceptedFiles(), file); });
+//   }
+// }
+$('form#dropzoneEl').dropzone({
   paramName: "file", // The name that will be used to transfer the file
   maxFilesize: 2, // MB
   autoProcessQueue: false,
   addRemoveLinks: true,
   init: function() {
-    this.on("addedfile", file => { console.log("Added file.", this.getAcceptedFiles(), file); });
+    this.on("addedfile", file => { this.emit('complete', file) });
   }
-}
+});
 document.insertForm.addEventListener('submit', function(ev) {
   ev.preventDefault();
   const request = new XMLHttpRequest();
@@ -1755,3 +1761,19 @@ document.insertForm.addEventListener('submit', function(ev) {
   request.send(form);
   location.reload();
 })
+
+function editProduct(ev, id) {
+  ev.preventDefault();
+  console.log('submit...')
+  const request = new XMLHttpRequest();
+  request.open('PATCH', `/store/product/${id}`, false); // false arg for synchronous
+  let form = new FormData(ev.target);
+  const dz = Dropzone.forElement(`#dropzoneEl-${id}`);
+  dropzoneFiles = dz.getAcceptedFiles();
+  dropzoneFiles.forEach((file, index) => {
+    form.append(`file_${index}`, file);
+  })
+  form.append('oldFiles', JSON.stringify([...dz.getFilesWithStatus()]));
+  request.send(form);
+  location.reload();
+}

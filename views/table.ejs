@@ -470,7 +470,7 @@
                                                 <th>categories</th>
                                                 <th>badge</th>
                                                 <th>price</th>
-                                                <th>image</th>
+                                                <!-- <th>image</th> -->
                                             </tr>
                                         </thead>
                                         <tbody id="data-table">
@@ -488,14 +488,15 @@
                                                 </td>
                                                 <td class="desc"><%= product.badge %></td>
                                                 <td><%= priceAnal(product.price) %></td>
-                                                <td>
-                                                    <button class="btn btn-primary" id="<%= product.id %>-btn">Click để xem tất cả ảnh</button>
-                                                </td>
+                                                <!-- <td>
+                                                    <button class="btn btn-primary">Click để xem tất cả ảnh</button>
+                                                </td> -->
                                                 <td>
                                                     <div class="table-data-feature">
-                                                        <!-- <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Xem ảnh và chỉnh sửa" id="<%= product.id %>-btn">
                                                             <i class="zmdi zmdi-edit"></i>
-                                                        </button> -->
+                                                            
+                                                        </button>
                                                         <button class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="removeOne('<%= product.id %>')">
                                                             <i class="zmdi zmdi-delete"></i>
                                                         </button>
@@ -583,14 +584,46 @@
                                     </button>
                             </div>
                             <div class="modal-body">
-                                <form action="/store/product"
-                                  class="dropzone"
-                                  id="dropzoneEl-<%= product.id %>"></form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                <button type="submit" class="btn btn-primary">Thêm</button>
-                            </div>
+                                <div class="form-group">
+                                    <label class="col-form-label">Ảnh sản phẩm</label>
+                                    <form action="/store/product"
+                                      class="dropzone"
+                                      id="dropzoneEl-<%= product.id %>"></form>
+                                </div>
+                                <form onsubmit="return editProduct(event, '<%= product.id %>')" enctype="multipart/form-data">
+                                    <div class="alert alert-danger" role="alert" style="display: none">
+                                      Sản phẩm đã tồn tại
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="name" class="col-form-label">Tên sản phẩm</label>
+                                      <input type="text" class="form-control" name="name" value="<%= product.name %>" required>
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="price" class="col-form-label">Giá</label>
+                                      <input type="number" class="form-control" name="price" value="<%= product.price %>" step="1000" required>
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="categories" class="col-form-label">Danh mục</label>
+                                      <select name="categories">
+                                        <% locals.products.reduce((a, product) => {
+                                            if(a.indexOf(product.categories) === -1) { a = [...a, product.categories] };
+                                            return a;
+                                        }, []).forEach(categorie => { %>
+                                        <option><%= categorie %></option>
+                                        <% }) %>
+                                      </select>
+                                    </div>
+                                    <div class="form-group">
+                                      <input type="checkbox" name="badge" value="new-badge">Mới<br>
+                                      <input type="checkbox" name="badge" value="offer-badge">Khuyến mãi
+                                    </div>
+                                    <!-- <input type="file" name="image" multiple /> -->
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                    <button type="submit" class="btn btn-primary">Thêm</button>
+                                </div>
+                            </form> 
                         </div>
                     </div>
                 </div>
@@ -624,25 +657,25 @@
         Dropzone.autoDiscover = false;
         <% products.forEach((product) => { %>
             document.getElementById('<%= product.id %>-btn').addEventListener('click', async function(ev) {
-                const fileName = '<%= product.image[0].split('/')[2] %>';
-                let mockFile = { name: fileName, size: 12345 };
-                mockFile.status = Dropzone.ADDED;
-                mockFile.accepted = true;
-                // let dz = !$('form#dropzoneEl-<%= product.id %>').dropzone ? 
-                //     new Dropzone('form#dropzoneEl-<%= product.id %>', {
-                //         autoProcessQueue: false,
-                //         addRemoveLinks: true
-                //     })
-                //     : Dropzone.forElement('form#dropzoneEl-<%= product.id %>');
-                let dz = new Dropzone('form#dropzoneEl-<%= product.id %>', {
+                if(document.getElementById('dropzoneEl-<%= product.id %>').childElementCount === 0){
+                    let dz = new Dropzone('form#dropzoneEl-<%= product.id %>', {
                         autoProcessQueue: false,
-                        addRemoveLinks: true
+                        addRemoveLinks: true,
+                        init: function() {
+                            this.on("addedfile", file => { this.emit('complete', file) });
+                        }
                     })
-                dz.files = [...dz.files, mockFile];
-                dz.emit('addedfile', mockFile);
-                dz.emit('thumbnail', mockFile, '<%= product.image[0] %>');
-                // const file = await (await fetch('/mock')).json();
-                dz.emit('complete', mockFile);
+                    function render(name, imgUrl) {
+                        let mockFile = { name: name, size: 12345 };
+                        dz.files = [...dz.files, mockFile];
+                        dz.emit('addedfile', mockFile);
+                        dz.emit('thumbnail', mockFile, imgUrl);
+                        dz.emit('complete', mockFile);
+                    }
+                    <% for(image of product.image) { %>
+                        render('<%= image.split('/')[2] %>', '<%= image %>')
+                    <% } %>
+                }
                 $('#product-image-<%= product.id %>').modal('toggle');
             })
         <% }) %>
