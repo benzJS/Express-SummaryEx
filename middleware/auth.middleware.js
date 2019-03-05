@@ -29,10 +29,16 @@ module.exports = async function(req, res, next) {
         session = await Session.create({cart: []});        
         res.cookie('sessionId', session._id, { signed: true });
     }
-    cart = session.cart.map(cartItem => Object.assign({}, {...products.find(product => product.id === cartItem.id)._doc,
-        size: cartItem.size,
-        color: cartItem.color
-    }));
+    cart = session.cart.map(cartItem => {
+        const product = products.find(product => product.id === cartItem.id);
+        if(product) {
+            return Object.assign({}, {
+                ...product._doc,
+                size: cartItem.size,
+                color: cartItem.color
+            })
+        }
+    });
     
     res.locals = {...res.locals, session: session, cart: cart, priceAnal: priceAnal};
     next();

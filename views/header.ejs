@@ -9,7 +9,7 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="keywords" content="coding, free, javascript, programming, web, app">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Coders.Tokyo - Cộng đồng học lập trình miễn phí">
+    <!-- <meta property="og:title" content="Coders.Tokyo - Cộng đồng học lập trình miễn phí">
     <meta property="og:url" content="http://coders.tokyo/index.html">
     <meta property="og:site_name" content="Coders.Tokyo - Cộng đồng học lập trình miễn phí">
     <meta property="og:description" content="Coders.Tokyo là một cộng đồng học lập trình miễn phí, với mong muốn tất cả mọi người ở khắp nơi trên thế giới được học lập trình miễn phí.">
@@ -21,7 +21,22 @@
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Coders.Tokyo - Cộng đồng học lập trình miễn phí">
     <meta name="twitter:description" content="Coders.Tokyo là một cộng đồng học lập trình miễn phí, với mong muốn tất cả mọi người ở khắp nơi trên thế giới được học lập trình miễn phí.">
-    <meta name="twitter:image" content="https://coders.tokyo/images/meta-cover.jpg">
+    <meta name="twitter:image" content="https://coders.tokyo/images/meta-cover.jpg"> -->
+    <meta name="keywords" content="underwear, hhshop">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="HH Shop | Calvin Klein Ủy Quyền">
+    <meta property="og:url" content="http://c1b41197.ngrok.io">
+    <meta property="og:site_name" content="HH Shop | Calvin Klein Ủy Quyền">
+    <meta property="og:description" content="Calvin Klein">
+    <meta property="og:locale" content="vi">
+    <meta property="og:image" content="img/hh/cover.png">
+    <meta property="og:image" content="img/hh/logo.png">
+    <meta property="og:image" content="img/hh/logo.png">
+    <meta property="og:updated_time" content="2018-09-11T13:58:09.710Z">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="HH Shop | Calvin Klein Ủy Quyền">
+    <meta name="twitter:description" content="HH Shop | Calvin Klein Ủy Quyền">
+    <meta name="twitter:image" content="img/hh/cover.png">
     <!-- Title  -->
     <title>HH Shop | Calvin Klein Ủy Quyền</title>
 
@@ -141,7 +156,7 @@
                 <!-- Cart Area -->
                 <div class="cart-area">
                     <a href="#" id="essenceCartBtn"><img src="img/core-img/bag.svg" alt=""> <span>
-                        <%= locals.cart.length %>
+                        <%= locals.cart.filter(item => item).length %>
                     </span></a>
                 </div>
             </div>
@@ -158,7 +173,7 @@
         <!-- Cart Button -->
         <div class="cart-button">
             <a href="#" id="rightSideCart"><img src="img/core-img/bag.svg" alt=""> <span>
-                <%= locals.cart.length %>
+                <%= locals.cart.filter(item => item).length %>
             </span></a>
         </div>
 
@@ -167,7 +182,9 @@
 
             <!-- Cart List Area -->
             <div class="cart-list" id="cart-list">
-                <% for(item of locals.cart) { %>
+                <% for(item of locals.cart) { 
+                    if(item) {
+                %>
                     <!-- Single Cart Item -->
                     <div class="single-cart-item">
                         <a href="#" class="product-image" onclick="ev => ev.preventDefault()">
@@ -183,7 +200,7 @@
                             </div>
                         </a>
                     </div>
-                <% } %>
+                <% }} %>
             </div>
             <!-- Cart Summary -->
             <div class="cart-amount-summary">
@@ -191,6 +208,7 @@
                 <h2>Summary</h2>
                 <ul class="summary-table">
                     <li><span>subtotal:</span> <span id="subtotal"><%= priceAnal(cart.reduce((a, b) => {
+                        if(!b) return a;
                         if(typeof a !== 'object') return a + b.price;
                         return a.price + b.price;
                     }, 0))%>
@@ -199,6 +217,7 @@
                     <li><span>discount:</span> <span>-15%</span></li>
                     <li><span>total:</span> <span id="total">
                         <%= priceAnal(cart.reduce((a, b) => {
+                            if(!b) return a;
                             if(typeof a !== 'object') return a + b.price;
                             return a.price + b.price;
                         }, 0))%>

@@ -1675,60 +1675,61 @@ function removeOne(id) {
   })
     .then(res => res.json())
     .then(products => {
-      document.getElementById('data-table').innerHTML = '';
-      document.getElementById('product-modals').innerHTML = '';
-      for(product of products) {
-        document.getElementById('data-table').innerHTML += `
-          <tr class="tr-shadow">
-            <td>
-                <label class="au-checkbox">
-                    <input type="checkbox">
-                    <span class="au-checkmark"></span>
-                </label>
-            </td>
-            <td>${product.name}</td>
-            <td>
-                <span class="block-email">${product.categories}</span>
-            </td>
-            <td class="desc">${product.badge}</td>
-            <td>${product.price}</td>
-            <td>
-                <button class="btn btn-primary" id="${ product.id }-btn">Click để xem tất cả ảnh</button>
-            </td>
-            <td>
-                <div class="table-data-feature">
-                    <button class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="removeOne('${product._id}')">
-                        <i class="zmdi zmdi-delete"></i>
-                    </button>
-                </div>
-            </td>
-          </tr>
-          <tr class="spacer"></tr>
-        `
-        document.getElementById('product-modals').innerHTML += `
-          <div class="modal fade" id="product-image-${ product.id }" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                      <div class="modal-header">
-                          <h5 class="modal-title">Ảnh sản phẩm</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                              </button>
-                      </div>
-                      <div class="modal-body">
-                          <form action="/store/product"
-                            class="dropzone"
-                            id="dropzoneEl-${ product.id }"></form>
-                      </div>
-                      <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                          <button type="submit" class="btn btn-primary">Thêm</button>
-                      </div>
-                  </div>
-              </div>
-          </div>
-        `
-      }
+      // document.getElementById('data-table').innerHTML = '';
+      // document.getElementById('product-modals').innerHTML = '';
+      // for(product of products) {
+      //   document.getElementById('data-table').innerHTML += `
+      //     <tr class="tr-shadow">
+      //       <td>
+      //           <label class="au-checkbox">
+      //               <input type="checkbox">
+      //               <span class="au-checkmark"></span>
+      //           </label>
+      //       </td>
+      //       <td>${product.name}</td>
+      //       <td>
+      //           <span class="block-email">${product.categories}</span>
+      //       </td>
+      //       <td class="desc">${product.badge}</td>
+      //       <td>${product.price}</td>
+      //       <td>
+      //           <button class="btn btn-primary" id="${ product.id }-btn">Click để xem tất cả ảnh</button>
+      //       </td>
+      //       <td>
+      //           <div class="table-data-feature">
+      //               <button class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="removeOne('${product._id}')">
+      //                   <i class="zmdi zmdi-delete"></i>
+      //               </button>
+      //           </div>
+      //       </td>
+      //     </tr>
+      //     <tr class="spacer"></tr>
+      //   `
+      //   document.getElementById('product-modals').innerHTML += `
+      //     <div class="modal fade" id="product-image-${ product.id }" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+      //         <div class="modal-dialog" role="document">
+      //             <div class="modal-content">
+      //                 <div class="modal-header">
+      //                     <h5 class="modal-title">Ảnh sản phẩm</h5>
+      //                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      //                             <span aria-hidden="true">&times;</span>
+      //                         </button>
+      //                 </div>
+      //                 <div class="modal-body">
+      //                     <form action="/store/product"
+      //                       class="dropzone"
+      //                       id="dropzoneEl-${ product.id }"></form>
+      //                 </div>
+      //                 <div class="modal-footer">
+      //                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+      //                     <button type="submit" class="btn btn-primary">Thêm</button>
+      //                 </div>
+      //             </div>
+      //         </div>
+      //     </div>
+      //   `
+      // }
+      location.reload();
     })
 }
 // Dropzone.options.dropzoneEl = {

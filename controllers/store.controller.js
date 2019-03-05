@@ -1,6 +1,8 @@
-const Product = require('../models/product.model');
 const fs = require('fs');
 const path = require('path');
+
+const Product = require('../models/product.model');
+const Category = require('../models/category.model');
 
 module.exports.postCreate = async function(req, res, next) {
 	req.body.image = req.files.map(file => file.path.split('/').slice(1).join('/'));
@@ -11,7 +13,11 @@ module.exports.postCreate = async function(req, res, next) {
 module.exports.deleteProduct = async function(req, res, next) {
 	const product = await Product.findById(req.params.id);
 	for(image of product.image) {
-		fs.unlinkSync(path.join(__dirname, `../public/${image}`));
+		try{
+			fs.unlinkSync(path.join(__dirname, `../public/${image}`));
+		} catch {
+			continue;
+		}
 	}
 	await Product.deleteOne({_id: req.params.id});
 	const products = await Product.find();

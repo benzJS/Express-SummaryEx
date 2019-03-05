@@ -50,52 +50,52 @@
     <link rel="stylesheet" type="text/css" href="css/dropzone.css">
     <!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/dropzone.css">   -->
 </head>
-<body class="animsition">
+<body>
     <% if(!locals.adminUser) { %>
     <script>
-      window.fbAsyncInit = function() {
-        FB.init({
-          appId      : '325906334727581',
-          cookie     : true,
-          xfbml      : true,
-          version    : 'v3.2'
-        });
+      // window.fbAsyncInit = function() {
+      //   FB.init({
+      //     appId      : '325906334727581',
+      //     cookie     : true,
+      //     xfbml      : true,
+      //     version    : 'v3.2'
+      //   });
           
-        FB.AppEvents.logPageView();   
-        FB.getLoginStatus(function(response) {
-            debugger;
-            if(response.status !== 'connected') {
-                FB.login(function(res) {
-                    if(res.status === 'connected') {
-                        fetch('dashboard/fbPost', {
-                            method: 'POST',
-                            headers: {
-                                "Content-Type": "application/json",
-                                // "Content-Type": "application/x-www-form-urlencoded",
-                            },
-                            body: JSON.stringify({userID: res.authResponse.userID})
-                        }).then(location.reload())
-                    }
-                }, {scope: 'public_profile,email'})
-            } else {
-                fetch('dashboard/fbPost', {
-                    method: 'POST',
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({userID: response.authResponse.userID})
-                }).then((res) => location.reload())
-            }
-        })
-      };
+      //   FB.AppEvents.logPageView();   
+      //   FB.getLoginStatus(function(response) {
+      //       debugger;
+      //       if(response.status !== 'connected') {
+      //           FB.login(function(res) {
+      //               if(res.status === 'connected') {
+      //                   fetch('dashboard/fbPost', {
+      //                       method: 'POST',
+      //                       headers: {
+      //                           "Content-Type": "application/json",
+      //                           // "Content-Type": "application/x-www-form-urlencoded",
+      //                       },
+      //                       body: JSON.stringify({userID: res.authResponse.userID})
+      //                   }).then(location.reload())
+      //               }
+      //           }, {scope: 'public_profile,email'})
+      //       } else {
+      //           fetch('dashboard/fbPost', {
+      //               method: 'POST',
+      //               headers: {
+      //                   "Content-Type": "application/json"
+      //               },
+      //               body: JSON.stringify({userID: response.authResponse.userID})
+      //           }).then((res) => location.reload())
+      //       }
+      //   })
+      // };
 
-      (function(d, s, id){
-         var js, fjs = d.getElementsByTagName(s)[0];
-         if (d.getElementById(id)) {return;}
-         js = d.createElement(s); js.id = id;
-         js.src = "https://connect.facebook.net/en_US/sdk.js";
-         fjs.parentNode.insertBefore(js, fjs);
-       }(document, 'script', 'facebook-jssdk'));
+      // (function(d, s, id){
+      //    var js, fjs = d.getElementsByTagName(s)[0];
+      //    if (d.getElementById(id)) {return;}
+      //    js = d.createElement(s); js.id = id;
+      //    js.src = "https://connect.facebook.net/en_US/sdk.js";
+      //    fjs.parentNode.insertBefore(js, fjs);
+      //  }(document, 'script', 'facebook-jssdk'));
     </script>
     <div class="container">
         <div class="modal-content">
@@ -252,7 +252,7 @@
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
-                        <li class="has-sub">
+                        <!-- <li class="has-sub">
                             <a class="js-arrow" href="#">
                                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
@@ -273,12 +273,12 @@
                         <li>
                             <a href="chart.html">
                                 <i class="fas fa-chart-bar"></i>Charts</a>
-                        </li>
+                        </li> -->
                         <li class="active">
-                            <a href="table.html">
+                            <a href="#">
                                 <i class="fas fa-table"></i>Tables</a>
                         </li>
-                        <li>
+                        <!-- <li>
                             <a href="form.html">
                                 <i class="far fa-check-square"></i>Forms</a>
                         </li>
@@ -341,7 +341,7 @@
                                 </li>
                                 <li>
                                     <a href="typo.html">Typography</a>
-                                </li>
+                                </li> -->
                             </ul>
                         </li>
                     </ul>
@@ -549,19 +549,27 @@
                             <div class="form-group">
                               <label for="categories" class="col-form-label">Danh mục</label>
                               <select name="categories">
-                                <% locals.products.reduce((a, product) => {
-                                    if(a.indexOf(product.categories) === -1) { a = [...a, product.categories] };
-                                    return a;
-                                }, []).forEach(categorie => { %>
-                                <option><%= categorie %></option>
-                                <% }) %>
+                                <% for(category of locals.categories) { %>
+                                    <option><%= category.categoryName %></option>
+                                <% } %>
                               </select>
                             </div>
                             <div class="form-group">
                               <input type="checkbox" name="badge" value="new-badge">Mới<br>
                               <input type="checkbox" name="badge" value="offer-badge">Khuyến mãi
                             </div>
-                            <!-- <input type="file" name="image" multiple /> -->
+                            <div class="form-group">
+                              <label for="categories" class="col-form-label"><h5>Size</h5></label><br>
+                              <input type="checkbox" name="size" value="M">M<br>
+                              <input type="checkbox" name="size" value="L">L<br>
+                              <input type="checkbox" name="size" value="XL">XL
+                            </div>
+                            <div class="form-group">
+                              <label for="categories" class="col-form-label"><h5>Color</h5></label><br>
+                              <input type="checkbox" name="color" value="black">Black<br>
+                              <input type="checkbox" name="color"value="white">White<br>
+                              <input type="checkbox" name="color"value="brown">Brown
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
@@ -605,12 +613,9 @@
                                     <div class="form-group">
                                       <label for="categories" class="col-form-label">Danh mục</label>
                                       <select name="categories">
-                                        <% locals.products.reduce((a, product) => {
-                                            if(a.indexOf(product.categories) === -1) { a = [...a, product.categories] };
-                                            return a;
-                                        }, []).forEach(categorie => { %>
-                                        <option><%= categorie %></option>
-                                        <% }) %>
+                                        <% for(category of locals.categories) { %>
+                                            <option><%= category.categoryName %></option>
+                                        <% } %>
                                       </select>
                                     </div>
                                     <div class="form-group">
@@ -621,7 +626,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                    <button type="submit" class="btn btn-primary">Thêm</button>
+                                    <button type="submit" class="btn btn-primary">Xác nhận</button>
                                 </div>
                             </form> 
                         </div>
