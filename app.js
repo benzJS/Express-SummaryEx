@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const fs =require('fs');
-const path = require('path');
+// const path = require('path');
 
 // Router
 const productRoute = require('./routes/product.route');
@@ -13,6 +13,7 @@ const authRoute = require('./routes/auth.route');
 const cartRoute = require('./routes/cart.route');
 const storeRoute = require('./routes/store.route');
 const dashboardRoute = require('./routes/dashboard.route');
+const singleRoute = require('./routes/single.route');
 
 // Middleware
 const authMiddleware = require('./middleware/auth.middleware');
@@ -28,7 +29,8 @@ mongoose.connect('mongodb://localhost/hhshop', { useNewUrlParser: true });
 
 app.use(express.static('public'));
 app.use(authMiddleware);
-app.use('/products/:category', express.static(path.join(__dirname, '/public')), productRoute);
+app.use('/single', express.static('public'), singleRoute);
+app.use('/products', productRoute);
 app.use('/auth', authRoute);
 app.use('/cart', cartRoute);
 app.use('/store', storeRoute);

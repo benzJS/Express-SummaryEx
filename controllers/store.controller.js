@@ -13,7 +13,7 @@ module.exports.postCreate = async function(req, res, next) {
 module.exports.deleteProduct = async function(req, res, next) {
 	const product = await Product.findById(req.params.id);
 	for(image of product.image) {
-		try{
+		try {
 			fs.unlinkSync(path.join(__dirname, `../public/${image}`));
 		} catch {
 			continue;
@@ -29,11 +29,16 @@ module.exports.editProduct = async function(req, res, next) {
 	const oldFiles = JSON.parse(req.body.oldFiles).map(({name}) => `img/uploads/${name}`); // remaining images
 	const newFiles = req.files.map(file => file.path.split('/').slice(1).join('/')); // new images
 	const newInfo = req.body;
+	debugger;
 	const removedFiles = product.image.filter(image => { // find removed images
 		return oldFiles.findIndex(file => file === image) === -1;
 	})
 	for(file of removedFiles) { // remove image actually
-		fs.unlinkSync(path.join(__dirname, `../public/${file}`));
+		try {
+			fs.unlinkSync(path.join(__dirname, `../public/${file}`));
+		} catch {
+			continue;
+		}
 	}
 	delete newInfo['oldFiles']; // del req.body's oldFiles property
 	const updatedImageArray = [...oldFiles, ...newFiles];

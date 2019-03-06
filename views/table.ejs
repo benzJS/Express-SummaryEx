@@ -548,11 +548,14 @@
                             </div>
                             <div class="form-group">
                               <label for="categories" class="col-form-label">Danh mục</label>
-                              <select name="categories">
+                              <!-- <br> -->
+                              <input list="categories" name="categories" class="form-control" required>
+                              <datalist id="categories">
+                                <option selected="true">List</option>
                                 <% for(category of locals.categories) { %>
                                     <option><%= category.categoryName %></option>
                                 <% } %>
-                              </select>
+                              </datalist>
                             </div>
                             <div class="form-group">
                               <input type="checkbox" name="badge" value="new-badge">Mới<br>
@@ -684,6 +687,9 @@
                 $('#product-image-<%= product.id %>').modal('toggle');
             })
         <% }) %>
+        if(document.insertForm['categories'].value === 'else') {
+
+        }
     </script>
 
     <!-- Main JS-->
