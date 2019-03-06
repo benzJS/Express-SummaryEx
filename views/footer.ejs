@@ -83,26 +83,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 <% } %>
 <% if(locals.cart) { %>
 <script>
-    document.addtocartForm.addEventListener('submit', function(ev) {
-        ev.preventDefault();
-        const form = ev.target;
-        let data = [...Array(form.length - 1)].reduce((a, _, index) => {
-            let input = form[index];
-            a[input.name] = input.value;
-            return a;
-        }, {});
-        const href = location.href.split('.');
-        // console.log('submit', href[href.length - 1]);
-        data = {...data, id: href[href.length -1]}
-        fetch('/cart', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-        }).then(res => res.json())
-          .then(data => location.reload());
-    }, false);
+    
     function removeOne(cartItem) {
         console.log(JSON.parse(cartItem));
         fetch('/cart', { 

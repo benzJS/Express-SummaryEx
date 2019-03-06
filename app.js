@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const fs =require('fs');
+const path = require('path');
 
 // Router
 const productRoute = require('./routes/product.route');
@@ -27,7 +28,7 @@ mongoose.connect('mongodb://localhost/hhshop', { useNewUrlParser: true });
 
 app.use(express.static('public'));
 app.use(authMiddleware);
-app.use('/underwear', express.static('public'), productRoute);
+app.use('/products/:category', express.static(path.join(__dirname, '/public')), productRoute);
 app.use('/auth', authRoute);
 app.use('/cart', cartRoute);
 app.use('/store', storeRoute);

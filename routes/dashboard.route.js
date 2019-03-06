@@ -5,7 +5,7 @@ const controller = require('../controllers/dashboard.controller');
 
 router.get('/', controller.index);
 
-router.post('/', controller.postIndex);
+router.post('/', controller.signin);
 
 router.post('/fbPost', controller.fbPost);
 

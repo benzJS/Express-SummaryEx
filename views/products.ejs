@@ -6,7 +6,7 @@
             <div class="row h-100 align-items-center">
                 <div class="col-12">
                     <div class="page-title text-center">
-                        <h2><%= locals.categories %></h2>
+                        <h2><%= locals.category.split('/')[2] %></h2>
                     </div>
                 </div>
             </div>
@@ -177,7 +177,7 @@
                                         <div class="hover-content">
                                             <!-- Add to Cart -->
                                             <div class="add-to-cart-btn">
-                                                <a href="/<%= product.categories.concat('/', product.name.toLowerCase(), '.', product.id) %>" class="btn essence-btn">chi tiết</a>
+                                                <a href="/products/<%= product.categories.concat('/', product.name.toLowerCase(), '.', product.id) %>" class="btn essence-btn">chi tiết</a>
                                             </div>
                                         </div>
                                     </div>

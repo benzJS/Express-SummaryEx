@@ -53,49 +53,49 @@
 <body>
     <% if(!locals.adminUser) { %>
     <script>
-      // window.fbAsyncInit = function() {
-      //   FB.init({
-      //     appId      : '325906334727581',
-      //     cookie     : true,
-      //     xfbml      : true,
-      //     version    : 'v3.2'
-      //   });
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '325906334727581',
+          cookie     : true,
+          xfbml      : true,
+          version    : 'v3.2'
+        });
           
-      //   FB.AppEvents.logPageView();   
-      //   FB.getLoginStatus(function(response) {
-      //       debugger;
-      //       if(response.status !== 'connected') {
-      //           FB.login(function(res) {
-      //               if(res.status === 'connected') {
-      //                   fetch('dashboard/fbPost', {
-      //                       method: 'POST',
-      //                       headers: {
-      //                           "Content-Type": "application/json",
-      //                           // "Content-Type": "application/x-www-form-urlencoded",
-      //                       },
-      //                       body: JSON.stringify({userID: res.authResponse.userID})
-      //                   }).then(location.reload())
-      //               }
-      //           }, {scope: 'public_profile,email'})
-      //       } else {
-      //           fetch('dashboard/fbPost', {
-      //               method: 'POST',
-      //               headers: {
-      //                   "Content-Type": "application/json"
-      //               },
-      //               body: JSON.stringify({userID: response.authResponse.userID})
-      //           }).then((res) => location.reload())
-      //       }
-      //   })
-      // };
+        FB.AppEvents.logPageView();   
+        FB.getLoginStatus(function(response) {
+            debugger;
+            if(response.status !== 'connected') {
+                FB.login(function(res) {
+                    if(res.status === 'connected') {
+                        fetch('dashboard/fbPost', {
+                            method: 'POST',
+                            headers: {
+                                "Content-Type": "application/json",
+                                // "Content-Type": "application/x-www-form-urlencoded",
+                            },
+                            body: JSON.stringify({userID: res.authResponse.userID})
+                        }).then(location.reload())
+                    }
+                }, {scope: 'public_profile,email'})
+            } else {
+                fetch('dashboard/fbPost', {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({userID: response.authResponse.userID})
+                }).then((res) => location.reload())
+            }
+        })
+      };
 
-      // (function(d, s, id){
-      //    var js, fjs = d.getElementsByTagName(s)[0];
-      //    if (d.getElementById(id)) {return;}
-      //    js = d.createElement(s); js.id = id;
-      //    js.src = "https://connect.facebook.net/en_US/sdk.js";
-      //    fjs.parentNode.insertBefore(js, fjs);
-      //  }(document, 'script', 'facebook-jssdk'));
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "https://connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
     </script>
     <div class="container">
         <div class="modal-content">
@@ -144,7 +144,7 @@
             <nav class="navbar-mobile">
                 <div class="container-fluid">
                     <ul class="navbar-mobile__list list-unstyled">
-                        <li class="has-sub">
+                        <!-- <li class="has-sub">
                             <a class="js-arrow" href="#">
                                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                             <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
@@ -165,12 +165,12 @@
                         <li>
                             <a href="chart.html">
                                 <i class="fas fa-chart-bar"></i>Charts</a>
-                        </li>
+                        </li> -->
                         <li>
                             <a href="table.html">
                                 <i class="fas fa-table"></i>Tables</a>
                         </li>
-                        <li>
+                        <!-- <li>
                             <a href="form.html">
                                 <i class="far fa-check-square"></i>Forms</a>
                         </li>
@@ -235,7 +235,7 @@
                                     <a href="typo.html">Typography</a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </nav>
@@ -635,11 +635,13 @@
             <% } %>
         </div>
     </div>
+
+    <!-- Jquery JS-->
     <script src="vendor/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap JS-->
     <script src="vendor/bootstrap-4.1/popper.min.js"></script>
     <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
-    <!-- Vendor JS       -->
+    <!-- Vendor JS-->
     <script src="vendor/slick/slick.min.js">
     </script>
     <script src="vendor/wow/wow.min.js"></script>
@@ -655,8 +657,6 @@
     <script src="vendor/select2/select2.min.js">
     </script>
     <script src="js/dropzone.js"></script>
-    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/dropzone.js"></script> -->
-    <!-- Main JS-->
     
     <script>
         Dropzone.autoDiscover = false;
@@ -685,14 +685,10 @@
             })
         <% }) %>
     </script>
+
+    <!-- Main JS-->
     <script src="js/main.js"></script>
-    
     <% } %>
-    <!-- Jquery JS-->
-    
-
-
-
 </body>
 
 </html>

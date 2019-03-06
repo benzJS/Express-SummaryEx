@@ -8,14 +8,19 @@ module.exports = async function(req, res, next) {
         return price === 0 ? price 
         : price.toString().substring(0, price.toString().length - 3).concat('.', price.toString().substring(price.toString().length - 3));
     }
+
+    
     if(req.path === '/dashboard') {
         console.log('next');
         res.locals = {...res.locals, priceAnal: priceAnal}
         return next();
     }
+
     let user, cart;
     const products = await Product.find();
     const categories = await Category.find();
+
+    // if user has already signed in
     if(req.signedCookies.userId) {
         user = await User.findById(req.signedCookies.userId);
 
@@ -34,6 +39,8 @@ module.exports = async function(req, res, next) {
         res.locals = {...res.locals, user: user, cart: cart, categories: categories, priceAnal: priceAnal};
         return next();
     }
+
+    // if not
     let session = await Session.findById(req.signedCookies.sessionId);
     if(!session) {
         session = await Session.create({cart: []});        
