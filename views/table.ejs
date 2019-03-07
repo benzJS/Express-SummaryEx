@@ -549,9 +549,9 @@
                             <div class="form-group">
                               <label for="categories" class="col-form-label">Danh mục</label>
                               <!-- <br> -->
-                              <input list="categories" name="categories" class="form-control" required>
+                              <input list="categories" name="categories" class="form-control" autocomplete="off" required>
                               <datalist id="categories">
-                                <option selected="true">List</option>
+                                <option selected disabled></option>
                                 <% for(category of locals.categories) { %>
                                     <option><%= category.categoryName %></option>
                                 <% } %>

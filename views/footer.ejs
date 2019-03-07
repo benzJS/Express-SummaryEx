@@ -85,7 +85,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 <script>
     
     function removeOne(cartItem) {
-        console.log(JSON.parse(cartItem));
         fetch('/cart', { 
             method: 'DELETE',
             headers: {
@@ -95,37 +94,36 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
         })
             .then((res) => res.json())
             .then(({cart, total}) => {
-                console.log(cart);
                 document.getElementById('subtotal').innerHTML = total;
                 document.getElementById('total').innerHTML = total;
                 document.getElementById('cart-list').innerHTML = '';
                 document.getElementById('rightSideCart').children[1].innerHTML = cart.length;
                 document.getElementById('essenceCartBtn').children[1].innerHTML = cart.length;
-                cart.forEach((item, index) => {
-                    // console.log(item);  
-                    document.getElementById('cart-list').innerHTML += `
-                        <!-- Single Cart Item -->
-                        <div class="single-cart-item">
-                            <a href="#" class="product-image" onclick="return false">
-                                <img src="${item.image[0]}" class="cart-thumb" alt="">
-                                <!-- Cart Item Desc -->
-                                <div class="cart-item-desc">
-                                <span class="product-remove" id="remove-${item._id}-${item.size}-${item.color}-${index}"><i class="fa fa-close" aria-hidden="true"></i></span>
-                                    <span class="badge">${item.categories}</span>
-                                    <h6>${item.name}</h6>
-                                    <p class="size">Size: ${item.size}</p>
-                                    <p class="color">Color: ${item.color}</p>
-                                    <p class="price">${item.price}</p>
-                                </div>
-                            </a>
-                        </div>
-                    `;
-                    document.getElementById(`remove-${item._id}-${item.size}-${item.color}-${index}`).addEventListener(
-                        'click',
-                        removeOne.bind(this, JSON.stringify(item))
-                    )
-                })
-                
+                if(cart.length > 0) {
+                    cart.forEach((item, index) => {
+                        document.getElementById('cart-list').innerHTML += `
+                            <!-- Single Cart Item -->
+                            <div class="single-cart-item">
+                                <a href="#" class="product-image" onclick="ev => ev.preventDefault()">
+                                    <img src="${item.image[0]}" class="cart-thumb" alt="">
+                                    <!-- Cart Item Desc -->
+                                    <div class="cart-item-desc">
+                                      <span class="product-remove" id="remove-${item._id}-${item.size}-${item.color}-${index}"><i class="fa fa-close" aria-hidden="true"></i></span>
+                                        <span class="badge">${item.categories}</span>
+                                        <h6>${item.name}</h6>
+                                        <p class="size">Size: ${item.size}</p>
+                                        <p class="color">Color: ${item.color}</p>
+                                        <p class="price">${item.price}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        `;
+                        document.getElementById(`remove-${item._id}-${item.size}-${item.color}-${index}`).addEventListener(
+                            'click',
+                            removeOne.bind(this, JSON.stringify(item))
+                        )
+                    })
+                }
             });
     }
 </script>

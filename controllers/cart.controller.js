@@ -17,20 +17,27 @@ module.exports.add = async function(req, res, next) {
 module.exports.remove = async function(req, res, next) {
     const { priceAnal } = res.locals;
     const products = await Product.find();
-    let cart;
+    let cart = [];
     if(res.locals.session) {
         let { session } = res.locals;
-        removeIndex = session.cart.findIndex(({size, color, id}) => {
+        removeIndex = session.cart.length < 2 ? 0 : session.cart.findIndex(({size, color, id}) => {
             return req.body.size === size 
             && req.body.color === color
             && req.body._id === id
         });
         session.cart = [...session.cart.slice(0, removeIndex), ...session.cart.slice(removeIndex + 1)];
+        debugger;
         session.save();
-        cart = session.cart.map(cartItem => Object.assign({}, {...products.find(product => product.id === cartItem.id)._doc,
-            size: cartItem.size,
-            color: cartItem.color
-        }));
+        if(session.cart.length > 0) {
+            cart = session.cart.map(cartItem => {
+                const product = products.find(item => item.id === cartItem.id);
+                return Object.assign({}, {...product._doc,
+                    size: cartItem.size,
+                    color: cartItem.color
+                })
+            });
+        }
+        debugger;
     } else {
         let { user } = res.locals;
         removeIndex = user.cart.findIndex(({size, color, id}) => {
@@ -49,5 +56,6 @@ module.exports.remove = async function(req, res, next) {
         if(typeof a !== 'object') return a + b.price;
         return a.price + b.price;
     }, 0)
+    debugger;
     res.send(JSON.stringify({ cart: cart, total: priceAnal(total)}));
 }

@@ -132,8 +132,7 @@
                 a[input.name] = input.value;
                 return a;
             }, {});
-            // const href = location.href.split('.');
-            // console.log('submit', href[href.length - 1]);
+            const href = location.href.split('/');
             data = {...data, id: href[href.length -1]}
             fetch('/cart', {
                 method: 'POST',

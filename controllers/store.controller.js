@@ -6,6 +6,9 @@ const Category = require('../models/category.model');
 
 module.exports.postCreate = async function(req, res, next) {
 	req.body.image = req.files.map(file => file.path.split('/').slice(1).join('/'));
+	const category = await Category.findOne({categoryName: req.body.categories});
+	debugger;
+	if(!category) await Category.create({ categoryName: req.body.categories });
 	await Product.create(req.body);
 	return res.send(true);
 }
