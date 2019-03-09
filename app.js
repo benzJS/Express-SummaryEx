@@ -43,9 +43,10 @@ app.get('/', async (req, res) => {
     res.render('index', { products: products });
 })
 
-app.get('/mock', (req, res) => {
-	const image = fs.readFileSync('./public/img/hh/logo.ico');
-	res.send({bs: Buffer.from(image).toString('base64')});
+app.post('/mock', (req, res) => {
+	res.header("Access-Control-Allow-Origin", "*");
+  	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	res.json('successful');
 })
 
 

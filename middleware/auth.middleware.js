@@ -28,11 +28,11 @@ module.exports = async function(req, res, next) {
         cart = user.cart.map(cartItem => {
             const product = products.find(product => product.id === cartItem.id);
             if(product) {
-                return Object.assign({}, {
+                return {
                     ...product._doc,
                     size: cartItem.size,
                     color: cartItem.color
-                })
+                }
             }
         });
 
@@ -51,14 +51,14 @@ module.exports = async function(req, res, next) {
     cart = session.cart.map(cartItem => {
         const product = products.find(product => product.id === cartItem.id);
         if(product) {
-            return Object.assign({}, {
+            return {
                 ...product._doc,
                 size: cartItem.size,
                 color: cartItem.color
-            })
+            }
         }
     });
-    
+    debugger;
     res.locals = {...res.locals, session: session, categories: categories, cart: cart, priceAnal: priceAnal};
     next();
 }

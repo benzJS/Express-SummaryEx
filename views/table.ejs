@@ -549,13 +549,18 @@
                             <div class="form-group">
                               <label for="categories" class="col-form-label">Danh mục</label>
                               <!-- <br> -->
-                              <input list="categories" name="categories" class="form-control" autocomplete="off" required>
-                              <datalist id="categories">
+                              <select 
+                                name="categories" 
+                                class="form-control" 
+                                autocomplete="off"
+                                required
+                              >
                                 <option selected disabled></option>
                                 <% for(category of locals.categories) { %>
                                     <option><%= category.categoryName %></option>
                                 <% } %>
-                              </datalist>
+                                <option value="else">Thêm danh mục mới</option>
+                              </select>
                             </div>
                             <div class="form-group">
                               <input type="checkbox" name="badge" value="new-badge">Mới<br>

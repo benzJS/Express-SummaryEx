@@ -1778,3 +1778,13 @@ function editProduct(ev, id) {
   request.send(form);
   location.reload();
 }
+
+document.insertForm['categories'].addEventListener('change', function(ev) {
+  if(ev.target.value === 'else') {
+    const inputEl = document.createElement('input');
+    inputEl.name = 'categories';
+    inputEl.className = 'form-control';
+    inputEl.placeholder = 'Danh mục mới';
+    ev.target.replaceWith(inputEl);
+  }
+})
