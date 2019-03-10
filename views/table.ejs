@@ -63,7 +63,6 @@
           
         FB.AppEvents.logPageView();   
         FB.getLoginStatus(function(response) {
-            debugger;
             if(response.status !== 'connected') {
                 FB.login(function(res) {
                     if(res.status === 'connected') {
@@ -470,7 +469,6 @@
                                                 <th>categories</th>
                                                 <th>badge</th>
                                                 <th>price</th>
-                                                <!-- <th>image</th> -->
                                             </tr>
                                         </thead>
                                         <tbody id="data-table">
@@ -692,9 +690,6 @@
                 $('#product-image-<%= product.id %>').modal('toggle');
             })
         <% }) %>
-        if(document.insertForm['categories'].value === 'else') {
-
-        }
     </script>
 
     <!-- Main JS-->

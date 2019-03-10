@@ -10,9 +10,9 @@ module.exports = async function(req, res, next) {
     }
 
     
-    if(req.path === '/dashboard') {
+    if(req.path === '/dashboard' || req.path === '/checkout') {
         console.log('next');
-        res.locals = {...res.locals, priceAnal: priceAnal}
+        res.locals = {...res.locals, priceAnal: priceAnal};
         return next();
     }
 

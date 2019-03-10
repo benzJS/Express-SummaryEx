@@ -4,7 +4,7 @@ const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const fs =require('fs');
+const nanoid = require('nanoid');
 // const path = require('path');
 
 // Router
@@ -14,6 +14,7 @@ const cartRoute = require('./routes/cart.route');
 const storeRoute = require('./routes/store.route');
 const dashboardRoute = require('./routes/dashboard.route');
 const singleRoute = require('./routes/single.route');
+const checkoutRoute = require('./routes/checkout.route');
 
 // Middleware
 const authMiddleware = require('./middleware/auth.middleware');
@@ -35,6 +36,7 @@ app.use('/auth', authRoute);
 app.use('/cart', cartRoute);
 app.use('/store', storeRoute);
 app.use('/dashboard', dashboardRoute);
+app.use('/checkout', checkoutRoute);
 
 app.set('view engine', 'ejs');
 

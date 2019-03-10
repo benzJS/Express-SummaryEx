@@ -1743,7 +1743,7 @@ function removeOne(id) {
 // }
 $('form#dropzoneEl').dropzone({
   paramName: "file", // The name that will be used to transfer the file
-  maxFilesize: 2, // MB
+  maxFilesize: 3, // MB
   autoProcessQueue: false,
   addRemoveLinks: true,
   init: function() {
