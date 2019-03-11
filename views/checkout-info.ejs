@@ -34,7 +34,6 @@
     <!-- Core Style CSS -->
     <link rel="stylesheet" href="css/core-style.css">
     <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
@@ -74,85 +73,91 @@
     </div>
     <!-- ##### Breadcumb Area End ##### -->
 
-    <div class="container">
+    <div class="container" id="container">
         <div class="row">
-            <div class="col-3">
-                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                  <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Đăng nhập</a>
-                  <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Đăng ký</a>
+            <div class="col-5">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Thông tin giao hàng</h5>
+                    </div>
+                    <form name="signupForm">
+                        <div class="modal-body">
+                            <div class="alert alert-danger" role="alert" style="display: none">
+                              Tài khoản đã tồn tại
+                            </div>
+                            <div class="form-group">
+                              <label for="fullname" class="col-form-label">Full name</label>
+                              <input type="text" class="form-control" name="fullname" required>
+                            </div>
+                            <div class="form-group">
+                              <label for="email" class="col-form-label">Email</label>
+                              <input type="email" class="form-control" name="email" required>
+                            </div>
+                            <div class="form-group">
+                              <label for="password" class="col-form-label">Mật khẩu</label>
+                              <input type="password" class="form-control" name="password" required>
+                            </div>
+                        </div>
+                    </form> 
                 </div>
             </div>
-          <div class="col-9">
-            <script src="https://use.fontawesome.com/c560c025cf.js"></script>
-            <div class="container">
-               <div class="card shopping-cart">
-                        <div class="card-header bg-dark text-light">
-                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                            Shipping cart
-                            <a href="" class="btn btn-outline-info btn-sm pull-right">Continiu shopping</a>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="card-body">
-                            <!-- PRODUCT -->
-                            <div class="row">
-                                <div class="col-12 col-sm-12 col-md-2 text-center">
-                                        <img class="img-responsive" src="http://placehold.it/120x80" alt="prewiew" width="120" height="80">
-                                </div>
-                                <div class="col-12 text-sm-center col-sm-12 text-md-left col-md-6">
-                                    <h4 class="product-name"><strong>Product Name</strong></h4>
-                                    <h4>
-                                        <small>Product description</small>
-                                    </h4>
-                                </div>
-                                <div class="col-12 col-sm-12 text-sm-center col-md-4 text-md-right row">
-                                    <div class="col-3 col-sm-3 col-md-6 text-md-right" style="padding-top: 5px">
-                                        <h6><strong>25.00 <span class="text-muted">x</span></strong></h6>
-                                    </div>
-                                    <div class="col-4 col-sm-4 col-md-4">
-                                        <div class="quantity">
-                                            <input type="button" value="+" class="plus">
-                                            <input type="number" step="1" max="99" min="1" value="1" title="Qty" class="qty"
-                                                   size="4">
-                                            <input type="button" value="-" class="minus">
-                                        </div>
-                                    </div>
-                                    <div class="col-2 col-sm-2 col-md-2 text-right">
-                                        <button type="button" class="btn btn-outline-danger btn-xs">
-                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                            <!-- END PRODUCT -->
-                            <div class="pull-right">
-                                <a href="" class="btn btn-outline-secondary pull-right">
-                                    Update shopping cart
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="coupon col-md-5 col-sm-5 no-padding-left pull-left">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <input type="text" class="form-control" placeholder="cupone code">
-                                    </div>
-                                    <div class="col-6">
-                                        <input type="submit" class="btn btn-default" value="Use cupone">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pull-right" style="margin: 10px">
-                                <a href="" class="btn btn-success pull-right">Checkout</a>
-                                <div class="pull-right" style="margin: 5px">
-                                    Total price: <b>50.00€</b>
-                                </div>
-                            </div>
-                        </div>
+            <div class="col-7">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Đơn hàng</h5>
+                        <a href="/cart">
+                            <button class="btn btn-secondary mr-1">Sửa</button>
+                        </a>
                     </div>
+                    <div class="modal-body">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th scope="col">Số lượng</th>
+                              <th scope="col">Tên sản phẩm</th>
+                              <th scope="col">Tạm tính</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <!-- <tr>
+                              <td>Mark</td>
+                              <td>
+                                <span>asd</span>
+                                <span> (size: M, color: Black)</span>
+                              </td>
+                              <td>@mdo</td>
+                            </tr> -->
+                            <% for(item of locals.cart) { %>
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        <a href="/single/<%= item._id %>" style="color: blue">
+                                            <%= item.name %>
+                                            <span>(size: <%= item.size %>, color: <%= item.color %>)</span>
+                                        </a>
+                                    </td>
+                                    <td><%= item.price %></td>
+                                </tr>
+                            <% } %>
+                          </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <h5>Total: <span style="color: red">
+                            <%= locals.cart.reduce((total, b) => {
+                                return total + b.price
+                            }, 0) %>
+                        </span></h5>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end mt-3">
+                    <button class="btn btn-danger mr-3">Đặt mua</button>
+                    
+                </div>
             </div>
-          </div>
+
         </div>
+    </div>
 
     <!-- jQuery (Necessary for All JavaScript Plugins) -->
     <script src="js/jquery/jquery-2.2.4.min.js"></script>

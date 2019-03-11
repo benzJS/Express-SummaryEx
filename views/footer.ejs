@@ -126,5 +126,10 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                 }
             });
     }
+
+    document.getElementById('signout').addEventListener('click', function(ev) {
+        ev.preventDefault();
+        fetch('/auth/signout').then(() => location.reload())
+    });
 </script>
 <% } %>

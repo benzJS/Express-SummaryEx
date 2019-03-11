@@ -101,23 +101,26 @@
                     <a href="#"><img src="img/core-img/user.svg" alt="" >
                         <% if(locals.user) { let username = locals.user.fullname.split(' '); %>
                             <b>Hi, <%= username[username.length - 1] %></b>
-                        </a>
-                        <ul style="line-height: 200%; background: #fff" class="user-login-info-dropdown">
-                            <li><a href="" class="unset">Thông tin tài khoản</a></li>
-                            <li><a href="/auth/signout" class="unset">Đăng xuất</a></li>
-                        </ul>
-                        <% } else { %>
-                        <ul style="line-height: 200%; background: #fff" class="user-login-info-dropdown">
-                            <li><a href="" class="unset" data-toggle="modal" data-target="#signin">Đăng nhập</a></li>
-                            <li><a href="" class="unset" data-toggle="modal" data-target="#signup">Tạo tài khoản</a></li>
-                        </ul>
-                        <% } %>
-                    </div>
+                    </a>
+                    <ul style="line-height: 200%; background: #fff" class="user-login-info-dropdown">
+                        <li><a href="" class="unset">Thông tin tài khoản</a></li>
+                        <li id="signout"><a href="" class="unset" >Đăng xuất</a></li>
+                    </ul>
+                    <% } else { %>
+                    <ul style="line-height: 200%; background: #fff" class="user-login-info-dropdown">
+                        <li><a href="" class="unset" data-toggle="modal" data-target="#signin">Đăng nhập</a></li>
+                        <li><a href="" class="unset" data-toggle="modal" data-target="#signup">Tạo tài khoản</a></li>
+                    </ul>
+                    <% } %>
+                </div>
                 <!-- Cart Area -->
                 <div class="cart-area">
-                    <a href="#" id="essenceCartBtn"><img src="img/core-img/bag.svg" alt=""> <span>
-                        <%= locals.cart.filter(item => item).length %>
-                    </span></a>
+                    <a href="#" id="essenceCartBtn">
+                        <img src="img/core-img/bag.svg" alt=""> 
+                        <span>
+                            <%= locals.cart.filter(item => item).length %>
+                        </span>
+                    </a>
                 </div>
             </div>
 
@@ -177,9 +180,7 @@
                     <li><span>discount:</span> <span>-15%</span></li>
                     <li><span>total:</span> <span id="total">
                         <%= priceAnal(cart.reduce((a, b) => {
-                            if(!b) return a;
-                            if(typeof a !== 'object') return a + b.price;
-                            return a.price + b.price;
+                            return a + b.price;
                         }, 0))%>
                     </span></li>
                 </ul>
