@@ -3,7 +3,7 @@ const User = require('../models/user.model')
 module.exports.signin = async function(req, res, next) {
     let user = await User.findOne({email: req.body.email});
     if(user) {
-        user.cart = [...user.cart, ...res.locals.session.cart];
+        // user.cart = [...user.cart, ...res.locals.session.cart];
         user.save();
         res.clearCookie('sessionId');
         res.cookie('userId', user.id, { signed: true });
@@ -23,7 +23,7 @@ module.exports.signup = async function(req, res, next) {
     	return res.send(false);
     }
     user = await User.create(req.body);
-    user.cart = [...user.cart, ...res.locals.session.cart];
+    // user.cart = [...user.cart, ...res.locals.session.cart];
     user.save();
     res.clearCookie('sessionId');
     res.cookie('userId', user.id, {signed: true});

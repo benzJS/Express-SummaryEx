@@ -4,7 +4,11 @@ const Product = require('../models/product.model');
 module.exports.add = async function(req, res, next) {
     if(res.locals.session) {
         let { session } = res.locals;
-        session.cart = [...session.cart, req.body];
+        const optionId = (await Product.findById(req.body.id)).option.find(({ size, color }) => {
+            return size === req.body.size && color === req.body.color;
+        }).id;
+        const productId = req.body.id.concat('-', optionId);
+        session.cart[productId] = session.cart[productId] ? session.cart[productId] + 1 : 1;
         session.save();
         return res.send(true);
     }

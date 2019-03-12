@@ -1,6 +1,65 @@
-<% locals.products.reduce((a, product) => {
-    if(a.indexOf(product.categories) === -1) { a = [...a, product.categories] };
-    return a;
-}, []).forEach(categorie => { %>
-    <option><%= categorie %></option>
-<% }) %>
+<!-- ##### Right Side Cart Area ##### -->
+    <div class="cart-bg-overlay"></div>
+
+    <div class="right-side-cart-area">
+
+        <!-- Cart Button -->
+        <div class="cart-button">
+            <a href="#" id="rightSideCart"><img src="img/core-img/bag.svg" alt=""> <span>
+                <%= locals.cart.filter(item => item).length %>
+            </span></a>
+        </div>
+
+        
+        <div class="cart-content d-flex">
+
+            <!-- Cart List Area -->
+            <div class="cart-list" id="cart-list">
+                <% for(item of locals.cart) { 
+                    if(item) {
+                %>
+                    <!-- Single Cart Item -->
+                    <div class="single-cart-item">
+                        <a href="#" class="product-image" onclick="ev => ev.preventDefault()">
+                            <img src="<%= item.image[0] %>" class="cart-thumb" alt="">
+                            <!-- Cart Item Desc -->
+                            <div class="cart-item-desc">
+                              <span class="product-remove" onclick="removeOne('<%= JSON.stringify(item) %>')"><i class="fa fa-close" aria-hidden="true"></i></span>
+                                <span class="badge"><%= item.categories %></span>
+                                <h6><%= item.name %></h6>
+                                <p class="size">Size: <%= item.size %></p>
+                                <p class="color">Color: <%= item.color %></p>
+                                <p class="price"><%= locals.priceAnal(item.price) %></p>
+                            </div>
+                        </a>
+                    </div>
+                <% }} %>
+            </div>
+            <!-- Cart Summary -->
+            <div class="cart-amount-summary">
+
+                <h2>Summary</h2>
+                <ul class="summary-table">
+                    <li><span>subtotal:</span> <span id="subtotal"><%= priceAnal(cart.reduce((a, b) => {
+                        if(!b) return a;
+                        if(typeof a !== 'object') return a + b.price;
+                        return a.price + b.price;
+                    }, 0))%>
+                    </span></li>
+                    <li><span>delivery:</span> <span>Free</span></li>
+                    <li><span>discount:</span> <span>-15%</span></li>
+                    <li><span>total:</span> <span id="total">
+                        <%= priceAnal(cart.reduce((a, b) => {
+                            return a + b.price;
+                        }, 0))%>
+                    </span></li>
+                </ul>
+                <div class="checkout-btn mt-100">
+                    <a href="checkout.html" class="btn essence-btn">check out</a>
+                </div>
+            </div>
+            
+        </div>
+        
+    </div>
+    <!-- ##### Right Side Cart End ##### -->

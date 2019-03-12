@@ -80,8 +80,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
 <% if(!locals.user) { %>
 <script src="js/behavior.js"></script>
-<% } %>
-<% if(locals.cart) { %>
+<% } else { %>
 <script>
     
     function removeOne(cartItem) {
@@ -128,6 +127,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     }
 
     document.getElementById('signout').addEventListener('click', function(ev) {
+        debugger;
         ev.preventDefault();
         fetch('/auth/signout').then(() => location.reload())
     });

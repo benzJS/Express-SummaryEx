@@ -7,8 +7,7 @@ const productSchema = mongoose.Schema({
     	type: String,
     	lowercase: true
     },
-    size: Array,
-    color: Array,
+    option: Array,
     image: Array,
     badge: Array
 })

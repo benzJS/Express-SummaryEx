@@ -27,14 +27,14 @@
                     <!-- Select Box -->
                     <div class="select-box d-flex mt-50 mb-30">
                         <select name="size" class="mr-5">
-                            <% for(size of single.size) { %>
+                            <% (new Set(single.option.map(item => item.size))).forEach(size => { %>
                                 <option value="<%= size %>">Size: <%= size %></option>
-                            <% } %>
+                            <% }) %>
                         </select>
                         <select name="color">
-                            <% for(color of single.color) { %>
+                            <% (new Set(single.option.map(item => item.color))).forEach(color => { %>
                                 <option value="<%= color %>">Color: <%= color %></option>
-                            <% } %>
+                            <% }) %>
                         </select>
                     </div>
                     <!-- Cart & Favourite Box -->

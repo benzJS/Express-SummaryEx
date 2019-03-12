@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 
 const sessionSchema = mongoose.Schema({
-	cart: Array
+	cart: {
+    	type: Object,
+    	default: {}
+    }
 })
 
 const Session = mongoose.model('Session', sessionSchema);

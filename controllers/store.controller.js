@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const nanoid = require('nanoid');
 
 const Product = require('../models/product.model');
 const Category = require('../models/category.model');
@@ -8,6 +9,23 @@ module.exports.postCreate = async function(req, res, next) {
 	req.body.image = req.files.map(file => file.path.split('/').slice(1).join('/'));
 	const category = await Category.findOne({categoryName: req.body.categories});
 	if(!category) await Category.create({ categoryName: req.body.categories });
+	const { size, color } = req.body;
+	req.body = {
+		...req.body,
+		option: size.reduce((arr, size) => {
+			return arr.concat(
+				color.map(color => {
+					return {
+						id: nanoid(),
+						color: color,
+						size: size
+					}
+				})
+			);
+		}, [])
+	}
+	delete req.body['size'];
+	delete req.body['color'];
 	await Product.create(req.body);
 	return res.send(true);
 }

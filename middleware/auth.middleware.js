@@ -25,16 +25,16 @@ module.exports = async function(req, res, next) {
         user = await User.findById(req.signedCookies.userId);
 
         // find cart's product data
-        cart = user.cart.map(cartItem => {
-            const product = products.find(product => product.id === cartItem.id);
-            if(product) {
-                return {
-                    ...product._doc,
-                    size: cartItem.size,
-                    color: cartItem.color
-                }
-            }
-        });
+        // cart = user.cart.map(cartItem => {
+        //     const product = products.find(product => product.id === cartItem.id);
+        //     if(product) {
+        //         return {
+        //             ...product._doc,
+        //             size: cartItem.size,
+        //             color: cartItem.color
+        //         }
+        //     }
+        // });
 
         res.locals = {...res.locals, user: user, cart: cart, categories: categories, priceAnal: priceAnal};
         return next();
@@ -43,21 +43,21 @@ module.exports = async function(req, res, next) {
     // if not
     let session = await Session.findById(req.signedCookies.sessionId);
     if(!session) {
-        session = await Session.create({cart: []});        
+        session = await Session.create({cart: {}});        
         res.cookie('sessionId', session._id, { signed: true });
     }
 
     // find cart's product data
-    cart = session.cart.map(cartItem => {
-        const product = products.find(product => product.id === cartItem.id);
-        if(product) {
-            return {
-                ...product._doc,
-                size: cartItem.size,
-                color: cartItem.color
-            }
-        }
-    });
+    // cart = session.cart.map(cartItem => {
+    //     const product = products.find(product => product.id === cartItem.id);
+    //     if(product) {
+    //         return {
+    //             ...product._doc,
+    //             size: cartItem.size,
+    //             color: cartItem.color
+    //         }
+    //     }
+    // });
     debugger;
     res.locals = {...res.locals, session: session, categories: categories, cart: cart, priceAnal: priceAnal};
     next();
