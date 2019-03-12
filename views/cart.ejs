@@ -1,0 +1,54 @@
+<% include header %>
+	<div class="container">
+		<div class="row">
+			<div class="modal-content mt-5">
+                <div class="modal-header">
+                    <h5 class="modal-title">Đơn hàng</h5>
+                    <a href="/cart">
+                        <button class="btn btn-secondary mr-1">Sửa</button>
+                    </a>
+                </div>
+                <div class="modal-body">
+					<table class="table ">
+					  <tbody>
+					  	<% for(item of Object.values(locals.cart)) { %>
+						    <tr>
+						      <td style="width: 90px">
+			      				<img src="<%= item.image[0] %>" class="rounded">
+						      </td>
+						      <td>
+						      	<h6><%= item.name %></h6>
+						      	<p>
+						      		<span><%= item.size %></span>
+						      		<span><%= item.color %></span>
+						      	</p>
+						      </td>
+						      <td><%= item.price %></td>
+						      <td>
+						      	<input type="number" name="" class="form-control" min="0" value="<%= item.amount %>">
+						      </td>
+						      <td><%= item.price * item.amount %></td>
+						      <td>Remove</td>
+						    </tr>
+					    <% } %>
+					  </tbody>
+					</table>
+                </div>
+            </div>
+		</div>
+        <div class="row d-flex mt-3 justify-content-end">
+            <button class="btn btn-danger mr-3">Đặt mua</button>
+        </div>
+	</div>
+	<script src="/js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="/js/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="/js/bootstrap.min.js"></script>
+    <!-- Plugins js -->
+    <script src="/js/plugins.js"></script>
+    <!-- Classy Nav js -->
+    <script src="/js/classy-nav.min.js"></script>
+    <!-- Active js -->
+    <script src="/js/active.js"></script>
+<% include footer %>

@@ -1,68 +1,68 @@
 const User = require('../models/user.model');
 const Product = require('../models/product.model');
 
+module.exports.index = async function(req, res, next) {
+    const { user } = res.locals;
+    const products = await Product.find();
+    const cart = Object.keys(user.cart).reduce((accumulator, key) => {
+        const productId = key.split('-')[0];
+        const optionId = key.split('-')[1];
+        const product = products.find(({id}) => id === productId);
+        accumulator[key] = {
+            ...product._doc,
+            size: product.option.find(({id}) => id === optionId).size,
+            color: product.option.find(({id}) => id === optionId).color,
+            amount: user.cart[key]
+        }
+        return accumulator;
+    }, {});
+    debugger;
+    res.locals = {...res.locals, cart: cart};
+    res.render('cart');
+}
+
 module.exports.add = async function(req, res, next) {
-    if(res.locals.session) {
-        let { session } = res.locals;
-        const optionId = (await Product.findById(req.body.id)).option.find(({ size, color }) => {
-            return size === req.body.size && color === req.body.color;
-        }).id;
-        const productId = req.body.id.concat('-', optionId);
-        session.cart[productId] = session.cart[productId] ? session.cart[productId] + 1 : 1;
-        session.save();
-        return res.send(true);
-    }
     let { user } = res.locals;
-    user.cart = [...user.cart, req.body];
-    await user.save();
+
+    // generate product id
+    const optionId = (await Product.findById(req.body.id)).option.find(({ size, color }) => {
+        return size === req.body.size && color === req.body.color;
+    }).id;
+    const productId = req.body.id.concat('-', optionId);
+
+    // add to cart
+    let cart = {...user.cart};
+    cart[productId] = cart[productId] ? cart[productId] + 1 : 1;
+
+    //save
+    user.cart = {...cart};
+    user.save();
+
     return res.send(true);
 }
 
 module.exports.remove = async function(req, res, next) {
     const { priceAnal } = res.locals;
     const products = await Product.find();
-    let cart = [];
-    if(res.locals.session) {
-        let { session } = res.locals;
-        removeIndex = session.cart.length < 2 ? 0 : session.cart.findIndex(({size, color, id}) => {
-            return req.body.size === size 
-            && req.body.color === color
-            && req.body._id === id
-        });
-        session.cart = [...session.cart.slice(0, removeIndex), ...session.cart.slice(removeIndex + 1)];
-        session.save();
-        if(session.cart.length > 0) {
-            cart = session.cart.map(cartItem => {
-                const product = products.find(item => item.id === cartItem.id);
-                return Object.assign({}, {...product._doc,
-                    size: cartItem.size,
-                    color: cartItem.color
-                })
-            });
-        }
-    } else {
-        let { user } = res.locals;
-        removeIndex = user.cart.findIndex(({size, color, id}) => {
-            return req.body.size === size 
-            && req.body.color === color
-            && req.body._id === id
-        });
-        user.cart = [...user.cart.slice(0, removeIndex), ...user.cart.slice(removeIndex + 1)];
-        user.save();
-        if(user.cart.length > 0) {
-            cart = user.cart.map(cartItem => {
-                const product = products.find(item => item.id === cartItem.id);
-                return Object.assign({}, {...product._doc,
-                    size: cartItem.size,
-                    color: cartItem.color
-                })
-            });
-        }
-    }
+    let { user } = res.locals;
+    let newCart = {...user.cart};
+
+    // remove cart item
+    delete newCart[productId];
+
+    // save
+    user.cart = {...newCart};
+    user.save();
+
+
     total = cart.reduce((a, b) => {
         if(typeof a !== 'object') return a + b.price;
         return a.price + b.price;
     }, 0);
-    // res.send(JSON.stringify({ cart: cart, total: priceAnal(total)}));
+
     res.json({ cart: cart, total: priceAnal(total)});
+}
+
+module.exports.update = function(req, res, next) {
+
 }

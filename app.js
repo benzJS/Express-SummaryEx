@@ -30,7 +30,7 @@ mongoose.connect('mongodb://localhost/hhshop', { useNewUrlParser: true });
 
 app.use(express.static('public'));
 app.use(authMiddleware);
-app.use('/single', express.static('public'), singleRoute);
+app.use('/single', singleRoute);
 app.use('/products', productRoute);
 app.use('/auth', authRoute);
 app.use('/cart', cartRoute);

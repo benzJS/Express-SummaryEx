@@ -8,7 +8,7 @@
                 <div class="product_thumbnail_slides owl-carousel">
                     <% let single = products.find(product => product.id === locals.id); 
                         for(image of single.image) { %>
-                            <img src="<%= image %>" alt="">
+                            <img src="/<%= image %>" alt="">
                     <% } %>
                 </div>
             </div>
@@ -72,9 +72,9 @@
                         <div class="single-product-wrapper">
                             <!-- Product Image -->
                             <div class="product-img">
-                                <img src="<%= product.image[0] %>" alt="">
+                                <img src="/<%= product.image[0] %>" alt="">
                                 <!-- Hover Thumb -->
-                                <img class="hover-img" src="<%= product.image[1] %>" alt="">
+                                <img class="hover-img" src="/<%= product.image[1] %>" alt="">
                                 <% for(badge of product.badge) { %>
                                 <div class="product-badge <%= badge %>">
                                     <span>New</span>
@@ -97,7 +97,7 @@
                                 <div class="hover-content">
                                     <!-- Add to Cart -->
                                     <div class="add-to-cart-btn">
-                                        <a href="/single/<%= product.id %>"
+                                        <a href="/single/<%= product.name + '.' + product.id %>"
                                             class="btn essence-btn"
                                         >
                                         chi tiết
@@ -112,17 +112,17 @@
             </div>
         </div>
     </section>
-    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <script src="/js/jquery/jquery-2.2.4.min.js"></script>
     <!-- Popper js -->
-    <script src="js/popper.min.js"></script>
+    <script src="/js/popper.min.js"></script>
     <!-- Bootstrap js -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
     <!-- Plugins js -->
-    <script src="js/plugins.js"></script>
+    <script src="/js/plugins.js"></script>
     <!-- Classy Nav js -->
-    <script src="js/classy-nav.min.js"></script>
+    <script src="/js/classy-nav.min.js"></script>
     <!-- Active js -->
-    <script src="js/active.js"></script>
+    <script src="/js/active.js"></script>
     <script>
         document.addtocartForm.addEventListener('submit', function(ev) {
             ev.preventDefault();
@@ -133,7 +133,7 @@
                 return a;
             }, {});
             const href = location.href.split('/');
-            data = {...data, id: href[href.length -1]}
+            data = {...data, id: href[href.length -1].split('.')[1]}
             fetch('/cart', {
                 method: 'POST',
                 headers: {

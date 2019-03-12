@@ -16,23 +16,23 @@
     <meta property="og:site_name" content="HH Shop | Calvin Klein Ủy Quyền">
     <meta property="og:description" content="Calvin Klein">
     <meta property="og:locale" content="vi">
-    <meta property="og:image" content="img/hh/cover.png">
-    <meta property="og:image" content="img/hh/logo.png">
-    <meta property="og:image" content="img/hh/logo.png">
+    <meta property="og:image" content="/img/hh/cover.png">
+    <meta property="og:image" content="/img/hh/logo.png">
+    <meta property="og:image" content="/img/hh/logo.png">
     <meta property="og:updated_time" content="2018-09-11T13:58:09.710Z">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="HH Shop | Calvin Klein Ủy Quyền">
     <meta name="twitter:description" content="HH Shop | Calvin Klein Ủy Quyền">
-    <meta name="twitter:image" content="img/hh/cover.png">
+    <meta name="twitter:image" content="/img/hh/cover.png">
     <!-- Title  -->
     <title>HH Shop | Calvin Klein Ủy Quyền</title>
 
     <!-- Favicon  -->
-    <link rel="icon" href="img/hh/logo_syc_icon.ico">
+    <link rel="icon" href="/img/hh/logo_syc_icon.ico">
 
     <!-- Core Style CSS -->
-    <link rel="stylesheet" href="css/core-style.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/css/core-style.css">
+    <link rel="stylesheet" href="/style.css">
 
 </head>
 
@@ -62,14 +62,6 @@
                             <li><a href="#">Home</a></li>
                             <li><a href="#">Danh mục</a>
                                 <ul class="dropdown">
-                                    <!-- <li><a href="index.html">Home</a></li>
-                                    <li><a href="shop.html">Shop</a></li>
-                                    <li><a href="single-product-details.html">Product Details</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
-                                    <li><a href="blog.html">Blog</a></li>
-                                    <li><a href="single-blog.html">Single Blog</a></li>
-                                    <li><a href="regular-page.html">Regular Page</a></li>
-                                    <li><a href="contact.html">Contact</a></li> -->
                                     <% for(let category of categories) { %>
                                         <li style="text-transform: capitalize;"><a href="/products/<%= category.categoryName %>"><%= category.categoryName %></a></li> 
                                     <% } %>
@@ -94,12 +86,12 @@
                 </div>
                 <!-- Favourite Area -->
                 <div class="favourite-area">
-                    <a href="#"><img src="img/core-img/heart.svg" alt=""></a>
+                    <a href="#"><img src="/img/core-img/heart.svg" alt=""></a>
                 </div>
                 <!-- User Login Info -->
                 <div class="user-login-info" >
-                    <a href="#"><img src="img/core-img/user.svg" alt="" >
-                        <% if(locals.user) { let username = locals.user.fullname.split(' '); %>
+                    <a href="#"><img src="/img/core-img/user.svg" alt="" >
+                        <% if(locals.user.email) { let username = locals.user.fullname.split(' '); %>
                             <b>Hi, <%= username[username.length - 1] %></b>
                     </a>
                     <ul style="line-height: 200%; background: #fff" class="user-login-info-dropdown">
@@ -115,8 +107,8 @@
                 </div>
                 <!-- Cart Area -->
                 <div class="cart-area">
-                    <a href="#" id="essenceCartBtn">
-                        <img src="img/core-img/bag.svg" alt=""> 
+                    <a href="/cart" id="essenceCartBtn">
+                        <img src="/img/core-img/bag.svg" alt=""> 
                         <span>
                             <%# locals.cart.filter(item => item).length %>
                             0
@@ -131,7 +123,7 @@
     
     
 
-    <% if(!locals.user) { %>
+    <% if(!locals.user.email) { %>
     <!-- Modal -->
     <div class="modal fade" id="signin" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
         <div class="modal-dialog" role="document">

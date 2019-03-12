@@ -6,6 +6,8 @@ const upload = multer({dest: '../public/img/uploads'})
 
 const controller = require('../controllers/cart.controller');
 
+router.get('/', controller.index);
+
 router.post('/', upload.any(), controller.add);
 
 router.delete('/', controller.remove);

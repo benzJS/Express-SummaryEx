@@ -34,3 +34,7 @@
 .user-login-info:hover > .user-login-info-dropdown {
     display: block;
 }
+
+.breadcumb_area {
+    background-image: url('/img/bg-img/breadcumb.jpg') !important;
+}

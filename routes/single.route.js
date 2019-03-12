@@ -4,6 +4,6 @@ const path = require('path');
 
 const controller = require('../controllers/single.controller.js');
 
-router.get('/:id', controller.index);
+router.get('/*.:id', controller.index);
 
 module.exports = router;
