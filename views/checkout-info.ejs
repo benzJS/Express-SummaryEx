@@ -119,26 +119,18 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <!-- <tr>
-                              <td>Mark</td>
-                              <td>
-                                <span>asd</span>
-                                <span> (size: M, color: Black)</span>
-                              </td>
-                              <td>@mdo</td>
-                            </tr> -->
                             <% for(key of Object.keys(locals.cart)) { 
                                 const item = locals.cart[key]
                             %>
                                 <tr>
-                                    <td>1</td>
+                                    <td><%= item.quantity %></td>
                                     <td>
-                                        <a href="/single/<%= item._id %>" style="color: blue">
+                                        <a href="/single/<%= item.name + '.' + item._id %>" style="color: blue">
                                             <%= item.name %>
                                             <span>(size: <%= item.size %>, color: <%= item.color %>)</span>
                                         </a>
                                     </td>
-                                    <td><%= item.price %></td>
+                                    <td><%= item.quantity * item.price %></td>
                                 </tr>
                             <% } %>
                           </tbody>
@@ -146,14 +138,14 @@
                     </div>
                     <div class="modal-footer">
                         <h5>Total: <span style="color: red">
-                            <%# locals.cart.reduce((total, b) => {
-                                return total + b.price
-                            }, 0) %>NaN
+                            <%= Object.values(locals.cart).reduce((total, b) => {
+                                return total + b.price * b.quantity
+                            }, 0) %>
                         </span></h5>
                     </div>
                 </div>
                 <div class="d-flex justify-content-end mt-3">
-                    <button class="btn btn-danger mr-3">Đặt mua</button>
+                    <a href="/checkout/submit"><button class="btn btn-danger mr-3">Đặt mua</button></a>
                 </div>
             </div>
 
@@ -172,8 +164,6 @@
     <script src="js/classy-nav.min.js"></script>
     <!-- Active js -->
     <script src="js/active.js"></script>
-    <!-- Behavior js -->
-    <script src="js/behavior.js"></script>
 </body>
 
 </html>

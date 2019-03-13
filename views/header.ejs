@@ -59,7 +59,7 @@
                     <!-- Nav Start -->
                     <div class="classynav">
                         <ul>
-                            <li><a href="#">Home</a></li>
+                            <li><a href="/">Home</a></li>
                             <li><a href="#">Danh mục</a>
                                 <ul class="dropdown">
                                     <% for(let category of categories) { %>
@@ -109,9 +109,8 @@
                 <div class="cart-area">
                     <a href="/cart" id="essenceCartBtn">
                         <img src="/img/core-img/bag.svg" alt=""> 
-                        <span>
-                            <%# locals.cart.filter(item => item).length %>
-                            0
+                        <span id="cartItemsCount">
+                            <%= locals.cartItemsCount %>
                         </span>
                     </a>
                 </div>

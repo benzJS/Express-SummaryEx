@@ -5,7 +5,8 @@ document.forms['signupForm'].addEventListener('submit', event => {
 		return a;
 	}, {});
 	fetch('/auth/signup', {
-		method: 'POST', 
+		method: 'POST',
+		credentials: "same-origin",
 		headers: {
 	        "Content-Type": "application/json",
 	        // "Content-Type": "application/x-www-form-urlencoded",
@@ -22,7 +23,8 @@ document.forms['signinForm'].addEventListener('submit', event => {
 		return a;
 	}, {});
 	fetch('/auth/signin', {
-		method: 'POST', 
+		method: 'POST',
+		credentials: "same-origin",
 		headers: {
 	        "Content-Type": "application/json",
 	        // "Content-Type": "application/x-www-form-urlencoded",

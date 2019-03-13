@@ -136,6 +136,7 @@
             data = {...data, id: href[href.length -1].split('.')[1]}
             fetch('/cart', {
                 method: 'POST',
+                credentials: "same-origin",
                 headers: {
                     "Content-Type": "application/json"
                 },

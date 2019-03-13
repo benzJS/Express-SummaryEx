@@ -10,7 +10,7 @@ module.exports = async function(req, res, next) {
     }
 
     
-    if(req.path === '/dashboard' || req.path === '/checkout') {
+    if(req.path === '/dashboard' || req.path === '/checkout' || req.path === '/auth') {
         console.log('next');
         res.locals = {...res.locals, priceAnal: priceAnal};
         return next();
@@ -31,8 +31,12 @@ module.exports = async function(req, res, next) {
         }
     }
 
-    debugger;
-
-    res.locals = {...res.locals, user: user, categories: categories, priceAnal: priceAnal};
+    res.locals = {
+        ...res.locals,
+        user: user,
+        cartItemsCount: Object.values(user.cart).reduce((a, b) => a + b, 0),
+        categories: categories,
+        priceAnal: priceAnal
+    };
     next();
 }

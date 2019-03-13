@@ -65,8 +65,11 @@ module.exports.remove = async function(req, res, next) {
 module.exports.update = function(req, res, next) {
     let { user } = res.locals;
     let newCart = {...user.cart};
-    newCart[req.params.id] = req.body.quantity;
+    newCart[req.params.id] = parseInt(req.body.quantity);
     user.cart = {...newCart};
     user.save();
-    res.json({quantity: user.cart[req.params.id]});
+    res.json({
+        quantity: user.cart[req.params.id],
+        cartItemsCount: Object.values(user.cart).reduce((a, b) => a + b, 0)
+    });
 }

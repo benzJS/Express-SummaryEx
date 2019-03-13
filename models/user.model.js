@@ -5,11 +5,9 @@ const userSchema = mongoose.Schema({
     fullname: String,
     email: String,
     password: String,
-    cart: {
-    	type: Object
-    },
+    cart: {},
     role: String
-})
+}, { minimize: false })
 
 const User = mongoose.model('User', userSchema);
 

@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 const orderSchema = mongoose.Schema({
 	userId: String,
-	summary: Array,
-	state: Boolean
+	summary: {},
+	state: Number
 })
 
 const Order = mongoose.model('Order', orderSchema);

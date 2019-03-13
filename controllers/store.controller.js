@@ -16,7 +16,7 @@ module.exports.postCreate = async function(req, res, next) {
 			return arr.concat(
 				color.map(color => {
 					return {
-						id: generate('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz', 10),
+						id: generate('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz', 21),
 						color: color,
 						size: size
 					}

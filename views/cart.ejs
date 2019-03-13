@@ -94,6 +94,7 @@
 	    				ev.target.value = data.quantity;
 	    				const cost = document.getElementById(`${id}-cost`);
 	    				cost.innerHTML = parseInt(cost.dataset.cost) * parseInt(data.quantity);
+	    				document.getElementById('cartItemsCount').innerHTML = data.cartItemsCount;
 					});
 		    })
 	    <% } %>
