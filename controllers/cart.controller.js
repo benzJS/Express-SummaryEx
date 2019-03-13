@@ -3,12 +3,14 @@ const Product = require('../models/product.model');
 
 module.exports.index = async function(req, res, next) {
     const { user } = res.locals;
-    const products = await Product.find();
-    debugger;
+    const products = await Promise.all(Object.keys(user.cart).map(async key => {
+        const productId = key.split('-')[0];
+        return await Product.findById(productId);
+    }));
     const cart = Object.keys(user.cart).reduce((accumulator, key) => {
         const productId = key.split('-')[0];
         const optionId = key.split('-')[1];
-        const product = products.find(({id}) => id === productId);
+        const product = products.find(({ id }) => id === productId);
         accumulator[key] = {
             ...product._doc,
             size: product.option.find(({id}) => id === optionId).size,

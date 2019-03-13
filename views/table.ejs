@@ -34,7 +34,7 @@
     <link href="/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
 
     <!-- Bootstrap CSS-->
-    <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+    <link href="/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
 
     <!-- Vendor CSS-->
     <link href="/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
@@ -66,7 +66,7 @@
             if(response.status !== 'connected') {
                 FB.login(function(res) {
                     if(res.status === 'connected') {
-                        fetch('dashboard/fbPost', {
+                        fetch('/dashboard/fbPost', {
                             method: 'POST',
                             headers: {
                                 "Content-Type": "application/json",
@@ -77,13 +77,16 @@
                     }
                 }, {scope: 'public_profile,email'})
             } else {
-                fetch('dashboard/fbPost', {
+                fetch('/dashboard/fbPost', {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({userID: response.authResponse.userID})
-                }).then((res) => location.reload())
+                }).then((res) => {
+                    debugger;
+                    location.reload();
+                })
             }
         })
       };
@@ -129,7 +132,7 @@
             <div class="header-mobile__bar">
                 <div class="container-fluid">
                     <div class="header-mobile-inner">
-                        <a class="logo" href="index.html">
+                        <a class="logo" href="/dashboard">
                             <img src="/img/icon/logo.png" alt="CoolAdmin" />
                         </a>
                         <button class="hamburger hamburger--slider" type="button">
@@ -162,11 +165,11 @@
                             </ul>
                         </li> -->
                         <li>
-                            <a href="chart.html">
+                            <a href="/dashboard/orders">
                                 <i class="fas fa-chart-bar"></i>Orders</a>
                         </li>
                         <li>
-                            <a href="table.html">
+                            <a href="dashboard/table">
                                 <i class="fas fa-table"></i>Tables</a>
                         </li>
                         <!-- <li>
@@ -270,7 +273,7 @@
                             </ul>
                         </li> -->
                         <li>
-                            <a href="chart.html">
+                            <a href="/dashboard/orders">
                                 <i class="fas fa-chart-bar"></i>Orders</a>
                         </li> 
                         <li class="active">

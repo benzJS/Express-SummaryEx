@@ -3,7 +3,11 @@ const router = express.Router();
 
 const controller = require('../controllers/dashboard.controller');
 
-router.get('/', controller.index);
+router.get('/', controller.redirect);
+
+router.get('/table', controller.table);
+
+router.get('/orders', controller.orders);
 
 router.post('/', controller.signin);
 

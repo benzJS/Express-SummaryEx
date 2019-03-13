@@ -1750,18 +1750,31 @@ $('form#dropzoneEl').dropzone({
     this.on("addedfile", file => { this.emit('complete', file) });
   }
 });
-document.insertForm.addEventListener('submit', function(ev) {
-  ev.preventDefault();
-  const request = new XMLHttpRequest();
-  request.open('POST', '/store/product', false);
-  let form = new FormData(ev.target);
-  dropzoneFiles = Dropzone.forElement("#dropzoneEl").getAcceptedFiles();
-  dropzoneFiles.forEach((file, index) => {
-    form.append(`file_${index}`, file);
-  })
-  request.send(form);
-  location.reload();
-})
+
+if(location.href.split('/')[3] === 'table') {
+  document.insertForm.addEventListener('submit', function(ev) {
+    ev.preventDefault();
+    const request = new XMLHttpRequest();
+    request.open('POST', '/store/product', false);
+    let form = new FormData(ev.target);
+    dropzoneFiles = Dropzone.forElement("#dropzoneEl").getAcceptedFiles();
+    dropzoneFiles.forEach((file, index) => {
+      form.append(`file_${index}`, file);
+    })
+    request.send(form);
+    location.reload();
+  });
+
+  document.insertForm['categories'].addEventListener('change', function(ev) {
+    if(ev.target.value === 'else') {
+      const inputEl = document.createElement('input');
+      inputEl.name = 'categories';
+      inputEl.className = 'form-control';
+      inputEl.placeholder = 'Danh mục mới';
+      ev.target.replaceWith(inputEl);
+    }
+  });
+} 
 
 function editProduct(ev, id) {
   ev.preventDefault();
@@ -1779,12 +1792,3 @@ function editProduct(ev, id) {
   location.reload();
 }
 
-document.insertForm['categories'].addEventListener('change', function(ev) {
-  if(ev.target.value === 'else') {
-    const inputEl = document.createElement('input');
-    inputEl.name = 'categories';
-    inputEl.className = 'form-control';
-    inputEl.placeholder = 'Danh mục mới';
-    ev.target.replaceWith(inputEl);
-  }
-})

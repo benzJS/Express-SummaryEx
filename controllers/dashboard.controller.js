@@ -1,13 +1,18 @@
 const User = require('../models/user.model');
 const Product = require('../models/product.model');
 const Category = require('../models/category.model');
+const Order = require('../models/order.model');
+const mongoose = require('mongoose');
 
-module.exports.index = async function(req, res, next) {
+module.exports.redirect = function(req, res, next) {
+	res.redirect('/dashboard/table');
+}
+
+module.exports.table = async function(req, res, next) {
 	if(req.signedCookies.adminId) {
 		const user = await User.findById(req.signedCookies.adminId);
 		const products = await Product.find();
 		const categories = await Category.find();
-		debugger;
 		res.locals = {
 			...res.locals,
 			adminUser: user,
@@ -16,6 +21,27 @@ module.exports.index = async function(req, res, next) {
 		}
 	}
 	res.render('table');
+}
+
+module.exports.orders = async function(req, res, next) {
+	const user = await User.findById(req.signedCookies.adminId);
+	const orders = await Order.find({ state: -1 });
+	const orderWithUserData = await Promise.all(orders.map(async order => {
+		const user = await User.aggregate([
+			{ $match: {_id: mongoose.Types.ObjectId(order.userId)} },
+			{ $project: { _id: 0, fullname: 1 } }
+		]);
+		return {
+			...order._doc,
+			client: user[0]
+		}
+	}));
+	res.locals = {
+		...res.locals,
+		adminUser: user,
+		orders: orderWithUserData
+	}
+	res.render('orders');	
 }
 
 module.exports.signin = async function(req, res, next) {
