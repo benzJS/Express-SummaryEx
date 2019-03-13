@@ -1,17 +1,17 @@
 <% include header %>
 	<div class="container">
+		<% if(Object.keys(locals.cart).length > 0) { %>
 		<div class="row">
 			<div class="modal-content mt-5">
                 <div class="modal-header">
                     <h5 class="modal-title">Đơn hàng</h5>
-                    <a href="/cart">
-                        <button class="btn btn-secondary mr-1">Sửa</button>
-                    </a>
                 </div>
                 <div class="modal-body">
 					<table class="table ">
 					  <tbody>
-					  	<% for(item of Object.values(locals.cart)) { %>
+					  	<% for(key of Object.keys(locals.cart)) { 
+					  		const item = locals.cart[key];
+					  	%>
 						    <tr>
 						      <td style="width: 90px">
 			      				<img src="<%= item.image[0] %>" class="rounded">
@@ -25,10 +25,20 @@
 						      </td>
 						      <td><%= item.price %></td>
 						      <td>
-						      	<input type="number" name="" class="form-control" min="0" value="<%= item.amount %>">
+						      	<input 
+						      		type="number" 
+						      		name="quantity" 
+						      		data-id="<%= key %>" 
+						      		id="<%= key %>-quantity" 
+						      		class="form-control" 
+						      		min="1" 
+						      		value="<%= item.quantity %>"
+					      		>
 						      </td>
-						      <td><%= item.price * item.amount %></td>
-						      <td>Remove</td>
+						      <td id="<%= key %>-cost" data-cost="<%= item.price %>"><%= item.price * item.quantity %></td>
+						      <td>
+						      	<button onclick="removeOne('<%= key %>')" class="btn btn-danger">Remove</button>
+						      </td>
 						    </tr>
 					    <% } %>
 					  </tbody>
@@ -37,8 +47,14 @@
             </div>
 		</div>
         <div class="row d-flex mt-3 justify-content-end">
-            <button class="btn btn-danger mr-3">Đặt mua</button>
+            <a href="/checkout"><button class="btn btn-danger mr-3">Đặt mua</button></a>
         </div>
+        <% } else { %>
+        	<div class="row d-flex flex-column mt-3 align-items-center">
+        		<h3>Empty</h3>
+	            <a href="/"><button class="btn btn-danger">Tiếp tục mua sắm</button></a>
+	        </div>
+        <% } %>
 	</div>
 	<script src="/js/jquery/jquery-2.2.4.min.js"></script>
     <!-- Popper js -->
@@ -51,4 +67,36 @@
     <script src="/js/classy-nav.min.js"></script>
     <!-- Active js -->
     <script src="/js/active.js"></script>
+    <% if(Object.keys(locals.cart).length > 0) { %>
+    <script>
+    	function removeOne(id) {
+	        fetch(`/cart/${id}`, { 
+	            method: 'DELETE',
+	            headers: {
+	                "Content-Type": "application/json"
+	            }
+	        })
+	            .then(() => location.reload())
+	    }
+
+	    <% for(key of Object.keys(locals.cart)) { %>
+		    document.getElementById('<%= key %>-quantity').addEventListener('change', function(ev) {
+		    	const id = ev.target.dataset.id;
+		    	fetch(`/cart/${id}`, { 
+		            method: 'PATCH',
+		            headers: {
+		                "Content-Type": "application/json"
+		            },
+		            body: JSON.stringify({quantity: ev.target.value})
+		        })
+	    			.then(res => res.json())
+	    			.then(data => {
+	    				ev.target.value = data.quantity;
+	    				const cost = document.getElementById(`${id}-cost`);
+	    				cost.innerHTML = parseInt(cost.dataset.cost) * parseInt(data.quantity);
+					});
+		    })
+	    <% } %>
+    </script>
+    <% } %>
 <% include footer %>

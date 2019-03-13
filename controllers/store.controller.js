@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const nanoid = require('nanoid');
+const generate = require('nanoid/generate');
 
 const Product = require('../models/product.model');
 const Category = require('../models/category.model');
@@ -16,7 +16,7 @@ module.exports.postCreate = async function(req, res, next) {
 			return arr.concat(
 				color.map(color => {
 					return {
-						id: nanoid(),
+						id: generate('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz', 10),
 						color: color,
 						size: size
 					}

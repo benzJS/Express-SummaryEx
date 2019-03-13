@@ -127,7 +127,9 @@
                               </td>
                               <td>@mdo</td>
                             </tr> -->
-                            <% for(item of locals.cart) { %>
+                            <% for(key of Object.keys(locals.cart)) { 
+                                const item = locals.cart[key]
+                            %>
                                 <tr>
                                     <td>1</td>
                                     <td>
@@ -144,9 +146,9 @@
                     </div>
                     <div class="modal-footer">
                         <h5>Total: <span style="color: red">
-                            <%= locals.cart.reduce((total, b) => {
+                            <%# locals.cart.reduce((total, b) => {
                                 return total + b.price
-                            }, 0) %>
+                            }, 0) %>NaN
                         </span></h5>
                     </div>
                 </div>

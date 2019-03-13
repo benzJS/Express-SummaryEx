@@ -6,8 +6,7 @@ const userSchema = mongoose.Schema({
     email: String,
     password: String,
     cart: {
-    	type: Object,
-    	default: {}
+    	type: Object
     },
     role: String
 })

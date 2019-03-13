@@ -10,6 +10,8 @@ router.get('/', controller.index);
 
 router.post('/', upload.any(), controller.add);
 
-router.delete('/', controller.remove);
+router.patch('/:id', controller.update);
+
+router.delete('/:id', controller.remove);
 
 module.exports = router;
