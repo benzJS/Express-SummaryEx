@@ -25,21 +25,13 @@ module.exports.table = async function(req, res, next) {
 
 module.exports.orders = async function(req, res, next) {
 	const user = await User.findById(req.signedCookies.adminId);
-	const orders = await Order.find({ state: -1 });
-	const orderWithUserData = await Promise.all(orders.map(async order => {
-		const user = await User.aggregate([
-			{ $match: {_id: mongoose.Types.ObjectId(order.userId)} },
-			{ $project: { _id: 0, fullname: 1 } }
-		]);
-		return {
-			...order._doc,
-			client: user[0]
-		}
-	}));
+	const orders = await Order
+		.find({ state: -1 })
+		.populate('user');
 	res.locals = {
 		...res.locals,
 		adminUser: user,
-		orders: orderWithUserData
+		orders: orders
 	}
 	res.render('orders');	
 }

@@ -101,7 +101,7 @@
             <div class="modal-header">
                 <h5 class="modal-title">Tài khoản</h5>
             </div>
-            <form action="dashboard" method="POST">
+            <form action="/dashboard" method="POST">
                 <div class="modal-body">
                     <div class="alert alert-danger" role="alert" style="display: none">
                       Email hoặc mật khẩu không hợp lệ
@@ -280,15 +280,23 @@
                                                         <span class="au-checkmark"></span>
                                                     </label>
                                                 </td>
-                                                <td><%= order.client[0].fullname %></td>
+                                                <td>
+                                                    <span
+                                                        class="block-email" 
+                                                        data-toggle="popover" 
+                                                        data-original-title="<%= order.user.fullname %> (<%= order.user.phone %>)"
+                                                        data-trigger="focus"
+                                                        data-content="<%= order.user.address %>"
+                                                        tabindex="0"
+                                                        data-placement="top"
+                                                        style="cursor: pointer; background-color: #007bff; color: white">
+                                                    Client
+                                                    </span>
+                                                </td>
                                                 <td>
                                                     <span class="block-email">Details</span>
                                                 </td>
                                                 <td class="desc"><%= order.state %></td>
-                                                <!-- <td>Accept</td> -->
-                                                <!-- <td>
-                                                    <button class="btn btn-primary">Click để xem tất cả ảnh</button>
-                                                </td> -->
                                                 <td>
                                                     <div class="table-data-feature">
                                                         <button class="item" data-toggle="tooltip" data-placement="top" title="Xem ảnh và chỉnh sửa" id="<%= order.id %>-btn">
@@ -341,6 +349,9 @@
 
     <!-- Main JS-->
     <script src="/js/main.js"></script>
+    <script>
+        $("[data-toggle=popover]").popover();
+    </script>
     <% } %>
 </body>
 

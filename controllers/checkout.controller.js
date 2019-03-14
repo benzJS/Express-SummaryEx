@@ -25,7 +25,7 @@ module.exports.submit = async function(req, res, next) {
     let user = await User.findById(req.signedCookies.userId);
     if(Object.keys(user.cart).length > 0) {
         await Order.create({
-            userId: user.id,
+            user: user.id,
             summary: {...user.cart},
             state: -1
         });

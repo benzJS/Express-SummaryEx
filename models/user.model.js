@@ -5,8 +5,15 @@ const userSchema = mongoose.Schema({
     fullname: String,
     email: String,
     password: String,
-    cart: {},
-    role: String
+    cart: [
+    	{
+            product: String,
+            quantity: Number
+    	}
+    ],
+    role: String,
+    phone: String,
+  	address: String
 }, { minimize: false })
 
 const User = mongoose.model('User', userSchema);

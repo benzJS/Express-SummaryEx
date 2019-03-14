@@ -6,8 +6,8 @@
             <!-- Single Product Thumb -->
             <div class="single_product_thumb clearfix">
                 <div class="product_thumbnail_slides owl-carousel">
-                    <% let single = products.find(product => product.id === locals.id); 
-                        for(image of single.image) { %>
+                    <% 
+                        for(image of locals.single.image) { %>
                             <img src="/<%= image %>" alt="">
                     <% } %>
                 </div>
@@ -15,11 +15,11 @@
 
             <!-- Single Product Description -->
             <div class="single_product_desc clearfix">
-                <span><%= single.categories %></span>
+                <span><%= locals.single.categories %></span>
                 <a href="cart.html">
-                    <h2><%= single.name.toUpperCase() %></h2>
+                    <h2><%= locals.single.name.toUpperCase() %></h2>
                 </a>
-                <p class="product-price"><span class="old-price">$65.00</span> <%= priceAnal(single.price) %></p>
+                <p class="product-price"><span class="old-price">$65.00</span> <%= priceAnal(locals.single.price) %></p>
                 <p class="product-desc">Mauris viverra cursus ante laoreet eleifend. Donec vel fringilla ante. Aenean finibus velit id urna vehicula, nec maximus est sollicitudin.</p>
 
                 <!-- Form -->
@@ -27,12 +27,12 @@
                     <!-- Select Box -->
                     <div class="select-box d-flex mt-50 mb-30">
                         <select name="size" class="mr-5">
-                            <% (new Set(single.option.map(item => item.size))).forEach(size => { %>
+                            <% (new Set(locals.option.map(item => item.size))).forEach(size => { %>
                                 <option value="<%= size %>">Size: <%= size %></option>
                             <% }) %>
                         </select>
                         <select name="color">
-                            <% (new Set(single.option.map(item => item.color))).forEach(color => { %>
+                            <% (new Set(locals.option.map(item => item.color))).forEach(color => { %>
                                 <option value="<%= color %>">Color: <%= color %></option>
                             <% }) %>
                         </select>

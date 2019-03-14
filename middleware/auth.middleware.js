@@ -26,7 +26,7 @@ module.exports = async function(req, res, next) {
     } else {
         user = await Session.findById(req.signedCookies.sessionId);
         if(!user) {
-            user = await Session.create({cart: {}});
+            user = await Session.create({cart: []});
             res.cookie('sessionId', user._id, { signed: true });
         }
     }
@@ -34,7 +34,7 @@ module.exports = async function(req, res, next) {
     res.locals = {
         ...res.locals,
         user: user,
-        cartItemsCount: Object.values(user.cart).reduce((a, b) => a + b, 0),
+        cartItemsCount: user.cart.reduce((a, b) => a + b.quantity, 0),
         categories: categories,
         priceAnal: priceAnal
     };
