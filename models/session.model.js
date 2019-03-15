@@ -1,13 +1,8 @@
 const mongoose = require('mongoose');
 
 const sessionSchema = mongoose.Schema({
-	cart: [
-    	{
-            product: String,
-            quantity: Number
-    	}
-    ],
-})
+	cart: {}
+}, { minimize: false })
 
 const Session = mongoose.model('Session', sessionSchema);
 

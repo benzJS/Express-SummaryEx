@@ -11,16 +11,22 @@ module.exports.index = async function(req, res, next) {
     //     return await Product.findById(productId);
     // }));
 
-    const cart = await Promise.all(user.cart.map(async ({product, quantity}) => {
-        const option = await Option.findById(product).populate('product', 'name price image');
-        return {...option._doc, quantity: quantity};
-    }))
-
-    // const cart = await User.findById(user.id).populate('productOption');
-    // const cart = await Option.find().populate('product', 'name price image');
-    // const orders = await Order
-    //     .find({ state: -1 })
-    //     .populate('user');
+    // const cart = await Promise.all(Object.keys(user.cart).reduce(async (acc, key) => {
+    //     const option = await Option.findById(key).populate('product', 'name price image');
+    //     acc[key] = {
+    //         ...option._doc,
+    //         quantity: user.cart[key]
+    //     };
+    //     return acc;
+    // }, {}))
+    const cart = await Object.keys(user.cart).reduce(async (acc, key) => {
+        const option = await Option.findById(key).populate('product', 'name price image');
+        acc[key] = {
+            ...option._doc,
+            quantity: user.cart[key]
+        }
+        return acc;
+    }, {});
 
     res.locals = {...res.locals, cart: cart};
     res.render('cart');
@@ -28,6 +34,7 @@ module.exports.index = async function(req, res, next) {
 
 module.exports.add = async function(req, res, next) {
     let { user } = res.locals;
+    let cart = {...user.cart};
 
     // find option id
     const option = await Option.findOne({
@@ -37,17 +44,10 @@ module.exports.add = async function(req, res, next) {
     });
 
     // add to cart
-    let cart = [...user.cart];
-    const optionIndex = cart.findIndex(({ product }) => product === option._id);
-    if(optionIndex === -1) {
-        cart = [...cart, { product: option.id, quantity: 1 }];
-    } else {
-        cart[optionIndex].quantity++;
-    }
-    // cart = [...cart, option.id];
+    cart[option.id] = cart[option.id] ? cart[option.id]++ : 1;
 
     //save
-    user.cart = [...cart];
+    user.cart = {...cart};
     user.save();
 
     return res.send(true);
@@ -55,12 +55,14 @@ module.exports.add = async function(req, res, next) {
 
 module.exports.remove = async function(req, res, next) {
     let { user } = res.locals;
-
+    let cart = {...user.cart};
     // remove cart item
-    const removeIndex = user.cart.findIndex(item => item.product === req.params.id);
-    user.cart = [...user.cart.slice(0, removeIndex), ...user.cart.slice(removeIndex + 1)];
+    // const removeIndex = user.cart.findIndex(item => item.product === req.params.id);
+    // user.cart = [...user.cart.slice(0, removeIndex), ...user.cart.slice(removeIndex + 1)];
+    delete cart[req.params.id];
 
     // save
+    user.cart = {...cart};
     user.save();
 
 
@@ -74,15 +76,14 @@ module.exports.remove = async function(req, res, next) {
 
 module.exports.update = function(req, res, next) {
     let { user } = res.locals;
-    let newCart = [...user.cart];
-    // newCart[req.params.id] = parseInt(req.body.quantity);
-    productIndex = user.cart.findIndex(({ product }) => product === req.params.id);
-    newCart[productIndex].quantity = req.body.quantity;
-    user.cart = [...newCart];
+    let cart = {...user.cart};
+
+    cart[req.params.id] = parseInt(req.body.quantity);
+
+    user.cart = {...cart};
     user.save();
-    // user.updateOne({ $set: { cart[productIndex].quantity: req.body.quantity } })
     res.json({
-        quantity: user.cart[productIndex].quantity,
-        cartItemsCount: user.cart.reduce((a, b) => a + b.quantity, 0)
+        quantity: user.cart[req.params.id],
+        cartItemsCount: Object.values(user.cart).reduce((a, b) => a + b, 0)
     });
 }

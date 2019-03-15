@@ -1,6 +1,6 @@
 <% include header %>
 	<div class="container">
-		<% if(locals.cart.length > 0) { %>
+		<% if(Object.keys(locals.cart).length > 0) { %>
 		<div class="row">
 			<div class="modal-content mt-5">
                 <div class="modal-header">
@@ -9,7 +9,7 @@
                 <div class="modal-body">
 					<table class="table ">
 					  <tbody>
-					  	<% for(item of locals.cart) { 
+					  	<% for(item of Object.values(locals.cart)) {
 					  	%>
 						    <tr>
 						      <td style="width: 90px">
@@ -78,7 +78,7 @@
 	            .then(() => location.reload())
 	    }
 
-	    <% for(item of locals.cart) { %>
+	    <% for(item of Object.values(locals.cart)) { %>
 		    document.getElementById('<%= item._id %>-quantity').addEventListener('change', function(ev) {
 		    	const id = ev.target.dataset.id;
 		    	fetch(`/cart/${id}`, { 
