@@ -2,7 +2,7 @@ const User = require('../models/user.model');
 const Product = require('../models/product.model');
 const Category = require('../models/category.model');
 const Order = require('../models/order.model');
-const mongoose = require('mongoose');
+const Option = require('../models/option.model');
 
 module.exports.redirect = function(req, res, next) {
 	res.redirect('/dashboard/table');
@@ -25,9 +25,16 @@ module.exports.table = async function(req, res, next) {
 
 module.exports.orders = async function(req, res, next) {
 	const user = await User.findById(req.signedCookies.adminId);
-	const orders = await Order
+	let orders = await Order
 		.find({ state: -1 })
 		.populate('user');
+	orders = await Promise.all(orders.map(async order => {
+		order.summary = await Promise.all(order.summary.map(async ({ product, quantity }) => {
+			const option = await Option.findById(product).populate('product', 'name price');
+        	return {...option._doc, quantity: quantity};
+		}));
+		return order;
+	}))
 	res.locals = {
 		...res.locals,
 		adminUser: user,

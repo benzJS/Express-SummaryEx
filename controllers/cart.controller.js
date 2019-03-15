@@ -54,15 +54,13 @@ module.exports.add = async function(req, res, next) {
 }
 
 module.exports.remove = async function(req, res, next) {
-    const { priceAnal } = res.locals;
     let { user } = res.locals;
-    let newCart = {...user.cart};
 
     // remove cart item
-    delete newCart[req.params.id];
+    const removeIndex = user.cart.findIndex(item => item.product === req.params.id);
+    user.cart = [...user.cart.slice(0, removeIndex), ...user.cart.slice(removeIndex + 1)];
 
     // save
-    user.cart = {...newCart};
     user.save();
 
 
