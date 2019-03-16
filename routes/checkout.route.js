@@ -10,7 +10,7 @@ router.use(async (req, res, next) => {
 		return res.render('checkout-auth');
 	}
 	const user = await User.findById(req.signedCookies.userId);
-	if(user.cart.length < 1) return res.redirect('/');
+	if(Object.keys(user.cart).length < 1) return res.redirect('/');
 	next();
 })
 

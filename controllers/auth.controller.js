@@ -5,7 +5,7 @@ module.exports.signin = async function(req, res, next) {
     let user = await User.findOne({email: req.body.email});
     if(user) {
         const sessionUser = await Session.findById(req.signedCookies.sessionId);
-        user.cart = [...user.cart, ...sessionUser.cart];
+        user.cart = {...user.cart, ...sessionUser.cart};
         user.save();
         await Session.deleteOne({_id: req.signedCookies.sessionId});
         res.clearCookie('sessionId');

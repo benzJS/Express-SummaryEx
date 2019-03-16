@@ -115,12 +115,12 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <% for(item of locals.cart) { 
+                            <% for(item of Object.values(locals.cart)) { 
                             %>
                                 <tr>
                                     <td><%= item.quantity %></td>
                                     <td>
-                                        <a href="/single/<%= item.name + '.' + item._id %>" style="color: blue">
+                                        <a href="/single/<%= item.product.name + '.' + item._id %>" style="color: blue">
                                             <%= item.product.name %>
                                             <span>(size: <%= item.size %>, color: <%= item.color %>)</span>
                                         </a>
@@ -133,7 +133,7 @@
                     </div>
                     <div class="modal-footer">
                         <h5>Total: <span style="color: red">
-                            <%= locals.cart.reduce((total, b) => {
+                            <%= Object.values(locals.cart).reduce((total, b) => {
                                 return total + b.product.price * b.quantity
                             }, 0) %>
                         </span></h5>

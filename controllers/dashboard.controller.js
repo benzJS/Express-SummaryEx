@@ -28,13 +28,24 @@ module.exports.orders = async function(req, res, next) {
 	let orders = await Order
 		.find({ state: -1 })
 		.populate('user');
+	// orders = await Promise.all(orders.map(async order => {
+	// 	order.summary = await Promise.all(order.summary.map(async ({ product, quantity }) => {
+	// 		const option = await Option.findById(product).populate('product', 'name price');
+	// 		return {...option._doc, quantity: quantity};
+	// 	}));
+	// 	return order;
+	// }))
 	orders = await Promise.all(orders.map(async order => {
-		order.summary = await Promise.all(order.summary.map(async ({ product, quantity }) => {
-			const option = await Option.findById(product).populate('product', 'name price');
-        	return {...option._doc, quantity: quantity};
-		}));
+		order.summary = await Object.keys(order.summary).reduce(async (acc, key) => {
+			const option = await Option.findById(key).populate('product', 'name price');
+			acc[key] = {
+				...option._doc,
+				quantity: order.summary[key]
+			}
+			return acc;
+		}, {})
 		return order;
-	}))
+	}));
 	res.locals = {
 		...res.locals,
 		adminUser: user,

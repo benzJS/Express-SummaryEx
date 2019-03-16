@@ -10,22 +10,21 @@ module.exports.index = async function(req, res, next) {
     //     const productId = key.split('-')[0];
     //     return await Product.findById(productId);
     // }));
-
-    // const cart = await Promise.all(Object.keys(user.cart).reduce(async (acc, key) => {
+    // const cart = await Object.keys(user.cart).reduce(async (acc, key) => {
     //     const option = await Option.findById(key).populate('product', 'name price image');
     //     acc[key] = {
     //         ...option._doc,
     //         quantity: user.cart[key]
-    //     };
+    //     }
     //     return acc;
-    // }, {}))
+    // }, {});
     const cart = await Object.keys(user.cart).reduce(async (acc, key) => {
         const option = await Option.findById(key).populate('product', 'name price image');
         acc[key] = {
             ...option._doc,
             quantity: user.cart[key]
         }
-        return acc;
+        return await acc;
     }, {});
 
     res.locals = {...res.locals, cart: cart};
@@ -44,7 +43,7 @@ module.exports.add = async function(req, res, next) {
     });
 
     // add to cart
-    cart[option.id] = cart[option.id] ? cart[option.id]++ : 1;
+    cart[option.id] = cart[option.id] ? cart[option.id] + 1 : 1;
 
     //save
     user.cart = {...cart};
