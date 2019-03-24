@@ -4,54 +4,93 @@ const Category = require('../models/category.model');
 const Order = require('../models/order.model');
 const Option = require('../models/option.model');
 
+const moment = require('moment');
+
 module.exports.redirect = function(req, res, next) {
-	res.redirect('/dashboard/table');
+	if(!req.signedCookies.adminId) return res.render('dashboard-signin');
+	res.redirect('/dashboard/table?category=all');
 }
 
 module.exports.table = async function(req, res, next) {
-	if(req.signedCookies.adminId) {
-		const user = await User.findById(req.signedCookies.adminId);
-		const products = await Product.find();
-		const categories = await Category.find();
-		res.locals = {
-			...res.locals,
-			adminUser: user,
-			products: products,
-			categories: categories
-		}
+	const user = await User.findById(req.signedCookies.adminId);
+	const categories = await Category.find();
+	const products = req.query.category !== 'all' ? await Product.find({ categories: req.query.category }) : await Product.find();
+	res.locals = {
+		...res.locals,
+		adminUser: user,
+		products,
+		categories,
+		categoryQ: req.query.category
 	}
 	res.render('table');
 }
 
 module.exports.orders = async function(req, res, next) {
 	const user = await User.findById(req.signedCookies.adminId);
-	let orders = await Order
-		.find({ state: -1 })
-		.populate('user');
-	// orders = await Promise.all(orders.map(async order => {
-	// 	order.summary = await Promise.all(order.summary.map(async ({ product, quantity }) => {
-	// 		const option = await Option.findById(product).populate('product', 'name price');
-	// 		return {...option._doc, quantity: quantity};
-	// 	}));
-	// 	return order;
-	// }))
+
+	// find orders by state
+	if(!req.query.user) {
+		var orders = await Order
+			.find({ state: req.query.state })
+			.populate('user');
+	} else {
+		var orders = await Order
+			.find({ state: req.query.state, user: req.query.user })
+			.populate('user');
+	}
+
+	// population
 	orders = await Promise.all(orders.map(async order => {
-		order.summary = await Object.keys(order.summary).reduce(async (acc, key) => {
+		order.summary = await Object.keys(order.summary).reduce(async (accP, key) => {
 			const option = await Option.findById(key).populate('product', 'name price');
+			const acc = await accP;
 			acc[key] = {
 				...option._doc,
 				quantity: order.summary[key]
 			}
 			return acc;
 		}, {})
-		return order;
+		return {...order._doc, id: order._id, date: moment(order.date).format('DD/MM/YYYY, HH:mm')};
 	}));
+
+	// render
 	res.locals = {
 		...res.locals,
 		adminUser: user,
-		orders: orders
+		orders,
+		state: req.query.state
 	}
-	res.render('orders');	
+	res.render('orders');
+}
+
+module.exports.users = async function(req, res, next) {
+	const adminUser = await User.findById(req.signedCookies.adminId);
+	let users = await User.find().nin('role', 'admin');
+	users = await Promise.all(users.map(async (user) => {
+		const orders = await Order.find({ user: user._id, state: 1 }).countDocuments();
+		return {
+			...user._doc,
+			orders
+		}
+	}));
+	res.locals = {
+		...res.locals,
+		adminUser,
+		users
+	};
+	res.render('users');
+}
+
+module.exports.orderPatch = async function(req, res, next) {
+	const order = await Order.findById(req.params.id);
+	order.state++;
+	order.save();
+	return res.send(true);
+}
+
+module.exports.orderDelete = async function(req, res, next) {
+	await Order.deleteOne({ _id: req.params.id });
+	return res.send(true);
 }
 
 module.exports.signin = async function(req, res, next) {
@@ -61,15 +100,6 @@ module.exports.signin = async function(req, res, next) {
 	}
 	res.cookie('adminId', user._id, { signed: true });
 	res.redirect('/dashboard');
-}
-
-module.exports.fbPost = async function(req, res, next) {
-	let user = await User.findOne({fbID: req.body.userID});
-	if(!user) {
-		user = await User.create({fbID: req.body.userID, cart: [], fullname: 'Facebook User', role: 'mem'})
-	}
-	res.cookie('adminId', user._id, { signed: true });
-	res.send(true);
 }
 
 module.exports.signout = function(req, res, next) {

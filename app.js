@@ -1,11 +1,13 @@
+require('dotenv').config();
+
 const express = require('express');
-// const app = require('https-localhost');;
+// const app = require('https-localhost');
 const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const nanoid = require('nanoid');
-// const path = require('path');
+const request = require('request');
 
 // Router
 const productRoute = require('./routes/product.route');
@@ -15,6 +17,8 @@ const storeRoute = require('./routes/store.route');
 const dashboardRoute = require('./routes/dashboard.route');
 const singleRoute = require('./routes/single.route');
 const checkoutRoute = require('./routes/checkout.route');
+const webhookRoute = require('./routes/webhook.route.js');
+const userRouter = require('./routes/user.route.js');
 
 // Middleware
 const authMiddleware = require('./middleware/auth.middleware');
@@ -37,6 +41,8 @@ app.use('/cart', cartRoute);
 app.use('/store', storeRoute);
 app.use('/dashboard', dashboardRoute);
 app.use('/checkout', checkoutRoute);
+app.use('/webhook', webhookRoute);
+app.use('/user', userRouter);
 
 app.set('view engine', 'ejs');
 
@@ -45,11 +51,9 @@ app.get('/', async (req, res) => {
     res.render('index', { products: products });
 })
 
-app.post('/mock', (req, res) => {
-	res.header("Access-Control-Allow-Origin", "*");
-  	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	res.json('successful');
+app.get('/search', async (req, res) => {
+	let products = await Product.find({ name: new RegExp(req.query.name, "i") });
+	res.json(products);
 })
 
-
-app.listen(3000, () => console.log('Listening...'))
+app.listen(process.env.PORT || 3000, () => console.log('Listening...'))

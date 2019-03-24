@@ -33,10 +33,10 @@
     <!-- Core Style CSS -->
     <link rel="stylesheet" href="/css/core-style.css">
     <link rel="stylesheet" href="/style.css">
-
 </head>
 
 <body>
+
     <!-- ##### Header Area Start ##### -->
     <header class="header_area">
         <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
@@ -67,8 +67,8 @@
                                     <% } %>
                                 </ul>
                             </li>
-                            <li><a href="blog.html">Blog</a></li>
-                            <li><a href="contact.html">Contact</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Contact</a></li>
                         </ul>
                     </div>
                     <!-- Nav End -->
@@ -78,27 +78,31 @@
             <!-- Header Meta Data -->
             <div class="header-meta d-flex clearfix justify-content-end">
                 <!-- Search Area -->
-                <div class="search-area">
-                    <form action="#" method="post">
-                        <input type="search" name="search" id="headerSearch" placeholder="Type for search">
+                <div class="search-area" style="max-width: 350px">
+                    <form action="#" method="post" name="searchForm" id="searchForm" autocomplete="off">
+                        <input 
+                            type="search"
+                            name="search"
+                            id="headerSearch"
+                            placeholder="Tìm kiếm"
+                        >
                         <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                     </form>
+                    <div class="searchResult" id="searchResult">
+                    </div>
                 </div>
-                <!-- Favourite Area -->
-                <div class="favourite-area">
-                    <a href="#"><img src="/img/core-img/heart.svg" alt=""></a>
-                </div>
+
                 <!-- User Login Info -->
-                <div class="user-login-info" >
-                    <a href="#"><img src="/img/core-img/user.svg" alt="" >
-                        <% if(locals.user.email) { let username = locals.user.fullname.split(' '); %>
-                            <b>Hi, <%= username[username.length - 1] %></b>
-                    </a>
+                <div class="user-login-info">
+                    <% if(locals.user.fullname) { let username = locals.user.fullname.split(' '); %>
+                    
+                    <a href="#" class="user-link">Hi, <%= username[username.length - 1] %></a>
                     <ul style="line-height: 200%; background: #fff" class="user-login-info-dropdown">
-                        <li><a href="" class="unset">Thông tin tài khoản</a></li>
+                        <li><a href="/user" class="unset">Thông tin tài khoản</a></li>
                         <li id="signout"><a href="" class="unset" >Đăng xuất</a></li>
                     </ul>
                     <% } else { %>
+                    <a href="#"><img src="/img/core-img/user.svg" alt="" ></a>
                     <ul style="line-height: 200%; background: #fff" class="user-login-info-dropdown">
                         <li><a href="" class="unset" data-toggle="modal" data-target="#signin">Đăng nhập</a></li>
                         <li><a href="" class="unset" data-toggle="modal" data-target="#signup">Tạo tài khoản</a></li>
@@ -119,7 +123,6 @@
         </div>
     </header>
     <!-- ##### Header Area End ##### -->
-    
     
 
     <% if(!locals.user.email) { %>
@@ -144,12 +147,20 @@
                         </div>
                         <div class="form-group">
                           <label for="password" class="col-form-label">Mật khẩu</label>
-                          <input type="password" class="form-control" name="passwd" required>
+                          <input type="password" class="form-control" name="password" required>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                        <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                        <div class="row">
+                            <div class="col-6">
+                                <button type="button" onclick="login()" class="btn btn-outline-primary">Đăng nhập bằng facebook</button>
+                            </div>
+                            <div class="col-6 text-right">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                            </div>
+                        </div>
+                        
                     </div>
                 </form>
             </div>
@@ -193,4 +204,5 @@
         </div>
     </div>
     <% } %>
+
     

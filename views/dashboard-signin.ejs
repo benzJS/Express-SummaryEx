@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="au theme template">
+  <meta name="author" content="BenZ">
+  <!-- Bootstrap CSS-->
+  <link href="/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+</head>
+
+<body style="height: 100%">
+  <div class="container d-flex align-items-center" style="height: 100vh">
+      <div class="card mx-auto">
+        <article class="card-body">
+          <h4 class="card-title mb-4 mt-1">Đăng nhập</h4>
+          <!-- <p>
+            <button target="_top" onclick="login()" class="btn btn-block btn-outline-primary"> <i class="fab fa-facebook-f"></i>Đăng nhập bằng facebook</button>
+          </p> -->
+          <hr>
+          <form action="/dashboard" method="POST">
+            <div class="form-group">
+                <input name="email" class="form-control" placeholder="Email" type="email">
+            </div> <!-- form-group// -->
+            <div class="form-group">
+                <input class="form-control" placeholder="******" type="password" name="password">
+            </div> <!-- form-group// -->                                      
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
+                    </div> <!-- form-group// -->
+                </div>
+            </div> <!-- .row// -->                                                                  
+            <div class="row">
+                <div class="col text-center">
+                  <a href="#">Quên mật khẩu?</a>
+                </div>
+            </div>
+        </form>
+        </article>
+      </div> <!-- card.// -->
+  </div>
+</body>
+</html>

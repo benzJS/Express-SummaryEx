@@ -1,0 +1,115 @@
+<% include ../header %>
+	<!-- ##### Breadcumb Area Start ##### -->
+    <div class="breadcumb_area bg-img">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12">
+                    <div class="page-title text-center">
+                        <h2>user/address</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <!-- ##### Shop Grid Area Start ##### -->
+    <section class="shop_grid_area section-padding-80">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-4 col-lg-3">
+                    <div class="list-group">
+                        <a href="/user/info" class="list-group-item list-group-item-action">THÔNG TIN TÀI KHOẢN</a>
+                        <a href="/user/orders" class="list-group-item list-group-item-action">QUẢN LÝ ĐƠN HÀNG</a>
+                        <a href="#" class="list-group-item list-group-item-action active">THÔNG TIN GIAO HÀNG</a>
+                    </div>
+                </div>
+                <div class="col-12 col-md-8 col-lg-9 text-center mt-3 mt-md-0">
+                    <div class="card text-left">
+                        <div class="card-body" style="line-height: 4em">
+                            <% if(!locals.user.phone || !locals.user.address) { %>
+                                <div class="row">
+                                    <div class="alert alert-warning" role="alert">
+                                        Vui lòng điền đẩy đủ thông tin để có thể thực hiện thanh toán
+                                    </div>
+                                </div>
+                            <% } %>
+                            <form action="/auth/recover" name="info">
+                                <div class="row">
+                                    <div class="col-md-4">Họ tên</div>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" value="<%= user.fullname %>" name="fullname" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">Số điện thoại</div>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" value="<%= user.phone %>" name="phone" required>
+                                        <i id="invalidPhone" style="display:none" class="text-danger">Số điện thoại không hợp lệ!!!</i>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">Địa chỉ</div>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" value="<%= user.address %>" name="address" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button type="submit" class="btn btn-primary mx-auto mt-4">Cập nhật</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<% include ../footer %>
+<!-- jQuery (Necessary for All JavaScript Plugins) -->
+<script src="/js/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="/js/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="/js/bootstrap.min.js"></script>
+<!-- Plugins js -->
+<script src="/js/plugins.js"></script>
+<!-- Classy Nav js -->
+<script src="/js/classy-nav.min.js"></script>
+<!-- Active js -->
+<script src="/js/active.js"></script>
+
+<script>
+    document.forms['info'].addEventListener('submit', function(ev) {
+        ev.preventDefault();
+        const formData = new FormData(ev.target);
+        const phone = formData.get('phone');
+        if(
+            phone.length < 10
+            || phone === '0123456789'
+            || !phone.startsWith('0')
+        ) {
+            return document.getElementById('invalidPhone').style.display = 'block';
+        }
+        let data = {};
+        for(let key of formData.keys()) {
+            data[key] = formData.get(key);
+        }
+        console.log(data);
+        fetch('/auth/<%= user.id %>', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(res => {
+            if(res.status === 202) {
+                alert('Cập nhật địa chỉ thành công!!!');
+                location.href = '/checkout';
+                return;
+            }
+            alert('Cập nhật địa chỉ thành công!!!');
+            location.reload();
+        })
+    })
+</script>

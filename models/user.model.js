@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({
-	fbID: String,
-    fullname: String,
-    email: String,
-    password: String,
-    cart: {},
-    role: String,
-    phone: String,
-  	address: String
+	fbId: String,
+  fullname: String,
+  email: String,
+  password: String,
+  cart: {},
+  role: String,
+  phone: String,
+  address: String
 }, { minimize: false })
 
 const User = mongoose.model('User', userSchema);

@@ -82,10 +82,6 @@
                                     <span>New</span>
                                 </div>
                                 <% } %>
-                                <!-- Favourite -->
-                                <div class="product-favourite">
-                                    <a href="#" class="favme fa fa-heart"></a>
-                                </div>
                             </div>
                             <!-- Product Description -->
                             <div class="product-description">
@@ -93,7 +89,7 @@
                                 <a href="single-product-details.html">
                                     <h6 style="text-transform:capitalize"><%= product.name %></h6>
                                 </a>
-                                <p class="product-price"><%= priceAnal(product.price) %></p>
+                                <p class="product-price"><%= product.price %></p>
 
                                 <!-- Hover Content -->
                                 <div class="hover-content">

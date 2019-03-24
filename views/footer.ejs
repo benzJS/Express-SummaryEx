@@ -7,7 +7,6 @@
                 <div class="single_widget_area d-flex mb-30">
                     <!-- Logo -->
                     <div class="footer-logo mr-50">
-                        <!-- <a href="#"><img src="img/core-img/logo2.png" alt=""></a> -->
                         <h4 style="color: #fff">HH SHOP</h4>
                     </div>
                     <!-- Footer Menu -->
@@ -62,7 +61,7 @@
             <div class="col-md-12 text-center">
                 <p>
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 </p>
             </div>
@@ -72,13 +71,123 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 </footer>
 <!-- ##### Footer Area End ##### -->
 
-<% if(!locals.user.email) { %>
+<% if(!locals.user.fullname) { %>
 <script src="/js/behavior.js"></script>
 <% } else { %>
 <script>
     document.getElementById('signout').addEventListener('click', function(ev) {
         ev.preventDefault();
-        fetch('/auth/signout').then(() => location.reload())
+        fetch('/auth/signout', {
+            credentials: 'same-origin'
+        }).then(() => location.reload())
     });
 </script>
 <% } %>
+
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.2&appId=2120236004734377&autoLogAppEvents=1"></script>
+
+<script>
+
+    document.getElementById('headerSearch').addEventListener('keyup', function(ev) {
+        ev.target.value === '' ? document.getElementById('searchResult').style.display = 'none'
+        :	fetch(`/search?name=${ev.target.value}`)
+                .then(res => res.json())
+                .then(products => {
+                    document.getElementById('searchResult').innerHTML = '';
+                    document.getElementById('searchResult').style.display = 'block';
+                    for(product of products) {
+                        document.getElementById('searchResult').innerHTML += `
+                            <a href='/single/${product.name + '.' + product._id}'>
+                                <div class="row">
+                                    <div class="col-md-3 col-4">
+                                        <img src="/${product.image[0]}" class="rounded">
+                                    </div>
+                                    <div class="col-md-9 col-8">
+                                        <h5>${product.name}</h5>
+                                        <p>${product.price}</p>
+                                    </div>
+                                </div><hr/>
+                            </a>
+                        `
+                    }
+                })
+    })
+
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '830830207281848',
+            cookie     : true,
+            xfbml      : true,
+            version    : 'v3.2'
+        })
+    }
+    function login() {
+        FB.getLoginStatus(function(response) {
+            if(response.status !== 'connected') {
+                FB.login(function(res) {
+                    
+                    if(res.status === 'connected') {
+                        FB.api('/me', function(resp) {
+                            fetch('/auth/fbPost', {
+                                method: 'POST',
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify(resp)
+                            }).then((res) => {
+                                location.reload();
+                            })
+                        });
+                    }
+                }, {scope: 'public_profile,email'})
+            } else {
+                FB.api('/me', function(resp) {
+                    fetch('/auth/fbPost', {
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(resp)
+                    }).then((res) => {
+                        location.reload();
+                    })
+                });
+            }
+        })
+    };
+
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<!-- Load Facebook SDK for JavaScript -->
+<div id="fb-root"></div>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      xfbml            : true,
+      version          : 'v3.2'
+    });
+  };
+
+  (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<!-- Your customer chat code -->
+<div class="fb-customerchat"
+  attribution=setup_tool
+  page_id="1170663666449726"
+  logged_in_greeting="Chào mừng bạn đến với HHShop. Chúng tôi có thể giúp gì cho bạn?"
+  logged_out_greeting="Chào mừng bạn đến với HHShop. Chúng tôi có thể giúp gì cho bạn?">
+</div>

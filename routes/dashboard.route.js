@@ -9,9 +9,13 @@ router.get('/table', controller.table);
 
 router.get('/orders', controller.orders);
 
-router.post('/', controller.signin);
+router.get('/users', controller.users);
 
-router.post('/fbPost', controller.fbPost);
+router.patch('/orders/:id', controller.orderPatch);
+
+router.delete('/orders/:id', controller.orderDelete);
+
+router.post('/', controller.signin);
 
 router.get('/signout', controller.signout);
 

@@ -4,15 +4,8 @@ const Session = require('../models/session.model');
 const Category = require('../models/category.model');
 
 module.exports = async function(req, res, next) {
-    function priceAnal(price) {
-        return price === 0 ? price 
-        : price.toString().substring(0, price.toString().length - 3).concat('.', price.toString().substring(price.toString().length - 3));
-    }
-
-    
-    if(req.path === '/dashboard' || req.path === '/checkout' || req.path === '/auth') {
+    if(req.path === '/dashboard' || req.path === '/checkout' || req.path === '/auth' || req.path === '/webhook') {
         console.log('next');
-        res.locals = {...res.locals, priceAnal: priceAnal};
         return next();
     }
 
@@ -20,7 +13,7 @@ module.exports = async function(req, res, next) {
     const products = await Product.find();
     const categories = await Category.find();
 
-    // get user data
+    // get user's data
     if(req.signedCookies.userId) {
         user = await User.findById(req.signedCookies.userId);
     } else {
@@ -33,10 +26,9 @@ module.exports = async function(req, res, next) {
 
     res.locals = {
         ...res.locals,
-        user: user,
+        user,
         cartItemsCount: Object.values(user.cart).reduce((a, b) => a + b, 0),
-        categories: categories,
-        priceAnal: priceAnal
+        categories
     };
     next();
 }

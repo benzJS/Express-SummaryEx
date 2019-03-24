@@ -1,0 +1,49 @@
+<script>
+    const path = location.pathname.split('/');
+    const NAVBAR_LIST = [
+        {
+            icon: 'fas fa-chart-bar',
+            name: 'Đơn hàng',
+            cat: 'orders',
+            href: '/dashboard/orders?state=-1'
+        },
+        {
+            icon: 'fas fa-table',
+            name: 'Sản phẩm',
+            cat: 'table',
+            href: '/dashboard/table?category=all'
+        },
+        {
+            icon: 'fas fa-users',
+            name: 'Khách hàng',
+            cat: 'users',
+            href: '/dashboard/users'
+        }
+    ]
+    for(item of NAVBAR_LIST) {
+        document.getElementsByClassName('navbar__list')[0].innerHTML += item.cat === path[path.length -1] ? `
+            <li class="active" style="text-transform: capitalize">
+                <a href="#" style="text-transform: capitalize">
+                    <i class="${item.icon}"></i>${item.name}</a>
+            </li>
+        `
+        : `
+            <li  style="text-transform: capitalize">
+                <a href="${item.href}">
+                    <i class="${item.icon}"></i>${item.name}</a>
+            </li>
+        `;
+        document.getElementsByClassName('navbar-mobile__list')[0].innerHTML += item.cat === path[path.length -1] ? `
+            <li class="active" style="text-transform: capitalize">
+                <a href="#" style="text-transform: capitalize">
+                    <i class="${item.icon}"></i>${item.name}</a>
+            </li>
+        `
+        : `
+            <li  style="text-transform: capitalize">
+                <a href="${item.href}">
+                    <i class="${item.icon}"></i>${item.name}</a>
+            </li>
+        `
+    }
+</script>

@@ -1668,25 +1668,20 @@
   }
 
 })(jQuery);
+
+
 function removeOne(id) {
   return confirm('Bạn chắc chắn muốn xóa sản phẩm này') &&
   fetch(`/store/product/${id}`, {
-    method: 'DELETE'
+    method: 'DELETE',
+    credentials: "same-origin"
   })
     .then(res => res.json())
     .then(products => {
       location.reload();
     })
 }
-// Dropzone.options.dropzoneEl = {
-//   paramName: "file", // The name that will be used to transfer the file
-//   maxFilesize: 2, // MB
-//   autoProcessQueue: false,
-//   addRemoveLinks: true,
-//   init: function() {
-//     this.on("addedfile", file => { console.log("Added file.", this.getAcceptedFiles(), file); });
-//   }
-// }
+
 $('form#dropzoneEl').dropzone({
   paramName: "file", // The name that will be used to transfer the file
   maxFilesize: 3, // MB
@@ -1725,7 +1720,6 @@ if(location.href.split('/')[4] === 'table') {
 
 function editProduct(ev, id) {
   ev.preventDefault();
-  console.log('submit...')
   const request = new XMLHttpRequest();
   request.open('PATCH', `/store/product/${id}`, false); // false arg for synchronous
   let form = new FormData(ev.target);

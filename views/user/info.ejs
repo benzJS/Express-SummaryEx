@@ -1,0 +1,179 @@
+<% include ../header %>
+	<!-- ##### Breadcumb Area Start ##### -->
+    <div class="breadcumb_area bg-img">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12">
+                    <div class="page-title text-center">
+                        <h2>user/info</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <!-- ##### Shop Grid Area Start ##### -->
+    <section class="shop_grid_area section-padding-80">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-4 col-lg-3">
+                    <div class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action active">THÔNG TIN TÀI KHOẢN</a>
+                        <a href="/user/orders" class="list-group-item list-group-item-action">QUẢN LÝ ĐƠN HÀNG</a>
+                        <a href="/user/address" class="list-group-item list-group-item-action">THÔNG TIN GIAO HÀNG</a>
+                    </div>
+                </div>
+                <div class="col-12 col-md-8 col-lg-9 text-center mt-3 mt-md-0">
+                    <div class="card text-left">
+                        <div class="card-body" style="line-height: 4em">
+                            <% if(locals.user.fbId) { %>
+                                <div class="row">
+                                    <div class="alert alert-warning" role="alert">
+                                        Tài khoản này được đăng nhập bằng facebook
+                                    </div>
+                                </div>
+                            <% } %>
+                            <form action="/auth/recover" name="info">
+                                <div class="row">
+                                    <div class="col-md-4">Họ tên</div>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" value="<%= user.fullname %>" name="fullname">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">Email</div>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" value="<%= user.email %>" disabled>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">Số điện thoại</div>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" value="<%= user.phone %>" disabled>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">Mật khẩu</div>
+                                    <div class="col-md-8" style="line-height: 2em">
+                                        <input type="password" class="form-control" value="********" name="oldPassword" disabled>
+                                        <% if(!locals.user.fbId) { %>
+                                        <i id="wrongPassword" style="display:none" class="text-danger">Mật khẩu cũ không đúng</i>
+                                        <input type="hidden" class="form-control mt-1" placeholder="Mật khẩu mới" name="password">
+                                        <input type="hidden" class="form-control mt-1" placeholder="Nhập lại mật khẩu" name="retype">
+                                        <i id="passwordDanger" style="display:none" class="text-danger">Mật khẩu nhập lại không đúng</i>
+                                        <i id="passwordMissing" style="display:none" class="text-danger">Hãy điền đầy đủ thông tin</i>
+                                        <b 
+                                            class="text-primary"
+                                            data-state="change"
+                                            id="recoverPassword"
+                                            style="cursor: pointer; font-size: 0.9em">Đổi mật khẩu</b>
+                                        <% } %>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button type="submit" class="btn btn-primary mx-auto mt-4">Cập nhật</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<% include ../footer %>
+<!-- jQuery (Necessary for All JavaScript Plugins) -->
+<script src="/js/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="/js/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="/js/bootstrap.min.js"></script>
+<!-- Plugins js -->
+<script src="/js/plugins.js"></script>
+<!-- Classy Nav js -->
+<script src="/js/classy-nav.min.js"></script>
+<!-- Active js -->
+<script src="/js/active.js"></script>
+
+<script>
+    <% if(!locals.user.fbId) { %>
+    document.getElementById('recoverPassword').addEventListener('click', function(ev) {
+        let form = document.forms['info'];
+        if(ev.target.dataset.state === 'cancel') {
+            form['oldPassword'].disabled = true;
+            form['password'].type = 'hidden';
+            form['retype'].type = 'hidden';
+            form['oldPassword'].value = '********';
+            form['password'].value = '';
+            form['retype'].value = '';
+            ev.target.dataset.state = 'change';
+            ev.target.innerHTML = 'Đổi mật khẩu';
+            ev.target.className = "text-primary";
+            document.getElementById('passwordDanger').style.display = 'none';
+            document.getElementById('passwordMissing').style.display = 'none';
+        } else {
+            form['oldPassword'].disabled = false;
+            form['oldPassword'].value = "";
+            form['oldPassword'].placeholder = "Mật khẩu cũ";
+            form['password'].type = 'password';
+            form['retype'].type = 'password';
+            ev.target.dataset.state = 'cancel';
+            ev.target.innerHTML = 'Hủy';
+            ev.target.className = "text-dark";
+        }
+    });
+    <% } %>
+    document.forms['info'].addEventListener('submit', function(ev) {
+        ev.preventDefault();
+        const form = ev.target;
+        let formData = new FormData(form);
+        let data = {};
+        if(!form['oldPassword'].disabled) {
+            if(formData.get('oldPassword') === '' || formData.get('password') === '' || formData.get('retype') === '') {
+                return document.getElementById('passwordMissing').style.display = 'block';
+            }
+            if(formData.get('password') !== formData.get('retype')) {
+                document.getElementById('passwordMissing').style.display = 'none';
+                return document.getElementById('passwordDanger').style.display = 'block';
+            }
+            formData.delete('retype');
+            for(key of formData.keys()) {
+                data[key] = formData.get(key);
+            }
+            // return console.log(data);
+            return fetch('/auth/<%= user.id %>', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then(res => {
+                if(res.status === 403) {
+                    document.getElementById('wrongPassword').style.display = 'block';
+                    return false;
+                }
+                return true;
+            }).then(success => success && (
+                alert('Đổi mật khẩu thành công!!!'),
+                form['oldPassword'].disabled = true,
+                location.reload()
+            ));
+        }
+        formData.delete('password');
+        formData.delete('retype');
+        for(key of formData.keys()) {
+            data[key] = formData.get(key);
+        }
+        fetch('/auth/<%= user.id %>', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(() => {
+            alert('Cập nhật thông tin thành công!!!');
+            location.reload();
+        });
+    })
+</script>

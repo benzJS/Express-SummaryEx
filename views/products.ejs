@@ -1,7 +1,7 @@
 <% include header %>
 
     <!-- ##### Breadcumb Area Start ##### -->
-    <div class="breadcumb_area bg-img" style="background-image: url(img/bg-img/breadcumb.jpg);">
+    <div class="breadcumb_area bg-img">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
                 <div class="col-12">
@@ -32,19 +32,6 @@
                                     <!-- Single Item -->
                                     <li data-toggle="collapse" data-target="#clothing">
                                         <a href="#">underwear</a>
-                                        <!-- <ul class="sub-menu collapse show" id="clothing">
-                                            <li><a href="#">All</a></li>
-                                            <li><a href="#">Bodysuits</a></li>
-                                            <li><a href="#">Dresses</a></li>
-                                            <li><a href="#">Hoodies &amp; Sweats</a></li>
-                                            <li><a href="#">Jackets &amp; Coats</a></li>
-                                            <li><a href="#">Jeans</a></li>
-                                            <li><a href="#">Pants &amp; Leggings</a></li>
-                                            <li><a href="#">Rompers &amp; Jumpsuits</a></li>
-                                            <li><a href="#">Shirts &amp; Blouses</a></li>
-                                            <li><a href="#">Shirts</a></li>
-                                            <li><a href="#">Sweaters &amp; Knits</a></li>
-                                        </ul> -->
                                     </li>
                                     <!-- Single Item -->
                                     <li data-toggle="collapse" data-target="#shoes" class="collapsed">
@@ -62,19 +49,6 @@
                         <div class="widget price mb-50">
                             <!-- Widget Title -->
                             <h6 class="widget-title mb-30">Filter by</h6>
-                            <!-- Widget Title 2 -->
-                            <!-- <p class="widget-title2 mb-30">Price</p>
-
-                            <div class="widget-desc">
-                                <div class="slider-range">
-                                    <div data-min="49" data-max="360" data-unit="$" class="slider-range-price ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" data-value-min="49" data-value-max="360" data-label-result="Range:">
-                                        <div class="ui-slider-range ui-widget-header ui-corner-all"></div>
-                                        <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
-                                        <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
-                                    </div>
-                                    <div class="range-price">Range: $49.00 - $360.00</div>
-                                </div>
-                            </div> -->
                         </div>
 
                         <!-- ##### Single Widget ##### -->
@@ -104,10 +78,6 @@
                             <div class="widget-desc">
                                 <ul>
                                     <li><a href="#">Calvin Klein</a></li>
-                                    <!-- <li><a href="#">Mango</a></li>
-                                    <li><a href="#">River Island</a></li>
-                                    <li><a href="#">Topshop</a></li>
-                                    <li><a href="#">Zara</a></li> -->
                                 </ul>
                             </div>
                         </div>
@@ -158,11 +128,6 @@
                                             <span>New</span>
                                         </div>
                                         <% } %>
-
-                                        <!-- Favourite -->
-                                        <div class="product-favourite">
-                                            <a href="#" class="favme fa fa-heart"></a>
-                                        </div>
                                     </div>
 
                                     <!-- Product Description -->
@@ -171,7 +136,7 @@
                                         <a href="single-product-details.html">
                                             <h6 class="capitalize"><%= product.name %></h6>
                                         </a>
-                                        <p class="product-price"><%= priceAnal(product.price) %></p>
+                                        <p class="product-price"><%= product.price %></p>
 
                                         <!-- Hover Content -->
                                         <div class="hover-content">
@@ -187,18 +152,6 @@
 
                         </div>
                     </div>
-                    <!-- Pagination -->
-                    <!-- <nav aria-label="navigation">
-                        <ul class="pagination mt-50 mb-70">
-                            <li class="page-item"><a class="page-link" href="#"><i class="fa fa-angle-left"></i></a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">...</a></li>
-                            <li class="page-item"><a class="page-link" href="#">21</a></li>
-                            <li class="page-item"><a class="page-link" href="#"><i class="fa fa-angle-right"></i></a></li>
-                        </ul>
-                    </nav> -->
                 </div>
             </div>
         </div>

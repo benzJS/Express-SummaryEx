@@ -34,5 +34,3 @@ document.forms['signinForm'].addEventListener('submit', event => {
 		.then(res => res.json())
 		.then(successful => successful ? location.reload() : document.getElementsByClassName('alert-danger')[0].style.display = 'block');
 });
-
-

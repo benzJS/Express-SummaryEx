@@ -2,102 +2,141 @@
 	<div class="container">
 		<% if(Object.keys(locals.cart).length > 0) { %>
 		<div class="row">
-			<div class="modal-content mt-5">
-                <div class="modal-header">
-                    <h5 class="modal-title">Đơn hàng</h5>
-                </div>
-                <div class="modal-body">
-					<table class="table ">
-					  <tbody>
-					  	<% for(item of Object.values(locals.cart)) {
-					  	%>
-						    <tr>
-						      <td style="width: 90px">
-			      				<img src="<%= item.product.image[0] %>" class="rounded">
-						      </td>
-						      <td>
-						      	<h6><%= item.product.name %></h6>
-						      	<p>
-						      		<span><%= item.size %></span>
-						      		<span><%= item.color %></span>
-						      	</p>
-						      </td>
-						      <td><%= item.product.price %></td>
-						      <td>
-						      	<input 
-						      		type="number" 
-						      		name="quantity" 
-						      		data-id="<%= item._id %>" 
-						      		id="<%= item._id %>-quantity" 
-						      		class="form-control" 
-						      		min="1" 
-						      		value="<%= item.quantity %>"
-					      		>
-						      </td>
-						      <td id="<%= item._id %>-cost" data-price="<%= item.product.price %>"><%= item.product.price * item.quantity %></td>
-						      <td>
-						      	<button onclick="removeOne('<%= item._id %>')" class="btn btn-danger">Remove</button>
-						      </td>
-						    </tr>
-					    <% } %>
-					  </tbody>
-					</table>
-                </div>
-            </div>
+			<h2 class="mx-auto">Giỏ hàng</h2>
+		</div><hr>
+		<% for(item of Object.values(locals.cart)) { %>
+		<div class="row align-items-center">
+			<div class="col-xl-3 col-4">
+				<div class="row align-items-center">
+					<div class="col-md-6">
+						<a href="/single/<%= item.product.name + '.' + item.product.id %>"><img src="<%= item.product.image[0] %>" class="rounded"></a>
+					</div>
+					<div class="col-md-6">
+						<a href="/single/<%= item.product.name + '.' + item.product.id %>"><h6 style="color: blue; text-transform: capitalize;"><%= item.product.name %></h6></a>
+			      		<div>Size: <%= item.size %></div>
+			      		<div>Color: <%= item.color %></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-9 col-8">
+				<div class="row align-items-center">
+					<div class="col-md-3 text-center"><%= item.product.price %></div>
+					<div class="col-md-3">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<button 
+									class="btn btn-secondary" type="button" 
+									onclick="document.getElementById('<%= item._id %>-quantity').value - 1 > 0 && (document.getElementById('<%= item._id %>-quantity').value--, document.getElementById('<%= item._id %>-quantity').dispatchEvent(new Event('change')))"
+								>-</button>
+							</div>
+						  <input 
+						  	id="<%= item._id %>-quantity"
+						  	data-quantity="<%= item.quantity %>"
+						  	type="text" data-id="<%= item._id %>"
+						  	class="form-control"
+						  	min="1"
+						  	value="<%= item.quantity %>"
+						  	readonly>
+						  <div class="input-group-append">
+						    <button 
+						    	class="btn btn-secondary" type="button" 
+						    	onclick="document.getElementById('<%= item._id %>-quantity').value++; document.getElementById('<%= item._id %>-quantity').dispatchEvent(new Event('change'))"
+					    	>+</button>
+						  </div>
+						</div>
+					</div>
+					<div class="col-md-3 text-center" id="<%= item._id %>-cost" data-price="<%= item.product.price %>"><b><%= item.product.price * item.quantity %></b></div>
+					<div class="col-md-3 text-center">
+						<button onclick="removeOne('<%= item._id %>')" class="btn btn-danger">Remove</button>
+					</div>
+				</div>
+			</div>
+		</div><hr>
+		<% } %>
+		<div class="row">
+			<div class="col d-flex flex-column align-items-end">
+				<div>
+					<h5>Tổng cộng: <span id="total" style="color: red">
+	                    <%= Object.values(locals.cart).reduce((total, b) => {
+	                        return total + b.product.price * b.quantity
+	                    }, 0) %>
+	                </span></h5>
+				</div>
+				<div>
+					<a href="/checkout"><button class="btn btn-primary">Tiến hành đặt hàng</button></a>
+				</div>
+			</div>
 		</div>
-        <div class="row d-flex mt-3 justify-content-end">
-            <a href="/checkout"><button class="btn btn-danger mr-3">Đặt mua</button></a>
-        </div>
-        <% } else { %>
-        	<div class="row d-flex flex-column mt-3 align-items-center">
-        		<h3>Empty</h3>
-	            <a href="/"><button class="btn btn-danger">Tiếp tục mua sắm</button></a>
+		<% } else { %>
+			<div class="row">
+				<div class="col">
+					<div class="empty-zone text-center my-5">
+						<img src="/img/emptycart.png" alt="">
+						<h3>GIỎ HÀNG TRỐNG</h3>
+						<a href="/"><button class="btn btn-danger">Tiếp tục mua sắm</button></a>
+					</div>
+				</div>
 	        </div>
-        <% } %>
+		<% } %>
 	</div>
-	<script src="/js/jquery/jquery-2.2.4.min.js"></script>
-    <!-- Popper js -->
-    <script src="/js/popper.min.js"></script>
-    <!-- Bootstrap js -->
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Plugins js -->
-    <script src="/js/plugins.js"></script>
-    <!-- Classy Nav js -->
-    <script src="/js/classy-nav.min.js"></script>
-    <!-- Active js -->
-    <script src="/js/active.js"></script>
-    <% if(Object.keys(locals.cart).length > 0) { %>
-    <script>
-    	function removeOne(id) {
-	        fetch(`/cart/${id}`, { 
-	            method: 'DELETE',
-	            headers: {
-	                "Content-Type": "application/json"
-	            }
-	        })
-	            .then(() => location.reload())
-	    }
+<% include footer %>
+<script src="/js/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="/js/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="/js/bootstrap.min.js"></script>
+<!-- Plugins js -->
+<script src="/js/plugins.js"></script>
+<!-- Classy Nav js -->
+<script src="/js/classy-nav.min.js"></script>
+<!-- Active js -->
+<script src="/js/active.js"></script>
+<!-- Bootstrap Table -->
+<script src="https://unpkg.com/bootstrap-table@1.14.1/dist/bootstrap-table.min.js"></script>
 
-	    <% for(item of Object.values(locals.cart)) { %>
-		    document.getElementById('<%= item._id %>-quantity').addEventListener('change', function(ev) {
+<% if(Object.keys(locals.cart).length > 0) { %>
+<script>
+	function removeOne(id) {
+		return confirm('Chắc chắn xóa sản phẩm này?')
+        && fetch(`/cart/${id}`, { 
+            method: 'DELETE',
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(() => location.reload())
+    }
+
+    <% for(item of Object.values(locals.cart)) { %>
+	    document.getElementById('<%= item._id %>-quantity').addEventListener('change', function(ev) {
+	    	if(parseInt(ev.target.value) > 0) {
 		    	const id = ev.target.dataset.id;
 		    	fetch(`/cart/${id}`, { 
 		            method: 'PATCH',
+		            credentials: "same-origin",
 		            headers: {
 		                "Content-Type": "application/json"
 		            },
-		            body: JSON.stringify({quantity: ev.target.value})
+		            body: JSON.stringify({ quantity: ev.target.value })
 		        })
 	    			.then(res => res.json())
 	    			.then(data => {
-	    				ev.target.value = data.quantity;
 	    				const cost = document.getElementById(`${id}-cost`);
-	    				cost.innerHTML = parseInt(cost.dataset.price) * parseInt(data.quantity);
-	    				console.log(data.cartItemsCount);
+	    				let totalEl = document.getElementById('total');
+	    				if(parseInt(ev.target.dataset.quantity) < data.quantity) {
+	    					totalEl.innerHTML = parseInt(totalEl.innerHTML) + parseInt(cost.dataset.price);
+	    					ev.target.dataset.quantity++;
+	    				} else {
+	    					totalEl.innerHTML = parseInt(totalEl.innerHTML) - parseInt(cost.dataset.price);
+	    					ev.target.dataset.quantity--;
+	    				}
+	    				ev.target.value = data.quantity;
+	    				cost.innerHTML = `<b>${parseInt(cost.dataset.price) * parseInt(data.quantity)}</b>`;
 	    				document.getElementById('cartItemsCount').innerHTML = data.cartItemsCount;
 					});
-		    })
-	    <% } %>
-    </script>
+	    	}
+	    })
     <% } %>
-<% include footer %>
+</script>
+<% } %>

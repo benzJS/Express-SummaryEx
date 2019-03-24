@@ -1,0 +1,117 @@
+<% include ../header %>
+	<!-- ##### Breadcumb Area Start ##### -->
+    <div class="breadcumb_area bg-img">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12">
+                    <div class="page-title text-center">
+                        <h2>user/rders</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <!-- ##### Shop Grid Area Start ##### -->
+    <section class="shop_grid_area section-padding-80">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-4 col-lg-3">
+                    <div class="list-group">
+                        <a href="/user/info" class="list-group-item list-group-item-action">THÔNG TIN TÀI KHOẢN</a>
+                        <a href="#" class="list-group-item list-group-item-action active">QUẢN LÝ ĐƠN HÀNG</a>
+                        <a href="/user/address" class="list-group-item list-group-item-action">THÔNG TIN GIAO HÀNG</a>
+                    </div>
+                </div>
+                <div class="col-12 col-md-8 col-lg-9 text-center mt-3 mt-md-0">
+                    <% if(orders.length > 0) { %>
+                    <table class="table table-hover">
+                        <tbody>
+                            <% for(order of orders) { %>
+                            <tr>
+                                <td><%= order.date %></td>
+                                <td
+                                    class="text-primary"
+                                    style="cursor: pointer"
+                                    data-toggle="modal"
+                                    data-target="#<%= order.id %>">Xem chi tiết</td>
+                                <td style="color: red">
+                                    <%= Object.values(order.summary).reduce((total, item) => {
+                                        return total + item.product.price * item.quantity
+                                    }, 0) %>
+                                </td>
+                                <% if(order.state === -1) { %>
+                                <td>Đã tiếp nhận</td>
+                                <% } else if (order.state === 0) { %>
+                                <td>Đang giao hàng</td>
+                                <% } else { %>
+                                <td>Đã giao hàng</td>
+                                <% } %>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                    <% } else { %> <p> Bạn chưa thực hiện đơn hàng nào. </p> <% } %>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### Shop Grid Area End ##### -->
+
+    <!-- Order Detail Modal -->
+    <% for(order of locals.orders) { %>
+    <div class="modal fade" id="<%= order.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Chi tiết đơn hàng</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Tên sản phẩm</th>
+                    <th scope="col">Số lượng</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% for(item of Object.values(order.summary)) { 
+                %>
+                    <tr>
+                        <td>
+                            <a href="/single/<%= item.product.name + '.' + item.product._id %>" style="color: blue">
+                                <%= item.product.name %>
+                                <span>(size: <%= item.size %>, color: <%= item.color %>)</span>
+                            </a>
+                        </td>
+                        <td><%= item.quantity %></td>
+                    </tr>
+                <% } %>
+                </tbody>
+            </table>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    <% } %>
+
+<% include ../footer %>
+<!-- jQuery (Necessary for All JavaScript Plugins) -->
+<script src="/js/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="/js/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="/js/bootstrap.min.js"></script>
+<!-- Plugins js -->
+<script src="/js/plugins.js"></script>
+<!-- Classy Nav js -->
+<script src="/js/classy-nav.min.js"></script>
+<!-- Active js -->
+<script src="/js/active.js"></script>

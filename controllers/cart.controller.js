@@ -6,28 +6,17 @@ const Order = require('../models/order.model');
 module.exports.index = async function(req, res, next) {
     const { user } = res.locals;
 
-    // const products = await Promise.all(Object.keys(user.cart).map(async key => {
-    //     const productId = key.split('-')[0];
-    //     return await Product.findById(productId);
-    // }));
-    // const cart = await Object.keys(user.cart).reduce(async (acc, key) => {
-    //     const option = await Option.findById(key).populate('product', 'name price image');
-    //     acc[key] = {
-    //         ...option._doc,
-    //         quantity: user.cart[key]
-    //     }
-    //     return acc;
-    // }, {});
-    const cart = await Object.keys(user.cart).reduce(async (acc, key) => {
+    const cart = await Object.keys(user.cart).reduce(async (accP, key) => {
         const option = await Option.findById(key).populate('product', 'name price image');
+        const acc = await accP;
         acc[key] = {
             ...option._doc,
             quantity: user.cart[key]
         }
-        return await acc;
+        return acc;
     }, {});
 
-    res.locals = {...res.locals, cart: cart};
+    res.locals = {...res.locals, cart};
     res.render('cart');
 }
 
@@ -55,9 +44,7 @@ module.exports.add = async function(req, res, next) {
 module.exports.remove = async function(req, res, next) {
     let { user } = res.locals;
     let cart = {...user.cart};
-    // remove cart item
-    // const removeIndex = user.cart.findIndex(item => item.product === req.params.id);
-    // user.cart = [...user.cart.slice(0, removeIndex), ...user.cart.slice(removeIndex + 1)];
+
     delete cart[req.params.id];
 
     // save
