@@ -139,7 +139,6 @@
                             </div>
                             <div class="form-group">
                               <input type="checkbox" name="badge" value="new-badge">Mới<br>
-                              <input type="checkbox" name="badge" value="offer-badge">Khuyến mãi
                             </div>
                             <div class="form-group">
                               <label for="categories" class="col-form-label"><h5>Size</h5></label><br>
@@ -275,6 +274,30 @@
                 $('#product-image-<%= product.id %>').modal('toggle');
             })
         <% }) %>
+
+	document.insertForm.addEventListener('submit', function(ev) {
+    ev.preventDefault();
+    const request = new XMLHttpRequest();
+    request.open('POST', '/store/product', false);
+    let form = new FormData(ev.target);
+    dropzoneFiles = Dropzone.forElement("#dropzoneEl").getAcceptedFiles();
+    dropzoneFiles.forEach((file, index) => {
+      form.append(`file_${index}`, file);
+    })
+    request.send(form);
+    location.reload();
+  });
+
+  document.insertForm['categories'].addEventListener('change', function(ev) {
+    if(ev.target.value === 'else') {
+      const inputEl = document.createElement('input');
+      inputEl.name = 'categories';
+      inputEl.className = 'form-control';
+      inputEl.placeholder = 'Điền danh mục mới...';
+      ev.target.replaceWith(inputEl);
+      inputEl.focus();
+    }
+  });
     </script>
 
     <!-- Main JS-->

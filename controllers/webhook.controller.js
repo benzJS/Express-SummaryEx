@@ -1,5 +1,5 @@
 // ENV
-const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN || 'EAAEoaPtPvZA0BAHEUcenhmTBMJofrtOlv7H3uqZCgBRjo4KpJ6JneZAEWEwfoffcjN58UPG4EQap3EFKZBYH7Aas8Pg4ZBwsug8WzoEhUXnNr7Po2vky47NYepz5ZCJpkfQE9Fz2HB4LVVrZAMIzvvdbmZBASIHlqPDorvHB1rbsNg0iL4Hob2cw';
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN || 'EAALzortfqrgBAMDegBblRZBGnvqcoynpyFsPOHpUZAiONLpPmZB98DNnSyqkd6TN65RHtzk0RjaY825R46vZBWRh5p9jX4N1NqlFmDpjl3xZAo45XmMfzsVkw5WUJ0MmDnztPxZANBfjAZB5aisD8qZA19QENA9FmhfqBEErbejLCvbMgTuenieb';
 
 const request = require('request');
 

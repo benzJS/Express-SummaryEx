@@ -45,6 +45,10 @@ module.exports.submit = async function(req, res, next) {
                 "image_url": `https://hhshop.serveo.net/${option.product.image[0]}`
             }
         }));
+	elements.unshift({
+	    title: 'Thông tin khách hàng',
+	    subtitle: `${user.fullname} (${user.phone})`
+	});
         user.cart = {};
         user.save();
     }
@@ -85,6 +89,19 @@ module.exports.submit = async function(req, res, next) {
         } else {
           console.error("Unable to send message:" + err);
         }
-        res.render('checkout-success');
+	res.render('checkout-success');
     });
+/*request({
+        "uri": "https://graph.facebook.com/v2.6/me/messages",
+        "qs": { "access_token": 'EAAEoaPtPvZA0BAHEUcenhmTBMJofrtOlv7H3uqZCgBRjo4KpJ6JneZAEWEwfoffcjN58UPG4EQap3EFKZBYH7Aas8Pg4ZBwsug8WzoEhUXnNr7Po2vky47NYepz5ZCJpkfQE9Fz2HB4LVVrZAMIzvvdbmZBASIHlqPDorvHB1rbsNg0iL4Hob2cw'},
+        "method": "POST",
+        "json": {...request_body, recipient: {id: '2171723346245310'}}
+    }, (err, resp, body) => {
+        if (!err) {
+          console.log('message sent!')
+        } else {
+          console.error("Unable to send message:" + err);
+        }
+        res.render('checkout-success');
+    });*/
 }

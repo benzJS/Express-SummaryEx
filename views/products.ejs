@@ -29,19 +29,13 @@
                             <!--  Catagories  -->
                             <div class="catagories-menu">
                                 <ul id="menu-content2" class="menu-content collapse show">
+				<% for(category of categories) { %>
                                     <!-- Single Item -->
                                     <li data-toggle="collapse" data-target="#clothing">
-                                        <a href="#">underwear</a>
+                                        <a href="/products/<%= category.categoryName %>"><%= category.categoryName %></a>
                                     </li>
-                                    <!-- Single Item -->
-                                    <li data-toggle="collapse" data-target="#shoes" class="collapsed">
-                                        <a href="#">wallets</a>
-                                    </li>
-                                    <!-- Single Item -->
-                                    <li data-toggle="collapse" data-target="#accessories" class="collapsed">
-                                        <a href="#">belts</a>
-                                    </li>
-                                </ul>
+                             	<% } %>
+				</ul>
                             </div>
                         </div>
 
@@ -92,19 +86,6 @@
                                     <!-- Total Products -->
                                     <div class="total-products">
                                         <p><span><%= locals.products.length %></span> products found</p>
-                                    </div>
-                                    <!-- Sorting -->
-                                    <div class="product-sorting d-flex">
-                                        <p>Sort by:</p>
-                                        <form action="#" method="get">
-                                            <select name="select" id="sortByselect">
-                                                <option value="value">Highest Rated</option>
-                                                <option value="value">Newest</option>
-                                                <option value="value">Price: $$ - $</option>
-                                                <option value="value">Price: $ - $$</option>
-                                            </select>
-                                            <input type="submit" class="d-none" value="">
-                                        </form>
                                     </div>
                                 </div>
                             </div>
